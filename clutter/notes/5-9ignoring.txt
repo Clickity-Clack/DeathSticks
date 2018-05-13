@@ -1,0 +1,3 @@
+adjust player animation to fit collision box thing
+Adjust weapon so as not to get stuck on player 
+Adjust weapon so it doesn't shoot when hitting a wall

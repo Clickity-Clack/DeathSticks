@@ -1,0 +1,37 @@
+Proposed Features and Points
+Replicate Basic Stick Soldiers II Functionality
+	- Player can move around landscape, fire weapon, recieve damage from others, die, respawn [10]
+	- Free-for-all and team deathmatch game modes [5]
+	- Replicate weapons (Grenade Launcher, Bazooka, Sniper Rifle, Regular Guns) [5]
+	- Replicate powerups (Health, Armor, Jetpack) [3]
+	- Chat [2]
+	- Head-swapping [1]
+Replicate Advanced Stick Soldiers II Functionality
+	- Bots autonomously move around, shoot at others [5]
+	- Bots chat [3]
+	- Adjustable bot difficulty [2]
+Multiplayer Networking [8]
+Destructable Environments
+	- Walls have integrity levels, can break [4]
+	- Walls can be sliced by laser, parts fall off [2]
+	- Destructable in-game objects [5]
+	- Object with sufficient momentum can damage/kill characters on contact [4]
+Additional Game Modes
+	- Titan: Destroy other team's base [6]
+	- Gun Printer: Fight to control central point which produces resource [3]
+	- GunGame: Players progress through different weapons with each kill [2]
+New Elements
+	- Interactables: Buttons that trigger events [5]
+	- Manipulable elements such as turrets or crane arms [4]
+	- Water or zero-gravity areas [5]
+	- Fatal elements such as lava, space, or lasers [4]
+	- Aility to layer terrain [4]
+Flourishes
+	- Melee Weapons [3]
+	- Toggleable party mode for kids (Confetti instead of gore, paintball instead of bullets) [3]
+	- Physics involved in gibbing [2]
+	- Headswap with interesting items, e.g. grenade [2]
+Moddability
+	- Centralized editable file with bot difficulty, name, description, and responses [3]
+	- Centralized editable file with weapon details, damage, animation type, image location [3]
+    

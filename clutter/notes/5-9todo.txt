@@ -1,0 +1,7 @@
+death
+client sends decipherable stuff
+server properly integrates stuff
+server sends gamestate
+client can unpack gamestate
+Line-of-sight algorithm
+Bot structure
