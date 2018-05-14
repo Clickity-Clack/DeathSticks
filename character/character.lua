@@ -11,6 +11,7 @@ function Character:initialize(body)
     self.size = 2
     self.direction = 1
     self.walking = false
+    self.jumping = false
     self.anim = {}
     self.anim['walk'] = animation:new(love.graphics.newImage('res/oldHeroWalk.png'), 16, 18, self.size, 1, 8, 20) --duration of 1 means the animation will play through each quad once per second
     self.anim['swim'] = animation:new(love.graphics.newImage('res/oldHeroSwim.png'), 18, 17, self.size, 1, 9, 20)
@@ -91,27 +92,31 @@ function Character:collideBullet(bullet)
     end
 end
 
-function Character:update(dt, events, cam, id)
-    -- gravity(self, dt)
+function Character:update(dt, events)
     if self.health <= 0 then
         table.insert(events, removeCharacter:new(self)) -- doest't actually remove the character
     end
     if self.walking then
         self:walk(dt)
     end
-    self.weapons.current:update(dt, self.body:getX(), self.body:getY(), events, cam, id)
+    self.weapons.current:update(self:getCenter())
 end
 
-function Character:draw(cam, id)
-    if self.playerId == id then
-        self:drawHudHealth(cam)
-        self:drawHudAmmo(cam)
-    end
+function Character:draw(cam)
     self:drawHealth()
     love.graphics.setColorMask()
     love.graphics.setColor(1,1,1,1)
     self.anim[self.currentAnim]:draw(self.body:getX(), self.body:getY(), 0, self.direction)
-    self.weapons.current:draw(self.body:getX(), self.body:getY() - self.anim[self.currentAnim].height / 2)
+    self.weapons.current:draw()
+end
+
+function Character:getCenter()
+    return self.body:getX() + 16, self.body:getY() + 16
+end
+
+function Character:drawHud()
+    self:drawHudHealth()
+    self:drawHudAmmo()
 end
 
 function Character:drawHealth()
@@ -128,8 +133,8 @@ function Character:drawHealth()
 
 end
 
-function Character:drawHudHealth(cam)
-    x,y = cam:toWorld(10,10)
+function Character:drawHudHealth()
+    x,y = 10,10
     width = 100
     height = 20
     love.graphics.setColor(0,0,0)
@@ -140,9 +145,9 @@ function Character:drawHudHealth(cam)
     love.graphics.print(self.health, x + width/2 - font:getWidth(self.health)/2, y + height/2 - font:getHeight()/2)
 end
 
-function Character:drawHudAmmo(cam)
+function Character:drawHudAmmo()
     love.graphics.setColor(0.01,0.1,0.01)
-    x,y = cam:toWorld(10,30)
+    x,y = 10,30
     love.graphics.rectangle('fill', x, y, 100, 20)
     love.graphics.setColor(0.2,0.8,0.2)
     love.graphics.rectangle('fill', x, y, self.weapons.current.ammo/self.weapons.current.capacity * 100, 20)
@@ -171,6 +176,11 @@ function Character:walkRight()
     self.walking = true
 end
 
+function Character:walkLeft()
+    self.direction = -1
+    self.walking = true
+end
+
 function Character:stopWalking()
     x, y = self.body:getLinearVelocity()
     self.body:setLinearVelocity(0,y)
@@ -188,12 +198,18 @@ function Character:walk(dt)
     elseif x > -400 then
         self.body:setLinearVelocity( x - 200, y )
     end
-
 end
 
-function Character:walkLeft()
-    self.direction = -1
-    self.walking = true
+function Character:jump()
+    x, y = self.body:getLinearVelocity()
+    if not self.jumping or y == 0 then
+        self.jumping = true
+        self.body:setLinearVelocity( x, y - 1600 )
+    end
+end
+
+function Character:fire(game)
+    self.weapons.current:fire(game)
 end
 
 function Character:toggleAnim()
@@ -202,17 +218,6 @@ function Character:toggleAnim()
     else
         self.currentAnim = 'walk'
     end
-end
-
-function Character:jump()
-    x, y = self.body:getLinearVelocity()
-    if y == 0 then
-        self.body:setLinearVelocity( x, y - 1600 )
-    end
-end
-
-function Character:fire(game)
-    self.weapons.current:fire(game)
 end
 
 return Character

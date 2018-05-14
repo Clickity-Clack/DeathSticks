@@ -8,15 +8,15 @@ function localScreen:initialize(upScreen)
     self.id = uuid()
     self.upScreen = upScreen
     self.game = game:new()
-    self.user = user:new()
+    self.user = user:new(self.game.user)
 end
 
 function localScreen:update(dt)
     self.game:update( dt , self.user:getCommands() )
 end
 
-function localScreen:mousepressed(x,y)
-    self.user:mousepressed( x,y )
+function localScreen:mousepressed(x,y, number)
+    self.user:mousepressed( x,y,number )
 end
 
 function localScreen:keypressed(key, scancode, isrepeat )
@@ -28,6 +28,7 @@ end
 
 function localScreen:draw()
     self.game:draw()
+    self.user:draw()
 end
 
 return localScreen

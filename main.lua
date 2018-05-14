@@ -17,16 +17,12 @@ function love.update(dt)
     screen.current:update(dt)
 end
 
-function love.mousepressed(x,y)
-    screen.current:mousepressed(x,y)
+function love.mousepressed(x,y,number)
+    screen.current:mousepressed(x,y,number)
 end
 
 function love.keypressed(key, scancode, isrepeat )
     screen.current:keypressed(key, scancode, isrepeat )    
-end
-
-function love.keyreleased(key, scancode, isrepeat )
-    screen.current:keyreleased(key, scancode, isrepeat )
 end
 
 function love.draw()

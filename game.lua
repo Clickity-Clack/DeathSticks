@@ -9,7 +9,6 @@ local player = require 'player'
 local serpent = require 'lib/serpent'
 local unpack = require 'handlers/unpacker'
 local eventHandler = require 'handlers/eventHandler'
-local actionHandler = require 'handlers/actionHandler'
 
 local game = class('game')
 
@@ -45,11 +44,8 @@ function game:initialize()
 end
 
 function game:update(dt, input)
-    -- if input.type == 'commands' then
-    --     self:updateGame(dt)
-    -- elseif input.type == 'state' then
-    --     unpackState(input)
-    -- end
+    --print(input.a)
+    self.user.commands = input
     self:updateGame(dt)
 end
 
@@ -57,11 +53,13 @@ function game:updateGame(dt, input)
     self.world:update(dt)
 
     eventHandler( dt, self )
-    rval = actionHandler( dt, self )
+    for i in pairs(self.players) do
+        self.players[i]:update()
+    end
 
-    self.cam:setPosition( self.players[self.user]:getX(), self.players[self.user]:getY() )
+    self.cam:setPosition( self.user:getCenter() )
     for v in pairs(self.objects) do
-        self.objects[v]:update(dt, self.events, self.cam, self.players[self.user].id)
+        self.objects[v]:update(dt, self.events)
     end
 end
 function game:getState()
@@ -111,6 +109,9 @@ function game:draw()
             end
         end
     )
+    if self.user.controllable then
+        self.user.controllable:drawHud()
+    end
 end
 
 function game:newPlayer()
@@ -118,7 +119,7 @@ function game:newPlayer()
     self.objects[newCharacterControllable.id] = newCharacterControllable
     newPlayer = player:new(newCharacterControllable)
     self.players[newPlayer.id] = newPlayer
-    return newPlayer.id
+    return newPlayer
 end
 
 function beginContact(a, b, coll)

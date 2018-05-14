@@ -36,15 +36,13 @@ function Pointer:fire(game)
     end
 end
 
-function Pointer:update(dt, x, y, events, cam, id)
-    if self.playerId == id then
-        self.x = x
-        self.y = y
-        local mouseX, mouseY = cam:toWorld ( love.mouse.getX(), love.mouse.getY() )
-        local relativeX = mouseX - self.x
-        local relativeY = self.y - mouseY 
-        self.r = math.atan2(relativeX, relativeY) - math.pi/2
-    end
+function Pointer:update(x, y)
+    self.x = x
+    self.y = y
+end
+
+function Pointer:setR(r)
+    self.r = r
 end
 
 function Pointer:setPlayerId(id)

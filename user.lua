@@ -1,25 +1,30 @@
 local user = class('user')
 local defaultBindings = require 'defaultBindings'
 
-function user:initialize(bindings)
+function user:initialize(player)
     self.bindings = defaultBindings:new()
     self.commands = { direction = 'stopped', jump = false, r = 0, a = false, b = false, c = false, weaponSwitch = 'no' }
+    self.player = player
+end
+
+function user:draw()
+
 end
 
 function user:keypressed(key)
-    self.bindings:keypressed( key, commands )
+    self.bindings:keypressed( key, self.commands )
 end
 
 function user:mousepressed( x, y, number )
-    self.bindings:mousepressed(  x, y, number )
+    self.bindings:mousepressed(  x, y, number, self.commands )
 end
 
 function user:getCommands()
-    self.bindings:getR(commands)
-    self.bindings:getDirection(commands)
+    self.bindings:getR(self.commands)
+    self.bindings:getDirection(self.commands)
     local rval = self.commands
     self.commands = { direction = 'stopped', jump = false, r = 0, a = false, b = false, c = false, weaponSwitch = 'no' }
-    return self.commands
+    return rval
 end
 
 return user

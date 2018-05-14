@@ -6,10 +6,6 @@ function characterControllable:initialize(body)
     self.id = uuid()
     self.playerId = nil
     self.character = character:new(body)
-    self.pressOperations = { a = self.walkingLeft, d = self.walkingRight, space = self.jump, r = self.toggleAnim }
-    self.releaseOperations = { a = self.stopWalking, d = self.stopWalking }
-    self.movement = { left = 'walkAction', right = 'walkAction', stopped = 'walkAction', jump = 'jumpAction', fire = 'fireAction' }
-    self.direction = 'stopped'
 end
 
 function characterControllable:setPlayerId(id)
@@ -18,7 +14,7 @@ function characterControllable:setPlayerId(id)
 end
 
 function characterControllable:getState()
-    return { id = self.id, type = 'characterController', character = self.character:getState(), direction = self.direction }
+    return { id = self.id, type = 'characterControllable', character = self.character:getState() }
 end
 
 function characterControllable:reId(state)
@@ -27,68 +23,47 @@ function characterControllable:reId(state)
 end
 
 function characterControllable:unpackState(state)
-    self.direction = state.direction
     self.character:unpackState(state.character)
 end
 
-function characterControllable:update(dt, events, cam, id)
-    self.character:update(dt, events, cam, id)
+function characterControllable:update(dt, events)
+    self.character:update(dt, events)
 end
 
 function characterControllable:draw(cam, id)
     self.character:draw(cam, id)
 end
 
-function characterControllable:walkingLeft()
-    return self.movement['left'], 'left'
+function characterControllable:drawHud()
+    self.character:drawHud()
 end
 
-function characterControllable:walkingRight()
-    return self.movement['right'], 'right'
-end
-
-function characterControllable:stopWalking()
-    if love.keyboard.isDown('a') then
-        return self.movement['left'], 'left'
-    elseif love.keyboard.isDown('d') then
-        return self.movement['right'], 'right'
+function characterControllable:acceptCommands(commands)
+    if commands.direction == 'left' then
+        self.character:walkLeft()
+    elseif commands.direction == 'right' then
+        self.character:walkRight()
     else
-        return self.movement['stopped'], 'stopped'
+        self.character:stopWalking()
     end
-end
 
-function characterControllable:jump()
-    return self.movement['jump'], 'jump'
+    if commands.jump then
+        self.character:jump()
+    end
+
+    self.character.weapons.current:setR(commands.r)
+
+    if commands.a then
+        self.character:fire()
+    end
 end
 
 function characterControllable:toggleAnim()
     --return 'toggleAnim'
 end
 
-function characterControllable:mousepressed()
-    return self.movement['fire'], 'fire'
-end
-
-function characterControllable:keypressed( key, scancode, isrepeat )
-    operation = self.pressOperations[key]
-    if operation ~= nil then
-        return self.pressOperations[key](self)
-    end
-end
-
-function characterControllable:keyreleased( key, scancode, isrepeat )
-    operation = self.releaseOperations[key]
-    if operation ~= nil then
-         return self.releaseOperations[key](self)
-    end
-end
-
-function characterControllable:getX()
-    return self.character:getX()
-end
-
-function characterControllable:getY()
-    return self.character:getY()
+function characterControllable:getCenter()
+    return self.character:getCenter()
 end
 
 return characterControllable
