@@ -13,7 +13,6 @@ function bindings:keypressed(key, commands)
 end
 
 function bindings:mousepressed(x, y, number, commands)
-    print(number)
     if number == 1 then
         commands.a = true
     elseif number == 2 then
