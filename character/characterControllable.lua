@@ -53,9 +53,8 @@ function characterControllable:acceptCommands(commands)
 
     self.character.weapons.current:setR(commands.r)
 
-    if commands.a then
-        self.character:fire()
-    end
+    self.character:setFiring(commands.a)
+
 end
 
 function characterControllable:toggleAnim()

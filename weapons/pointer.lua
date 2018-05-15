@@ -15,28 +15,29 @@ function Pointer:initialize()
     self.width = 16
     self.height = 16
     self.size = 1
-    self.pokeSpeed = 200
-    self.pokeLength = 100
-    self.xVelocity = 0
-    self.yVelocity = 0
     self.poking = false
     self.ammo = 10
     self.capacity = 30
+    self.rof = 0.5
+    self.delay = 0
     self.sound = love.audio.newSource('sounds/you.mp3', 'static')
 
     self.currentTime = 0
 end
 
-function Pointer:fire(game)
+function Pointer:fire(world)
     if self.ammo > 0 then
         love.audio.play(self.sound)
-        local obj = self.projectile:new(self, game.world)
+        local obj = self.projectile:new(self, world)
         self.ammo = self.ammo - 1
-        game.objects[obj.id] = obj
+        return obj
     end
 end
 
-function Pointer:update(x, y)
+function Pointer:update(dt, x, y)
+    if self.delay > 0 then
+        self.delay = self.delay - dt
+    end
     self.x = x
     self.y = y
 end

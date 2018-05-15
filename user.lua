@@ -20,8 +20,7 @@ function user:mousepressed( x, y, number )
 end
 
 function user:getCommands()
-    self.bindings:getR(self.commands)
-    self.bindings:getDirection(self.commands)
+    self.bindings:currently(self.commands)
     local rval = self.commands
     self.commands = { direction = 'stopped', jump = false, r = 0, a = false, b = false, c = false, weaponSwitch = 'no' }
     return rval

@@ -8,29 +8,45 @@ function health:initialize( body )
     self.fixture = love.physics.newFixture(self.body, self.shape)
     self.fixture:setUserData(self)
     self.fixture:setSensor(true)
-    self.spawned = true
+    self.visible = true
     self.value = 50
     self.used = false
 end
 
 function health:update(dt, events)
-    if self.used then
-        self.body:isActive(false)
+    if not self.visible then
+        self.delay = self.delay - dt
+        if self.delay <= 0 then
+            self.delay = 0
+            self.visible = true
+            self.body:isActive(true)
+        end
     end
 end
 
+function health:used()
+    self.body:isActive(false)
+    self.delay = 10
+end
+
 function health:draw()
-    if not self.used then
+    if self.visible then
+        love.graphics.setColorMask()
+        love.graphics.setColor(1,1,1,1)
         love.graphics.draw( self.image, self.body:getX(), self.body:getY() )
     end
 end
 
 function health:collide(b)
-    b:collideHealth(self)
+    if self.visible then
+        b:collideHealth(self)
+    end
 end
 
 function health:collideCharacter(aCharacter)
-    aCharacter:collideHealth(self)
+    if self.visible then
+        aCharacter:collideHealth(self)
+    end
 end
 
 function health:collideProjectile(aProjectile)

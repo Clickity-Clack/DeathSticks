@@ -1,17 +1,15 @@
 local animation = require 'character/animation'
 local pointer = require 'weapons/pointer'
-local removeEvent = require 'events/removeEvent'
-local removeCharacter = require 'events/removeCharacter'
 
-local Character = class('Character')
+local character = class('character')
 
-function Character:initialize(body)
+function character:initialize(body)
     self.id = uuid()
     self.playerId = nil
     self.size = 2
     self.direction = 1
     self.walking = false
-    self.jumping = false
+    self.isfiring = true
     self.anim = {}
     self.anim['walk'] = animation:new(love.graphics.newImage('res/oldHeroWalk.png'), 16, 18, self.size, 1, 8, 20) --duration of 1 means the animation will play through each quad once per second
     self.anim['swim'] = animation:new(love.graphics.newImage('res/oldHeroSwim.png'), 18, 17, self.size, 1, 9, 20)
@@ -30,16 +28,16 @@ function Character:initialize(body)
     self.dead = false
 end
 
-function Character:setPlayerId(id)
+function character:setPlayerId(id)
     self.playerId = id
     self.weapons.current:setPlayerId(id)
 end
 
-function Character:getState()
+function character:getState()
     return { id = self.id, direction = self.direction, currentAnim = self.currentAnim, weapon = self.weapons.current:getState(), bodyDeets = { x = self.body:getX(), y = self.body:getY(), xSpeed, ySpeed = self.body:getLinearVelocity() } }
 end
 
-function Character:reId(state)
+function character:reId(state)
     self.id = state.id
     self.weapons.current.reId(state.weapons.current)
 end
@@ -50,18 +48,18 @@ function unpackState(state)
     self.body:selLinearVelocity(state.bodyDeets.xSpeed, state.bodyDeets.ySpeed)
 end
 
-function Character:collide(b)
+function character:collide(b)
     b:collideCharacter(self)
 end
 
-function Character:collideHealth(health)
+function character:collideHealth(health)
     if self.health < 100 then
         self.health = self.health + health.value - (self.health + health.value)%100
         health.used = true
     end
 end
 
-function Character:collidePointerPower(pointer)
+function character:collidePointerPower(pointer)
     for i in pairs(self.weapons) do
         if self.weapons[i].type == 'pointer' then
             if self.weapons[i].ammo + self.weapons[i].capacity/2 < self.weapons[i].capacity then
@@ -73,15 +71,15 @@ function Character:collidePointerPower(pointer)
     end
 end
 
-function Character:collidePlatform(aPlatform)
+function character:collidePlatform(aPlatform)
 
 end
 
-function Character:collideCharacter(aCharacter)
+function character:collideCharacter(acharacter)
 
 end
 
-function Character:collideBullet(bullet)
+function character:collideBullet(bullet)
     if bullet.playerId ~= self.playerId then
         self.health = self.health - bullet.damage
         if self.health <= 0 then
@@ -92,17 +90,21 @@ function Character:collideBullet(bullet)
     end
 end
 
-function Character:update(dt, events)
-    if self.health <= 0 then
-        table.insert(events, removeCharacter:new(self)) -- doest't actually remove the character
+function character:update(dt, events)
+    self.weapons.current:update(dt, self:getCenter())
+    if self.dead then
+        table.insert(events, { type = 'dead', subject = self }) -- doest't actually remove the character
+        self.dead = false
+    end
+    if self.isfiring and self.weapons.current.delay <= 0  then
+        table.insert(events, { type = 'fire', subject = self }) -- doest't actually remove the character
     end
     if self.walking then
         self:walk(dt)
     end
-    self.weapons.current:update(self:getCenter())
 end
 
-function Character:draw(cam)
+function character:draw(cam)
     self:drawHealth()
     love.graphics.setColorMask()
     love.graphics.setColor(1,1,1,1)
@@ -110,16 +112,16 @@ function Character:draw(cam)
     self.weapons.current:draw()
 end
 
-function Character:getCenter()
+function character:getCenter()
     return self.body:getX() + 16, self.body:getY() + 16
 end
 
-function Character:drawHud()
+function character:drawHud()
     self:drawHudHealth()
     self:drawHudAmmo()
 end
 
-function Character:drawHealth()
+function character:drawHealth()
     x = self.body:getX()
     y = self.body:getY() - 15
     width = 70
@@ -133,7 +135,7 @@ function Character:drawHealth()
 
 end
 
-function Character:drawHudHealth()
+function character:drawHudHealth()
     x,y = 10,10
     width = 100
     height = 20
@@ -145,7 +147,7 @@ function Character:drawHudHealth()
     love.graphics.print(self.health, x + width/2 - font:getWidth(self.health)/2, y + height/2 - font:getHeight()/2)
 end
 
-function Character:drawHudAmmo()
+function character:drawHudAmmo()
     love.graphics.setColor(0.01,0.1,0.01)
     x,y = 10,30
     love.graphics.rectangle('fill', x, y, 100, 20)
@@ -155,39 +157,39 @@ function Character:drawHudAmmo()
     love.graphics.print(self.weapons.current.ammo, x + width/2 - font:getWidth(self.weapons.current.ammo)/2, y + height/2 - font:getHeight()/2)
 end
 
-function Character:getX()
+function character:getX()
     return self.body:getX()
 end
 
-function Character:getY()
+function character:getY()
     return self.body:getY()
 end
 
-function Character:fire(x,y,events)
-    self.weapons.current:fire(x,y,events)
+function character:setFiring(firing)
+    self.isfiring = firing
 end
 
-function Character:destroy()
+function character:destroy()
 
 end
 
-function Character:walkRight()
+function character:walkRight()
     self.direction = 1
     self.walking = true
 end
 
-function Character:walkLeft()
+function character:walkLeft()
     self.direction = -1
     self.walking = true
 end
 
-function Character:stopWalking()
+function character:stopWalking()
     x, y = self.body:getLinearVelocity()
     self.body:setLinearVelocity(0,y)
     self.walking = false
 end
 
-function Character:walk(dt)
+function character:walk(dt)
     self.anim[self.currentAnim]:update(dt)
 
     x, y = self.body:getLinearVelocity()
@@ -200,19 +202,19 @@ function Character:walk(dt)
     end
 end
 
-function Character:jump()
+function character:jump()
     x, y = self.body:getLinearVelocity()
-    if not self.jumping or y == 0 then
+    if y == 0 then
         self.jumping = true
         self.body:setLinearVelocity( x, y - 1600 )
     end
 end
 
-function Character:fire(game)
+function character:fire(game)
     self.weapons.current:fire(game)
 end
 
-function Character:toggleAnim()
+function character:toggleAnim()
     if self.currentAnim == 'walk' then
         self.currentAnim = 'swim'
     else
@@ -220,4 +222,4 @@ function Character:toggleAnim()
     end
 end
 
-return Character
+return character

@@ -1,5 +1,4 @@
 local fingerBullet = class 'fingerBullet'
-local removeEvent = require 'events/removeEvent'
 
 function fingerBullet:initialize( weapon, world )
     self.id = uuid()
@@ -43,7 +42,8 @@ end
 
 function fingerBullet:update(dt, events)
     if self.dead then
-        table.insert(events, removeEvent:new(self))
+        table.insert(events, {type = 'dead', subject = self})
+        self.dead = false
     end
 end
 

@@ -32,6 +32,26 @@ function bindings:switchNext(commands)
     commands.weaponSwitch = 'next'
 end
 
+function bindings:currently(commands)
+    self:getA(commands)
+    self:getB(commands)
+    self:getC(commands)
+    self:getR(commands)
+    self:getDirection(commands)
+end
+
+function bindings:getA(commands)
+    commands.a = love.mouse.isDown(1)
+end
+
+function bindings:getB(commands)
+    commands.b = love.mouse.isDown(2)
+end
+
+function bindings:getC(commands)
+    commands.c = love.keyboard.isDown('lshift')
+end
+
 function bindings:getR(commands)
     local centerX = love.graphics.getWidth()/2
     local centerY = love.graphics.getHeight()/2
