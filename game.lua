@@ -46,10 +46,7 @@ end
 function game:update(dt, input)
     --print(input.a)
     self.user.commands = input
-    self:updateGame(dt)
-end
-
-function game:updateGame(dt, input)
+    
     self.world:update(dt)
 
     eventHandler( dt, self )
@@ -62,6 +59,7 @@ function game:updateGame(dt, input)
         self.objects[v]:update(dt, self.events)
     end
 end
+
 function game:getState()
     local playerState = {}
     for v in pairs(self.players) do

@@ -1,5 +1,6 @@
 local unpacker = require 'handlers/unpacker'
 local game = require 'game'
+local user = require 'user'
 local overlay = require 'screens/menus/overlayScreen'
 local socket = require 'socket'
 local binser = require 'lib/binser'
@@ -16,38 +17,36 @@ function clientScreen:initialize(upState)
     self.id = uuid()
     self.upState = upState
     self.game = game:new()
+    self.user = user:new(self.game.user)
     self.sendTime = 0
 end
 
 function clientScreen:update(dt)
-    self.game:update(dt)
-    self:send(dt)
+    local commands = self.user:getCommands()
+    self.game:update( dt, commands )
+    self:send(commands)
 end
 
-function clientScreen:send(dt)
-    l = self.game.players[self.game.user].actions
-    dg = binser.serialize(l)
-    gd = binser.deserialize(dg)
-    if love.keyboard.isDown('t') then print(serpent.block(l)) print(serpent.block(dg)) end
+function clientScreen:send(commands)
+    dg = binser.serialize(commands)
+    --gd = binser.deserialize(dg)
+    --if love.keyboard.isDown('t') then print(serpent.block(commands)) print(serpent.block(gd)) end
     udp:send(dg)
 end
 
-function clientScreen:mousepressed(x,y)
-    self.game:mousepressed(x,y)
+function clientScreen:mousepressed(x,y,number)
+    self.user:mousepressed(x,y,number)
 end
 
 function clientScreen:keypressed(key, scancode, isrepeat )
     if key == 'escape' then
         self.upState.current = overlay:new(self.upState)
     end
-    self.game:keypressed( key, scancode, isrepeat )
-end
-
-function clientScreen:keyreleased( key, scancode, isrepeat )
-    self.game:keyreleased( key, scancode, isrepeat )
+    self.user:keypressed( key, scancode, isrepeat )
 end
 
 function clientScreen:draw()
+    self.user:draw()
     self.game:draw()
 end
 
