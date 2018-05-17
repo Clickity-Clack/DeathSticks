@@ -1,40 +1,10 @@
-local health = class 'health'
+local powerup = require 'powerups/powerup'
+local health = class('health', powerup)
 
 function health:initialize( body )
-    self.id = uuid()
-    self.body = body
-    self.image = love.graphics.newImage('res/finger.png')
-    self.shape = love.physics.newRectangleShape(self.image:getHeight(), self.image:getWidth())
-    self.fixture = love.physics.newFixture(self.body, self.shape)
-    self.fixture:setUserData(self)
-    self.fixture:setSensor(true)
-    self.visible = true
+    local image = love.graphics.newImage('res/finger.png')
+    powerup.initialize(self, body, image)
     self.value = 50
-    self.used = false
-end
-
-function health:update(dt, events)
-    if not self.visible then
-        self.delay = self.delay - dt
-        if self.delay <= 0 then
-            self.delay = 0
-            self.visible = true
-            self.body:isActive(true)
-        end
-    end
-end
-
-function health:used()
-    self.body:isActive(false)
-    self.delay = 10
-end
-
-function health:draw()
-    if self.visible then
-        love.graphics.setColorMask()
-        love.graphics.setColor(1,1,1,1)
-        love.graphics.draw( self.image, self.body:getX(), self.body:getY() )
-    end
 end
 
 function health:collide(b)
