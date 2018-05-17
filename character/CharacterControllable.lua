@@ -5,64 +5,58 @@ local CharacterControllable = class('CharacterControllable')
 function CharacterControllable:initialize(body)
     self.id = uuid()
     self.playerId = nil
-    self.Character = Character:new(body)
+    self.character = Character:new(body)
 end
 
 function CharacterControllable:setPlayerId(id)
     self.playerId = id
-    self.Character:setPlayerId(id)
+    self.character:setPlayerId(id)
 end
 
 function CharacterControllable:getState()
-    return { id = self.id, type = 'CharacterControllable', Character = self.Character:getState() }
+    return { id = self.id, type = 'CharacterControllable', character = self.character:getState() }
 end
 
 function CharacterControllable:reId(state)
     self.id = state.id
-    self.Character.reId(state.Character)
+    self.character.reId(state.character)
 end
 
 function CharacterControllable:unpackState(state)
-    self.Character:unpackState(state.Character)
+    self.character:unpackState(state.character)
 end
 
 function CharacterControllable:update(dt, events)
-    self.Character:update(dt, events)
+    self.character:update(dt, events)
 end
 
 function CharacterControllable:draw(cam, id)
-    self.Character:draw(cam, id)
+    self.character:draw(cam, id)
 end
 
 function CharacterControllable:drawHud()
-    self.Character:drawHud()
+    self.character:drawHud()
 end
 
 function CharacterControllable:acceptCommands(commands)
     if commands.direction == 'left' then
-        self.Character:walkLeft()
+        self.character:walkLeft()
     elseif commands.direction == 'right' then
-        self.Character:walkRight()
+        self.character:walkRight()
     else
-        self.Character:stopWalking()
+        self.character:stopWalking()
     end
 
     if commands.jump then
-        self.Character:jump()
+        self.character:jump()
     end
 
-    self.Character.weapons.current:setR(commands.r)
-
-    self.Character:setFiring(commands.a)
-
-end
-
-function CharacterControllable:toggleAnim()
-    --return 'toggleAnim'
+    self.character.weapons.current:setR(commands.r)
+    self.character:setFiring(commands.a)
 end
 
 function CharacterControllable:getCenter()
-    return self.Character:getCenter()
+    return self.character:getCenter()
 end
 
 return CharacterControllable
