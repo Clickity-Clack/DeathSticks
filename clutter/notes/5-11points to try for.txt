@@ -17,7 +17,7 @@
 - Bots autonomously move around, shoot at others [5]
     #Design bot object, bot aiming, moving, jumping, line-of-sight algorithm, finds ledges, finds walls, finds jumpables
 - Multiplayer Networking [8]
-    #implement user and bindings, host can accept client/s, store commands until client can reconnect, host can interpret command stacks,  game accepts commands or states, confirm packing, unpacking works
+    #game accepts states, confirm packing + unpacking works, store commands until client can reconnect, host can interpret command stacks
 
 ^What I have planned out now = 35 
     #10 more points
