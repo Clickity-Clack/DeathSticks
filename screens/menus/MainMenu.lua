@@ -1,59 +1,54 @@
-local mainMenu = class('mainMenu')
-local optionList = require 'screens/menus/optionList'
-local plainOption = require 'screens/menus/plainOption'
-local localScreen = require 'screens/localScreen'
-local clientScreen = require 'screens/clientScreen'
-local hostScreen = require 'screens/hostScreen'
+local MainMenu = class('MainMenu')
+local OptionList = require 'screens/menus/OptionList'
+local PlainOption = require 'screens/menus/PlainOption'
+local LocalScreen = require 'screens/LocalScreen'
+local ClientScreen = require 'screens/ClientScreen'
+local HostScreen = require 'screens/HostScreen'
 
-function mainMenu:initialize(upScren)
+function MainMenu:initialize(upScren)
     self.id = uuid()
     self.upScren = upScren
     self.switchSound = love.audio.newSource( 'sounds/you.mp3', 'static' )
     love.graphics.setBackgroundColor(0,0,0)
     local dimensions = { width = love.graphics.getWidth() - (love.graphics.getWidth()/10)*2, height = love.graphics.getHeight()- (love.graphics.getHeight()/10)*2 }
     local position = { x = love.graphics.getWidth()/10, y = love.graphics.getHeight()/10}
-    local options = { 
-        plainOption:new('beep',function()
-                local doot = love.audio.newSource( 'sounds/you.mp3', 'static' )
-                love.audio.play(doot)
-             end),
-        plainOption:new('nothing',function() end),
-        plainOption:new('launch the lame normal game',function(self, aMainMenu)
-                newGame = localScreen:new(upScren)
+    local options = {
+        PlainOption:new('normal game',function(self, aMainMenu)
+                newGame = LocalScreen:new(upScren)
                 aMainMenu.upScren.s[newGame.id] = newGame
                 aMainMenu.upScren.current = newGame
                 aMainMenu.upScren.s[aMainMenu.id] = nil
             end),
-        plainOption:new('launch the crazy client game',function(self, aMainMenu)
-                newGame = clientScreen:new(upScren)
+        PlainOption:new('client game',function(self, aMainMenu)
+                newGame = ClientScreen:new(upScren)
                 aMainMenu.upScren.s[newGame.id] = newGame
                 aMainMenu.upScren.current = newGame
                 aMainMenu.upScren.s[aMainMenu.id] = nil
             end),
-        plainOption:new('launch the bonkers host game',function(self, aMainMenu)
-                newGame = hostScreen:new(upScren)
+        PlainOption:new('host game',function(self, aMainMenu)
+                newGame = HostScreen:new(upScren)
                 aMainMenu.upScren.s[newGame.id] = newGame
                 aMainMenu.upScren.current = newGame
                 aMainMenu.upScren.s[aMainMenu.id] = nil
                 end),
-        plainOption:new('quit game',function() love.event.quit() end)
+        PlainOption:new('quit game',function() love.event.quit() end)
     }
-    self.theList = optionList(options, position, dimensions)
+    self.theList = OptionList(options, position, dimensions)
 end
 
-function mainMenu:update()
+function MainMenu:update()
 
 end
 
-function mainMenu:draw()
+function MainMenu:draw()
     self.theList:draw()
 end
 
-function mainMenu:mousepressed()
+function MainMenu:mousepressed()
 
 end
 
-function mainMenu:keypressed(key)
+function MainMenu:keypressed(key)
     if key == 'w' then
         love.audio.play(self.switchSound)
         self.theList:selectPrevious()
@@ -65,8 +60,8 @@ function mainMenu:keypressed(key)
     end
 end
 
-function mainMenu:keyreleased(key)
+function MainMenu:keyreleased(key)
 
 end
 
-return mainMenu
+return MainMenu

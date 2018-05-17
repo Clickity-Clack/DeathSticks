@@ -1,6 +1,6 @@
-local optionList = class 'optionList'
+local OptionList = class 'OptionList'
 
-function optionList:initialize(options, position, dimensions)
+function OptionList:initialize(options, position, dimensions)
     self.options = options
     self.margin = 10
     self.position = position
@@ -28,7 +28,7 @@ function initOptions(options, position, dimensions, margin)
     return firstIndex
 end
 
-function optionList:selectNext()
+function OptionList:selectNext()
     if self.options == nil then 
         return
     end
@@ -39,7 +39,7 @@ function optionList:selectNext()
     self.options[self.selected]:selected(true)
 end
 
-function optionList:selectPrevious()
+function OptionList:selectPrevious()
     if self.options == nil then 
         return
     end
@@ -54,11 +54,11 @@ function optionList:selectPrevious()
 
 end
 
-function optionList:boopCurrent(mainMenu)
-    self.options[self.selected]:boop(mainMenu)
+function OptionList:boopCurrent(MainMenu)
+    self.options[self.selected]:boop(MainMenu)
 end
 
-function optionList:draw()
+function OptionList:draw()
     if self.options == nil then
         love.graphics.print('no options', self.dimensions.width/2, self.dimensions.height/2)
         return
@@ -69,4 +69,4 @@ function optionList:draw()
     end
 end
 
-return optionList
+return OptionList

@@ -1,13 +1,13 @@
 uuid = require 'lib/uuid'
 uuid.seed()
 class = require("lib/middleclass")
-mainMenu = require 'screens/menus/mainMenu'
+MainMenu = require 'screens/menus/MainMenu'
 
 function love.load()
     font = love.graphics.newFont(14)
     screen = {}
     screen.s = {}
-    firstScreen = mainMenu:new(screen)
+    firstScreen = MainMenu:new(screen)
     screen.s[firstScreen.id] = firstScreen
     screen.current = screen.s[firstScreen.id]
     --screen.current = overlay:new(screen)

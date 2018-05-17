@@ -1,15 +1,15 @@
-local bindings = {}
+local Bindings = {}
 local isDown = love.keyboard.isDown
 
-bindings.keypress = { space = 'jump', x = 'switchPrev', c = 'switchNext', lshift = 'c'}
+Bindings.keypress = { space = 'jump', x = 'switchPrev', c = 'switchNext', lshift = 'c'}
 
-function bindings.keypressed(key, commands)
-    if bindings.keypress[key] then
-        bindings.keypress[key](commands)
+function Bindings.keypressed(key, commands)
+    if Bindings.keypress[key] then
+        Bindings.keypress[key](commands)
     end
 end
 
-function bindings.mousepressed(x, y, number, commands)
+function Bindings.mousepressed(x, y, number, commands)
     if number == 1 then
         commands.a = true
     elseif number == 2 then
@@ -17,19 +17,19 @@ function bindings.mousepressed(x, y, number, commands)
     end
 end
 
-function bindings.jump(commands)
+function Bindings.jump(commands)
     commands.jump = true
 end
 
-function bindings.switchPrev(commands)
+function Bindings.switchPrev(commands)
     commands.weaponSwitch = 'previous'
 end
 
-function bindings.switchNext(commands)
+function Bindings.switchNext(commands)
     commands.weaponSwitch = 'next'
 end
 
-function bindings.getR(commands)
+function Bindings.getR(commands)
     local centerX = love.graphics.getWidth()/2
     local centerY = love.graphics.getHeight()/2
     local mouseX, mouseY =  love.mouse.getX(), love.mouse.getY() 
@@ -38,7 +38,7 @@ function bindings.getR(commands)
     commands.r = math.atan2(relativeX, relativeY) - math.pi/2
 end
 
-function bindings.getDirection(commands)
+function Bindings.getDirection(commands)
     if isDown('a') then
         if isDown('d') then
             commands.direction = 'stopped'
@@ -52,4 +52,4 @@ function bindings.getDirection(commands)
     end
 end
 
-return bindings
+return Bindings

@@ -1,6 +1,6 @@
-local powerup = class 'powerup'
+local Powerup = class 'Powerup'
 
-function powerup:initialize( body, image )
+function Powerup:initialize( body, image )
     self.id = uuid()
     self.body = body
     self.image = image
@@ -12,7 +12,7 @@ function powerup:initialize( body, image )
 
 end
 
-function powerup:update()
+function Powerup:update()
     if not self.visible then
         self.delay = self.delay - dt
         if self.delay <= 0 then
@@ -23,7 +23,7 @@ function powerup:update()
     end
 end
 
-function powerup:draw()
+function Powerup:draw()
     if self.visible then
         love.graphics.setColorMask()
         love.graphics.setColor(1,1,1,1)
@@ -31,19 +31,19 @@ function powerup:draw()
     end
 end
 
-function powerup:used()
+function Powerup:used()
     self.body:isActive(false)
     self.delay = 10
 end
 
-function powerup:getState()
+function Powerup:getState()
     return { id = self.id, visible = self.visible, bodyDeets = { x = self.body:getX(), y = self.body:getY() } }
 end
 
-function powerup:unpackState(state)
+function Powerup:unpackState(state)
     self.isActive = state.active
     self.body:setX(state.bodyDeets.x)
     self.body:setY(state.bodyDeets.y)
 end
 
-return powerup
+return Powerup

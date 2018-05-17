@@ -1,11 +1,10 @@
 local Pointer = class 'Pointer'
-local fingerBullet = require 'weapons/projectiles/fingerBullet'
+local FingerBullet = require 'weapons/projectiles/FingerBullet'
 
 function Pointer:initialize()
     self.id = uuid()
     self.playerId = playerId
-    self.type = 'pointer'
-    self.projectile = fingerBullet
+    self.projectile = FingerBullet
     self.image = love.graphics.newImage('res/finger.png')
     self.x = 0
     self.y = 0
@@ -51,7 +50,7 @@ function Pointer:setPlayerId(id)
 end
 
 function Pointer:getState()
-    return { id = self.id, r = self.r, type = 'pointer' }
+    return { id = self.id, r = self.r, type = 'Pointer' }
 end
 
 function Pointer:reId(state)

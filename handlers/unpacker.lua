@@ -1,10 +1,10 @@
-local player = require 'player'
-local platform = require 'platform'
-local characterControllable = require 'character/characterControllable'
-local fingerBullet = require 'weapons/projectiles/fingerBullet'
+local Player = require 'Player'
+local Platform = require 'Platform'
+local CharacterControllable = require 'character/CharacterControllable'
+local FingerBullet = require 'weapons/projectiles/FingerBullet'
 
-local unpackables = { characterControllable = unpackCharacterControllable, projectile = unpackProjectile, powerup = unpackPowerup, platform = unpackPlatform }
-local projectiles = {fingerBullet = fingerBullet}
+local unpackables = { CharacterControllable = unpackCharacterControllable, projectile = unpackProjectile, Powerup = unpackPowerup, Platform = unpackPlatform }
+local projectiles = {FingerBullet = FingerBullet}
 
 local unpacker = function(state, objects, players, removed, world)
     unpackObjects(state.objects, objects, world)
@@ -67,13 +67,13 @@ function unpackRemoved(stateRemoved, gameRemoved)
 end
 
 function unpackPlayer(playerState, objects)
-    --return new player
+    --return new Player
 end
 
-function unpackCharacterControllable(characterControllableState, world)
-    rval = characterControllable:new(love.physics.newBody(world, characterControllableState.character.bodyDeets.rval, characterControllableState.character.bodyDeets.y, 'dynamic'))
-    rval:reId(characterControllableState)
-    rval:unpackState(characterControllableState)
+function unpackCharacterControllable(CharacterControllableState, world)
+    rval = CharacterControllable:new(love.physics.newBody(world, CharacterControllableState.Character.bodyDeets.rval, CharacterControllableState.Character.bodyDeets.y, 'dynamic'))
+    rval:reId(CharacterControllableState)
+    rval:unpackState(CharacterControllableState)
     return rval
 end
 
@@ -87,14 +87,14 @@ function unpackProjectile(projectileState, world)
     end
 end
 
-function unpackPowerup(powerupState)
+function unpackPowerup(PowerupState)
     
 end
 
-function unpackPlatform(platformState, world)
-    local rval = platform:new(love.physics.newBody(world, platformState.bodyDeets.x, platformState.bodyDeets.y), platformState.length, platformState.width)
-    rval:unpackState(platformState)
-    rval:reId(platformState)
+function unpackPlatform(PlatformState, world)
+    local rval = Platform:new(love.physics.newBody(world, PlatformState.bodyDeets.x, PlatformState.bodyDeets.y), PlatformState.length, PlatformState.width)
+    rval:unpackState(PlatformState)
+    rval:reId(PlatformState)
     return rval
 end
 

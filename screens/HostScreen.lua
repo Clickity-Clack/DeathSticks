@@ -1,37 +1,37 @@
-local game = require 'game'
-local user = require 'user'
-local overlay = require 'screens/menus/overlayScreen'
+local Game = require 'Game'
+local User = require 'User'
+local overlay = require 'screens/menus/OverlayScreen'
 local socket = require 'socket'
 local binser = require 'lib/binser'
 local serpent = require 'lib/serpent'
 
-local hostScreen = class('hostScreen')
+local HostScreen = class('HostScreen')
 local udp = socket.udp()
 
-function hostScreen:initialize(upScreen)
+function HostScreen:initialize(upScreen)
     udp:settimeout(0)
     udp:setsockname('*', 12345)
 
     self.id = uuid()
     self.upScreen = upScreen
-    self.game = game:new()
+    self.game = Game:new()
     self.clients = {}
     self.data = nil
     self.packet = nil
-    self.user = user:new(self.game.user)
+    self.user = User:new(self.game.user)
 end
 
-function hostScreen:update(dt)
+function HostScreen:update(dt)
     self.game:update(dt, self.user:getCommands())
     self:recieve()
-    --self:send()
+    self:send()
 end
 
-function hostScreen:draw()
+function HostScreen:draw()
     self.game:draw()
 end
 
-function hostScreen:recieve()
+function HostScreen:recieve()
     local packet = nil
     -- if msg_or_ip ~= 'timeout' then
     --     error("Unknown network error: "..tostring(msg))
@@ -53,28 +53,29 @@ function hostScreen:recieve()
     end
 end
 
-function hostScreen:send()
-    state = game:getState()
+function HostScreen:send()
+    state = self.game:getState()
+    --print(serpent.block(state))
     packet = binser.serialize(state)
-    for i in pairs(clients)do
+    for i, client in ipairs(self.clients)do
         udp:sendto(packet, client.ip, client.socket)
     end
 end
 
-function hostScreen:addClient(anIp, aPort)
+function HostScreen:addClient(anIp, aPort)
     playerId = self.game:newPlayer()
     self.clients[anIp] = { ip = anIp, port = aPort, player = playerId }
 end
 
-function hostScreen:mousepressed(x,y)
+function HostScreen:mousepressed(x,y)
     self.user:mousepressed(x,y)
 end
 
-function hostScreen:keypressed(key, scancode, isrepeat )
+function HostScreen:keypressed(key, scancode, isrepeat )
     if key == 'escape' then
         self.upScreen.current = overlay:new(self.upScreen)
     end
     self.user:keypressed( key, scancode, isrepeat )
 end
 
-return hostScreen
+return HostScreen

@@ -1,17 +1,17 @@
-local platform = require 'platform'
-local character = require 'character'
-local characterControllable = require 'characterControllable'
+local Platform = require 'Platform'
+local Character = require 'Character'
+local CharacterControllable = require 'CharacterControllable'
 local gamera = require 'lib/gamera'
 local isDown = love.keyboard.isDown
 local winWidth = love.graphics.getWidth
 local winHeight = love.graphics.getHeight
-local overlay = require './menus/overlayScreen'
-local player = require 'player'
+local overlay = require './menus/OverlayScreen'
+local Player = require 'Player'
 local eventHandler = require 'eventHandler'
 
-local gameScreen = class('gameScreen')
+local GameScreen = class('GameScreen')
 
-function gameScreen:initialize(upScreen)
+function GameScreen:initialize(upScreen)
     self.id = uuid()
     self.events = {}
     self.eventHandler = eventHandler:new()
@@ -26,20 +26,20 @@ function gameScreen:initialize(upScreen)
     love.graphics.setBackgroundColor( 1, 1, 1 )
 
     self.objects = {}
-    local x = platform:new('ground', love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y), winWidth(), 50)
+    local x = Platform:new('ground', love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y), winWidth(), 50)
     self.objects[x.id] = x
-    x = platform:new('platform1', love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y))
+    x = Platform:new('Platform1', love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y))
     self.objects[x.id] = x
-    x = characterControllable:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y, 'dynamic'))
+    x = CharacterControllable:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y, 'dynamic'))
     self.objects[x.id] = x
-    self.player = player:new(x)
+    self.Player = Player:new(x)
     self.upScreen = upScreen
 end
 
-function gameScreen:update(dt)
+function GameScreen:update(dt)
     self.world:update(dt)
 
-    self.cam:setPosition( self.player:getX(), self.player:getY() )
+    self.cam:setPosition( self.Player:getX(), self.Player:getY() )
 
     self.eventHandler:process(self.events, self.objects)
 
@@ -48,13 +48,13 @@ function gameScreen:update(dt)
     end
 end
 
-function gameScreen:mousepressed(x,y)
-    self.player:mousepressed(x,y,self.events)
+function GameScreen:mousepressed(x,y)
+    self.Player:mousepressed(x,y,self.events)
     --xOffset, yOffset = cam:toWorld(love.mouse.getPosition())
     -- table.insert( objects, ball:new('', love.physics.newBody(world, xOffset, yOffset, "dynamic")) )
 end
 
-function gameScreen:drawWorld(cl,ct,cw,ch)
+function GameScreen:drawWorld(cl,ct,cw,ch)
     local w = self.cWorld.w / self.cWorld.columns
     local h = self.cWorld.h / self.cWorld.rows
 
@@ -75,18 +75,18 @@ function gameScreen:drawWorld(cl,ct,cw,ch)
     end
 end
 
-function gameScreen:keypressed(key)
+function GameScreen:keypressed(key)
     if key == 'escape' then
         self.upScreen.current = overlay:new(self.upScreen, self.cam)
     end
-    self.player:keypressed( key, scancode, isrepeat )
+    self.Player:keypressed( key, scancode, isrepeat )
 end
 
-function gameScreen:keyreleased( key, scancode, isrepeat )
-    self.player:keyreleased( key, scancode, isrepeat )
+function GameScreen:keyreleased( key, scancode, isrepeat )
+    self.Player:keyreleased( key, scancode, isrepeat )
 end
 
-function gameScreen:draw()
+function GameScreen:draw()
     self.cam:draw(
         function(l,t,w,h)
             self:drawWorld(l,t,w,h)
@@ -97,4 +97,4 @@ function gameScreen:draw()
     )
 end
 
-return gameScreen
+return GameScreen

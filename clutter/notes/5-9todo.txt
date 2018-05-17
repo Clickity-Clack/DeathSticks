@@ -1,7 +1,7 @@
 death
 client sends decipherable stuff
 server properly integrates stuff
-server sends gamestate
-client can unpack gamestate
+server sends Gamestate
+client can unpack Gamestate
 Line-of-sight algorithm
 Bot structure

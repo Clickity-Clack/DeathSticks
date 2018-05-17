@@ -1,6 +1,6 @@
-local fingerBullet = class 'fingerBullet'
+local FingerBullet = class 'FingerBullet'
 
-function fingerBullet:initialize( weapon, world )
+function FingerBullet:initialize( weapon, world )
     self.id = uuid()
     self.playerId = weapon.playerId
     self.body = love.physics.newBody(world, weapon.x, weapon.y, 'dynamic')
@@ -16,58 +16,58 @@ function fingerBullet:initialize( weapon, world )
     self.dead = false
 end
 
-function fingerBullet:collide(b)
+function FingerBullet:collide(b)
     b:collideBullet(self, events)
 end
 
-function fingerBullet:collideCharacter(aCharacter)
+function FingerBullet:collideCharacter(aCharacter)
     aCharacter:collideBullet(self)
 end
 
-function fingerBullet:collidePlatform(platform)
+function FingerBullet:collidePlatform(Platform)
     self.dead = true
 end
 
-function fingerBullet:collideBullet(aBullet)
+function FingerBullet:collideBullet(aBullet)
 
 end
 
-function fingerBullet:collidePointerPower(aBullet)
+function FingerBullet:collidePointerPower(aBullet)
 
 end
 
-function fingerBullet:collideHealth(aBullet)
+function FingerBullet:collideHealth(aBullet)
 
 end
 
-function fingerBullet:update(dt, events)
+function FingerBullet:update(dt, events)
     if self.dead then
         table.insert(events, {type = 'dead', subject = self})
         self.dead = false
     end
 end
 
-function fingerBullet:getState()
-    return { id = self.id, type = 'projectile', pojectileType = 'fingerBullet', x = self.x, y = self.y, r = self.r }
+function FingerBullet:getState()
+    return { id = self.id, type = 'projectile', pojectileType = 'FingerBullet', x = self.x, y = self.y, r = self.r }
 end
 
-function fingerBullet:reId(state)
+function FingerBullet:reId(state)
     self.id = state.id
 end
 
-function fingerBullet:unpackState(state)
+function FingerBullet:unpackState(state)
     self.x = state.x
     self.y = state.y
     self.r = state.r
 end
 
-function fingerBullet:draw()
+function FingerBullet:draw()
     love.graphics.setColor(1,1,1)
     love.graphics.draw(self.image, self.body:getX(), self.body:getY(), self.body:getAngle())
 end
 
-function fingerBullet:destroy()
+function FingerBullet:destroy()
     self.body:destroy()
 end
 
-return fingerBullet
+return FingerBullet

@@ -28,7 +28,7 @@ function Platform:collideCharacter(aCharacter, events)
 end
 
 function Platform:getState()
-    return { id = self.id, type = 'platform', width = self.width, length = self.length, bodyDeets = { x = self.body:getX(), y = self.body:getY() } }
+    return { id = self.id, type = 'Platform', width = self.width, length = self.length, bodyDeets = { x = self.body:getX(), y = self.body:getY() } }
 end
 
 function Platform:reId(state)

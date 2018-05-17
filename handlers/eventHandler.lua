@@ -9,14 +9,14 @@ function process( dt, game )
     end
 end
 
-events.fire.character = function (event, game)
+events.fire.Character = function (event, game)
     local obj = event.subject.weapons.current:fire(game.world)
     if obj then
         game.objects[obj.id] = obj
     end
 end
 
-events.dead.character = function ()
+events.dead.Character = function ()
     
 end
 

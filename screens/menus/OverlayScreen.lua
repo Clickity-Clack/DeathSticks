@@ -1,8 +1,8 @@
-local overlayScreen = class("overlayScreen")
-local optionList = require 'screens/menus/optionList'
-local plainOption = require  'screens/menus/plainOption'
+local OverlayScreen = class("OverlayScreen")
+local OptionList = require 'screens/menus/OptionList'
+local PlainOption = require  'screens/menus/PlainOption'
 
-function overlayScreen:initialize(upScreen)
+function OverlayScreen:initialize(upScreen)
     self.id = uuid()
     self.beneath = upScreen.current
     self.upScreen = upScreen
@@ -10,31 +10,31 @@ function overlayScreen:initialize(upScreen)
     local dimensions = { width = love.graphics.getWidth()/5, height = love.graphics.getHeight()/5 }
     local position = { x = love.graphics.getWidth()/5, y = love.graphics.getHeight()/5 }
     local options = { 
-        plainOption:new('beep',function()
+        PlainOption:new('beep',function()
                 local doot = love.audio.newSource( 'sounds/you.mp3', 'static' )
                 love.audio.play(doot)
              end),
-        plainOption:new('nothing',function() end),
-        plainOption:new('quit',function(self, menu)
-                local aMainMenu = mainMenu:new(menu.upScreen)
+        PlainOption:new('nothing',function() end),
+        PlainOption:new('quit',function(self, menu)
+                local aMainMenu = MainMenu:new(menu.upScreen)
                 menu.upScreen[aMainMenu.id] = aMainMenu
                 menu.upScreen.current = aMainMenu
                 menu.upScreen[menu.beneath.id] = nil
             end
         )        
     }
-    self.theList = optionList(options, position, dimensions)
+    self.theList = OptionList(options, position, dimensions)
 end
 
-function overlayScreen:update(dt)
+function OverlayScreen:update(dt)
     self.beneath:update(dt)
 end
 
-function overlayScreen:mousepressed(x,y)
+function OverlayScreen:mousepressed(x,y)
 
 end
 
-function overlayScreen:keypressed(key, scancode, isrepeat )
+function OverlayScreen:keypressed(key, scancode, isrepeat )
     if key == 'w' then
         self.theList:selectPrevious()
     elseif key == 's' then
@@ -46,11 +46,11 @@ function overlayScreen:keypressed(key, scancode, isrepeat )
     end
 end
 
-function overlayScreen:keyreleased( key, scancode, isrepeat )
+function OverlayScreen:keyreleased( key, scancode, isrepeat )
 
 end
 
-function overlayScreen:draw()
+function OverlayScreen:draw()
     self.beneath:draw()
     x = love.graphics.getWidth()/4
     y = love.graphics.getHeight()/4
@@ -59,4 +59,4 @@ function overlayScreen:draw()
     self.theList:draw()
 end
 
-return overlayScreen
+return OverlayScreen

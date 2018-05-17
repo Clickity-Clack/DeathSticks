@@ -11,13 +11,13 @@
     #Design game mode, implement each
 - Replicate weapons (Grenade Launcher, Bazooka, Sniper Rifle, Regular Guns) [5]
     #Make a texture for each, alignment for each, implement firing speed, make bullet projectile, make explosion, make grenade projectile, make rocket projectile
-- Replicate powerups (Health, Armor, Jetpack) [3]
+- Replicate Powerups (Health, Armor, Jetpack) [3]
     #Powerups can disappear, time reappearance, implement jetpack
-        #Design jetpack object, design attachment to character
+        #Design jetpack object, design attachment to Character
 - Bots autonomously move around, shoot at others [5]
     #Design bot object, bot aiming, moving, jumping, line-of-sight algorithm, finds ledges, finds walls, finds jumpables
 - Multiplayer Networking [8]
-    #game accepts states, confirm packing + unpacking works, store commands until client can reconnect, host can interpret command stacks
+    #Game accepts states, confirm packing + unpacking works, store commands until client can reconnect, host can interpret command stacks
 
 ^What I have planned out now = 35 
     #10 more points
@@ -25,9 +25,9 @@
 Possible extra:
 
 - Head-swapping [1]
-    #find conditions under which a head-pop would occur, create head-pop event, make character bleed while headless, create head collision
+    #find conditions under which a head-pop would occur, create head-pop event, make Character bleed while headless, create head collision
 - Chat [2]
-    #rework architecture to get user input, create kill/chat logger
+    #rework architecture to get User input, create kill/chat logger
         #Implement place to store kill/chat logs, draw it, find a way to send over UDP
 - Bots chat [3]
     #Design format to store dialog, write dialog, trigger dialog on events
@@ -36,6 +36,6 @@ Possible extra:
 - Headswap with interesting items, e.g. grenade [2]
     #attach on collision event
 - Melee Weapons [3]
-    #Find out how to keep player from colliding with the weapon, create collision for weapon
-- GunGame: Players progress through different weapons with each kill [2]
-    #Create new mode where players get a new gun each time they kill another player, then win after the last weapon
+    #Find out how to keep Player from colliding with the weapon, create collision for weapon
+- Gungame: Players progress through different weapons with each kill [2]
+    #Create new mode where Players get a new gun each time they kill another Player, then win after the last weapon
