@@ -1,7 +1,7 @@
 local Packable = require('handlers/unpacking/Packable')
 local NullControllable = class('NullControllable')
 
-function NullControllable:initialize(body)
+function NullControllable:initialize()
     Packable.initialize(self)
     self.playerId = nil
 end
