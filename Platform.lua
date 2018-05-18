@@ -1,11 +1,11 @@
-local Platform = class("Platform")
+local BodiedPackable = require 'handlers/unpacking/BodiedPackable'
+local Platform = class("Platform", BodiedPackable)
 
-function Platform:initialize( body, length, width )
-    self.id = uuid()
-    self.width = width or 10
-    self.length = length or 50
-    self.body = body --place the body in the center of the world and make it dynamic, so it can move around
-    self.shape = love.physics.newRectangleShape(self.length, self.width) 
+function Platform:initialize( body, width, height )
+    BodiedPackable.initialize(self, body)
+    self.width = width or 50
+    self.height = height or 10
+    self.shape = love.physics.newRectangleShape(self.width, self.height) 
     self.fixture = love.physics.newFixture(self.body, self.shape) -- Attach fixture to body and give it a density of 1.
     self.fixture:setUserData(self)
     self.rgba = { 0.32, 0.63, 0.05 }
@@ -28,15 +28,15 @@ function Platform:collideCharacter(aCharacter, events)
 end
 
 function Platform:getState()
-    return { id = self.id, type = 'Platform', width = self.width, length = self.length, bodyDeets = { x = self.body:getX(), y = self.body:getY() } }
-end
-
-function Platform:reId(state)
-    self.id = state.id
+    local state = BodiedPackable.getState(self) 
+    state.height = self.height
+    state.width = self.width
 end
 
 function Platform:unpackState(state)
-
+    self.height = state.height
+    self.width = state.lenght
+    BodiedPackable.unpackState(state)
 end
 
 
