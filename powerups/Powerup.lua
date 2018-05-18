@@ -1,8 +1,8 @@
+local BodiedPackable = require('handlers/unpacking/BodiedPackable')
 local Powerup = class 'Powerup'
 
 function Powerup:initialize( body, image )
-    self.id = uuid()
-    self.body = body
+    BodiedPackable.initialize(self,body)
     self.image = image
     self.shape = love.physics.newRectangleShape(self.image:getHeight(), self.image:getWidth())
     self.fixture = love.physics.newFixture(self.body, self.shape)
@@ -37,13 +37,14 @@ function Powerup:used()
 end
 
 function Powerup:getState()
-    return { id = self.id, visible = self.visible, bodyDeets = { x = self.body:getX(), y = self.body:getY() } }
+    local state = BodiedPackable.getState(self)
+    state.visible = self.visible
+    return state
 end
 
 function Powerup:unpackState(state)
     self.isActive = state.active
-    self.body:setX(state.bodyDeets.x)
-    self.body:setY(state.bodyDeets.y)
+    BodiedPackable.unpackState(state)
 end
 
 return Powerup
