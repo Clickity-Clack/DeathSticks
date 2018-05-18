@@ -1,9 +1,9 @@
 local Character = require 'character/Character'
-
-local CharacterControllable = class('CharacterControllable')
+local Packable = require('handlers/unpacking/Packable')
+local CharacterControllable = class('CharacterControllable', Packable)
 
 function CharacterControllable:initialize(body)
-    self.id = uuid()
+    Packable.initialize(self)
     self.playerId = nil
     self.character = Character:new(body)
 end
@@ -14,15 +14,18 @@ function CharacterControllable:setPlayerId(id)
 end
 
 function CharacterControllable:getState()
-    return { id = self.id, type = 'CharacterControllable', character = self.character:getState() }
+    local state = Packable.getState(self)
+    state.character = self.character:getState()
+    return state
 end
 
 function CharacterControllable:reId(state)
-    self.id = state.id
-    self.character.reId(state.character)
+    Packable.reId(self)
+    self.character:reId(state.character)
 end
 
 function CharacterControllable:unpackState(state)
+    Packable.unpackState(self, state)
     self.character:unpackState(state.character)
 end
 

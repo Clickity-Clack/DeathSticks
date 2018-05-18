@@ -1,7 +1,8 @@
 local Animation = require 'character/Animation'
 local Pointer = require 'weapons/Pointer'
+local DynamicBodiedPackable = require('handlers/unpacking/DynamicBodiedPackable')
 
-local Character = class('Character')
+local Character = class('Character', DynamicBodiedPackable)
 
 function Character:initialize(body)
     self.id = uuid()
@@ -34,20 +35,22 @@ function Character:setPlayerId(id)
 end
 
 function Character:getState()
-    return { id = self.id, direction = self.direction, currentAnim = self.currentAnim, weapon = self.weapons.current:getState(), bodyDeets = { x = self.body:getX(), y = self.body:getY(), xSpeed, ySpeed = self.body:getLinearVelocity() } }
+    local state = DynamicBodiedPackable.getState(self)
+    state.direction = self.direction
+    state.currentAnim = self.currentAnim
+    state.weapon = self.weapons.current:getState()
+    return state
 end
 
 function Character:reId(state)
-    self.id = state.id
+    DynamicBodiedPackable.reId(state)
     self.weapons.current.reId(state.weapons.current)
 end
 
 function unpackState(state)
     self.direction = state.direction
     self.currentAnim = state.currentAnim
-    self.body:setX(state.bodyDeets.x)
-    self.body:setY(state.bodyDeets.y)
-    self.body:selLinearVelocity(state.bodyDeets.xSpeed, state.bodyDeets.ySpeed)
+    DynamicBodiedPackable.unpackState(self)
 end
 
 function Character:collide(b)

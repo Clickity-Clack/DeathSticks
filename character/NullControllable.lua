@@ -1,7 +1,8 @@
+local Packable = require('handlers/unpacking/Packable')
 local NullControllable = class('NullControllable')
 
 function NullControllable:initialize(body)
-    self.id = uuid()
+    Packable.initialize(self)
     self.playerId = nil
 end
 
@@ -11,14 +12,15 @@ function NullControllable:setPlayerId(id)
 end
 
 function NullControllable:getState()
-    return { id = self.id, type = 'NullControllable' }
+    return Packable.getState(self)
 end
 
 function NullControllable:reId(state)
-    self.id = state.id
+    Packable.reId(self)
 end
 
 function NullControllable:unpackState(state)
+    Packable.unpackState(self, state)
 end
 
 function NullControllable:update(dt, events, cam, id)
