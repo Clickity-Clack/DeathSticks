@@ -1,12 +1,10 @@
 local BodiedPackable = require('handlers/unpacking/BodiedPackable')
-local Powerup = class 'Powerup'
+local Powerup = class ('Powerup', BodiedPackable)
 
 function Powerup:initialize( body, image )
-    BodiedPackable.initialize(self,body)
     self.image = image
     self.shape = love.physics.newRectangleShape(self.image:getHeight(), self.image:getWidth())
-    self.fixture = love.physics.newFixture(self.body, self.shape)
-    self.fixture:setUserData(self)
+    BodiedPackable.initialize(self,body)
     self.fixture:setSensor(true)
     self.visible = true
 
