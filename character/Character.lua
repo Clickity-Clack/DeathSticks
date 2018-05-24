@@ -1,11 +1,11 @@
 local Animation = require 'character/Animation'
 local Pointer = require 'weapons/Pointer'
+local WeaponCollection = require 'weapons/WeaponCollection'
 local DynamicBodiedPackable = require('handlers/unpacking/DynamicBodiedPackable')
 
 local Character = class('Character', DynamicBodiedPackable)
 
 function Character:initialize(body)
-    self.id = uuid()
     self.playerId = nil
     self.size = 2
     self.direction = 1
@@ -15,18 +15,17 @@ function Character:initialize(body)
     self.anim['walk'] = Animation:new(love.graphics.newImage('res/oldHeroWalk.png'), 16, 18, self.size, 1, 8, 20) --duration of 1 means the Animation will play through each quad once per second
     self.anim['swim'] = Animation:new(love.graphics.newImage('res/oldHeroSwim.png'), 18, 17, self.size, 1, 9, 20)
     self.currentAnim = 'swim'
-    self.weapons = { one = Pointer:new(playerId) }
-    self.weapons.current = self.weapons[next(self.weapons, one)]
+    self.weapons = WeaponCollection:new(Pointer:new())
     self.Health = 100
-    
-    self.body = body
-    self.body:setFixedRotation(true)
-    self.shape = love.physics.newRectangleShape(self.size * 16, self.size * 16)
-    self.fixture = love.physics.newFixture(self.body, self.shape)
-    self.fixture:setUserData(self)
-    self.body:setGravityScale(4)
-
     self.dead = false
+
+    self.shape = love.physics.newRectangleShape(self.size * 16, self.size * 16)
+    DynamicBodiedPackable.initialize(self, body)
+    assert(self.collide, "WHat?! No collide method?!")
+    self.body:setFixedRotation(true)
+    self.body:setGravityScale(4)
+    assert(self.collisions, 'No collisions table')
+    initCollisons(self.collisions)
 end
 
 function Character:setPlayerId(id)
@@ -53,45 +52,19 @@ function unpackState(state)
     DynamicBodiedPackable.unpackState(self)
 end
 
-function Character:collide(b)
-    b:collideCharacter(self)
-end
 
-function Character:collideHealth(Health)
-    if self.Health < 100 then
-        self.Health = self.Health + Health.value - (self.Health + Health.value)%100
-        Health.used = true
+
+function initCollisons(collisions)
+    collisions.Health = function(self, HealthPower)
+        HealthPower:zoop(self.Health)
     end
-end
-
-function Character:collidePointerPower(pointer)
-    for i in pairs(self.weapons) do
-        if self.weapons[i].class.name == 'Pointer' then
-            if self.weapons[i].ammo + self.weapons[i].capacity/2 < self.weapons[i].capacity then
-                self.weapons[i].ammo = self.weapons[i].ammo + self.weapons[i].capacity / 2
-            else
-                self.weapons[i].ammo = self.weapons[i].ammo + self.weapons[i].capacity / 2 - ((self.weapons[i].ammo + self.weapons[i].capacity / 2) % self.weapons[i].capacity)
-            end
-        end
+    
+    collisions.WeaponPower = function(self, WeaponPower)
+        WeaponPower:zoop(self.WeaponCollection)
     end
-end
-
-function Character:collidePlatform(aPlatform)
-
-end
-
-function Character:collideCharacter(aCharacter)
-
-end
-
-function Character:collideBullet(bullet)
-    if bullet.playerId ~= self.playerId then
-        self.Health = self.Health - bullet.damage
-        if self.Health <= 0 then
-            self.dead = true
-            self.lastBullet = bullet
-        end
-        bullet.dead = true
+    
+    collisions.Bullet = function(self, bullet)
+        
     end
 end
 
