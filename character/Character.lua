@@ -1,5 +1,6 @@
 local Animation = require 'character/Animation'
 local Pointer = require 'weapons/Pointer'
+local Health = require 'character/Health'
 local WeaponCollection = require 'weapons/WeaponCollection'
 local DynamicBodiedPackable = require('handlers/unpacking/DynamicBodiedPackable')
 
@@ -16,7 +17,7 @@ function Character:initialize(body)
     self.anim['swim'] = Animation:new(love.graphics.newImage('res/oldHeroSwim.png'), 18, 17, self.size, 1, 9, 20)
     self.currentAnim = 'swim'
     self.weapons = WeaponCollection:new(Pointer:new())
-    self.Health = 100
+    self.health = Health:new(100)
     self.dead = false
 
     self.shape = love.physics.newRectangleShape(self.size * 16, self.size * 16)
@@ -55,27 +56,27 @@ end
 
 
 function initCollisons(collisions)
-    collisions.Health = function(self, HealthPower)
-        HealthPower:zoop(self.Health)
+    collisions.HealthPower = function(self, HealthPower)
+        HealthPower:zoop(self.health)
     end
     
     collisions.WeaponPower = function(self, WeaponPower)
-        WeaponPower:zoop(self.WeaponCollection)
+        WeaponPower:zoop(self.weapons)
     end
     
     collisions.Bullet = function(self, bullet)
-        
+        self.health:ouch(bullet)
     end
 end
 
 function Character:update(dt, events)
     self.weapons.current:update(dt, self:getCenter())
-    if self.dead then
+    if self.health.dead then
         table.insert(events, { type = 'dead', subject = self }) -- doest't actually remove the Character
-        self.dead = false
+        self.health.dead = false
     end
     if self.isfiring and self.weapons.current.delay <= 0  then
-        table.insert(events, { type = 'fire', subject = self }) -- doest't actually remove the Character
+        table.insert(events, { type = 'fire', subject = self })
     end
     if self.walking then
         self:walk(dt)
@@ -83,7 +84,7 @@ function Character:update(dt, events)
 end
 
 function Character:draw(cam)
-    self:drawHealth()
+    self.health:draw(self:getX(), self:getY())
     love.graphics.setColorMask()
     love.graphics.setColor(1,1,1,1)
     self.anim[self.currentAnim]:draw(self.body:getX(), self.body:getY(), 0, self.direction)
@@ -95,44 +96,8 @@ function Character:getCenter()
 end
 
 function Character:drawHud()
-    self:drawHudHealth()
-    self:drawHudAmmo()
-end
-
-function Character:drawHealth()
-    x = self.body:getX()
-    y = self.body:getY() - 15
-    width = 70
-    height = 10
-    love.graphics.setColor(0,0,0)
-    love.graphics.rectangle('fill', x, y, width, height)
-    love.graphics.setColor(1,0.2,0.4)
-    love.graphics.rectangle('fill', x, y, self.Health/100 *  width, height)
-    love.graphics.setColor(1,1,1)
-    love.graphics.print(self.Health, x + width/2 - font:getWidth(self.Health)/2, y + height/2 - font:getHeight()/2)
-
-end
-
-function Character:drawHudHealth()
-    x,y = 10,10
-    width = 100
-    height = 20
-    love.graphics.setColor(0,0,0)
-    love.graphics.rectangle('fill', x, y, width, height)
-    love.graphics.setColor(1,0.2,0.4)
-    love.graphics.rectangle('fill', x, y, self.Health, height)
-    love.graphics.setColor(1,1,1)
-    love.graphics.print(self.Health, x + width/2 - font:getWidth(self.Health)/2, y + height/2 - font:getHeight()/2)
-end
-
-function Character:drawHudAmmo()
-    love.graphics.setColor(0.01,0.1,0.01)
-    x,y = 10,30
-    love.graphics.rectangle('fill', x, y, 100, 20)
-    love.graphics.setColor(0.2,0.8,0.2)
-    love.graphics.rectangle('fill', x, y, self.weapons.current.ammo/self.weapons.current.capacity * 100, 20)
-    love.graphics.setColor(1,1,1)
-    love.graphics.print(self.weapons.current.ammo, x + width/2 - font:getWidth(self.weapons.current.ammo)/2, y + height/2 - font:getHeight()/2)
+    self.health:drawHud()
+    self.weapons:drawHud()
 end
 
 function Character:getX()
