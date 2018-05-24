@@ -9,7 +9,7 @@ end
 
 function WeaponPower:zoop(aWeaponCollection)
     local reached = false
-    for i, aWeapon in ipairs(aWeaponCollection) do
+    for i, aWeapon in ipairs(aWeaponCollection.weapons) do
         if aWeapon.class.name == self.weapon.name then
             if aWeapon.ammo + aWeapon.capacity/2 < aWeapon.capacity then
                 aWeapon.ammo = aWeapon.ammo + aWeapon.capacity / 2

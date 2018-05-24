@@ -53,8 +53,6 @@ function unpackState(state)
     DynamicBodiedPackable.unpackState(self)
 end
 
-
-
 function initCollisons(collisions)
     collisions.HealthPower = function(self, HealthPower)
         HealthPower:zoop(self.health)
@@ -64,7 +62,7 @@ function initCollisons(collisions)
         WeaponPower:zoop(self.weapons)
     end
     
-    collisions.Bullet = function(self, bullet)
+    collisions.FingerBullet = function(self, bullet)
         self.health:ouch(bullet)
     end
 end
