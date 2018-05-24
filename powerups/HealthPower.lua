@@ -9,8 +9,11 @@ function HealthPower:initialize( body )
 end
 
 function HealthPower:zoop(aHealth)
-    if aHealth.hp < 100 then
-        aHealth.hp = aHealth.hp + self.value - (aHealth.hp + self.value)%100
+    if aHealth.hp < aHealth.capacity then
+        aHealth.hp = aHealth.hp + self.value
+        if aHealth.hp > aHealth.capacity then
+            aHealth.hp = aHealth.capacity
+        end
         self.used = true
     end
 end
