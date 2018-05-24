@@ -78,7 +78,7 @@ return {
         y = 1932.5
       } --[[table: 0x034ad320]],
       id = "ecfa16d9-b7f7-432b-c3d7-e5bbdd3a08a3",
-      type = "Health",
+      type = "HealthPower",
       visible = true
     } --[[table: 0x034ad0e8]]
   } --[[table: 0x034acbf8]],
