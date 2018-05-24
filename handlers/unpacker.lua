@@ -1,37 +1,44 @@
 local Player = require 'Player'
 local Platform = require 'Platform'
 local CharacterControllable = require 'character/CharacterControllable'
+local NullControllable = require 'character/NullControllable'
 local FingerBullet = require 'weapons/projectiles/FingerBullet'
+local Pointer = require 'weapons/Pointer'
+local Character = require 'character/Character'
+local HealthPower = require 'powerups/HealthPower'
+local WeaponPower = require 'powerups/WeaponPower'
 
-local unpackables = { CharacterControllable = unpackCharacterControllable, projectile = unpackProjectile, Powerup = unpackPowerup, Platform = unpackPlatform }
-local projectiles = {FingerBullet = FingerBullet}
+-- local unpackables = { CharacterControllable = 'unpackCharacterControllable', projectile = 'unpackProjectile', Powerup = 'unpackPowerup', Platform = 'unpackPlatform' }
+-- local projectiles = { FingerBullet = FingerBullet }
+local objects, players, removed, world
 
-local unpacker = function(state, objects, players, removed, world)
-    unpackObjects(state.objects, objects, world)
+local init = function(objectsTable, playersTable, removedTable, world)
+    objects = objectsTable
+    players = playersTable
+    removed = removedTable
+    world = world
+end
+
+local unpacker = function(state, removed)
+    unpackObjects(state.objects, objects)
     unpackPlayers(state.players, players, objects)
     unpackRemoved(state.removed, removed)
 end
 
-function unpackObjects(stateObjects, gameObjects, world)
+function unpackObjects(stateObjects)
     local unpacked
     for v in pairs(stateObjects) do
         anObjectState = stateObjects[v]
         local correspondingObject = gameObjects[anObjectState.id]
         if correspondingObject then
             correspondingObject:unpackState(anObjectState)
-        else
-            typeUnpacker = unpackables[anObjectState.type]
-            if typeUnpacker then
-                unpacked = typeUnpacker(anObjectState, world)
-                if unpacked then
-                    gameObjects[unpacked.id] = unpacked
-                end
-            end
+        else        
+            unpackObject(anObjectState)
         end
     end
 end
 
-function unpackPlayers(statePlayers, gamePlayers, objects)
+function unpackPlayers(statePlayers, gamePlayers)
     local unpacked
     for v in pairs(statePlayers) do
         local aPlayerState = statePlayers[v]
@@ -39,7 +46,7 @@ function unpackPlayers(statePlayers, gamePlayers, objects)
         if correspondingPlayer then
             correspondingPlayer:unpackState(aPlayerState)
         else
-            unpacked = unpackPlayer(aPlayerState, objects)
+            unpacked = unpackPlayer(aPlayerState)
         end
     end
 end
@@ -66,36 +73,21 @@ function unpackRemoved(stateRemoved, gameRemoved)
     end
 end
 
-function unpackPlayer(playerState, objects)
-    --return new Player
-end
-
-function unpackCharacterControllable(CharacterControllableState, world)
-    rval = CharacterControllable:new(love.physics.newBody(world, CharacterControllableState.Character.bodyDeets.rval, CharacterControllableState.Character.bodyDeets.y, 'dynamic'))
-    rval:reId(CharacterControllableState)
-    rval:unpackState(CharacterControllableState)
-    return rval
-end
-
-function unpackProjectile(projectileState, world)
-    local rval = nil
-    projectileType = projectiles[projectileState.pojectileType]
-    if projectileType then
-        rval = projectileType:new(projectileState)
-        rval:reId(projectileState)
-        return rval
+function unpackObject(objectState)
+    local rval = objects[objectState.id]
+    if not rval then
+       rval = unpackables[objectState.type](objectState)
     end
-end
-
-function unpackPowerup(PowerupState)
-    
-end
-
-function unpackPlatform(PlatformState, world)
-    local rval = Platform:new(love.physics.newBody(world, PlatformState.bodyDeets.x, PlatformState.bodyDeets.y), PlatformState.length, PlatformState.width)
-    rval:unpackState(PlatformState)
-    rval:reId(PlatformState)
     return rval
 end
 
-return unpacker
+function finalize(object, objectState)
+    object:reId(objectState)
+    object:unpackState(objectState, unpackObject)
+end
+
+function unpackPlayer(playerState)
+    --make new player, finalize, return
+end
+
+return init, unpacker
