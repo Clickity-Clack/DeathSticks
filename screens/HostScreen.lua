@@ -19,6 +19,7 @@ function HostScreen:initialize(upScreen)
     self.data = nil
     self.packet = nil
     self.user = User:new(self.game.user)
+    self.once = false
 end
 
 function HostScreen:update(dt)
@@ -32,7 +33,6 @@ function HostScreen:draw()
 end
 
 function HostScreen:recieve()
-    local packet = nil
     -- if msg_or_ip ~= 'timeout' then
     --     error("Unknown network error: "..tostring(msg))
     -- end
@@ -54,11 +54,11 @@ function HostScreen:recieve()
 end
 
 function HostScreen:send()
+    local packet, state
     state = self.game:getState()
-    --print(serpent.block(state))
     packet = binser.serialize(state)
-    for i, client in ipairs(self.clients)do
-        udp:sendto(packet, client.ip, client.socket)
+    for i in pairs(self.clients)do
+        udp:sendto(packet, self.clients[i].ip, self.clients[i].port)
     end
 end
 
