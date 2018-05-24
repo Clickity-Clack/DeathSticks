@@ -36,6 +36,4 @@ function BodiedPackable:collide(b)
     end
 end
 
-function bonusmethodtoseeiftheressomethingweirdgoingon()end
-
 return BodiedPackable
