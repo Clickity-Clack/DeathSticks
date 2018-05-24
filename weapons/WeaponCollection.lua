@@ -7,7 +7,7 @@ function WeaponCollection:initialize(aWeapon)
 end
 
 function WeaponCollection:addWeapon(aWeapon)
-    self.weapons[addWeapon.class.name] = aWeapon
+    self.weapons[aWeapon.class.name] = aWeapon
 end
 
 function WeaponCollection:removeWeapon(aWeapon)
@@ -32,6 +32,14 @@ function WeaponCollection:drawHud()
         love.graphics.rectangle('line', x, y, 30, 30)
         x = x + imgSize + xBuffer
     end
+    
+    love.graphics.setColor(0.01,0.1,0.01)
+    x,y = 10,30
+    love.graphics.rectangle('fill', x, y, 100, 20)
+    love.graphics.setColor(0.2,0.8,0.2)
+    love.graphics.rectangle('fill', x, y, self.current.ammo/self.current.capacity * 100, 20)
+    love.graphics.setColor(1,1,1)
+    love.graphics.print(self.current.ammo, x + width/2 - font:getWidth(self.current.ammo)/2, y + height/2 - font:getHeight()/2)
 end
 
 return WeaponCollection
