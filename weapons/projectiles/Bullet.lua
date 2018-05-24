@@ -7,7 +7,7 @@ function Bullet:initialize(weapon, world)
     initCollisions(self.collisions)
 end
 
-function initColisions(collisions)
+function initCollisions(collisions)
     collisions.Platform = function(self, Platform)
         self.dead = true
     end
