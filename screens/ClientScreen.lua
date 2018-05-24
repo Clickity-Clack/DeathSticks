@@ -45,7 +45,6 @@ function ClientScreen:recieveState()
     while data do
         self.data = data
         if pcall(function () self.packet = binser.deserialize(self.data) end) then
-            --print(serpent.block(self.packet))
             self.game:unpackState(self.packet[1])
         elseif msg == 'timeout' then
         end
