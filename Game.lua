@@ -1,13 +1,19 @@
+Packable = require 'handlers/unpacking/Packable'
+BodiedPackable = require 'handlers/unpacking/BodiedPackable'
+DynamicBodiedPackable = require 'handlers/unpacking/DynamicBodiedPackable'
 local Platform = require 'Platform'
-local Health = require 'powerups/Health'
-local PointerPower = require 'powerups/PointerPower'
 local CharacterControllable = require 'character/CharacterControllable'
+local NullControllable = require 'character/NullControllable'
+local FingerBullet = require 'weapons/projectiles/FingerBullet'
+local Pointer = require 'weapons/Pointer'
+local Character = require 'character/Character'
+local HealthPower = require 'powerups/HealthPower'
+local WeaponPower = require 'powerups/WeaponPower'
 local gamera = require 'lib/gamera'
 local winWidth = love.graphics.getWidth
 local winHeight = love.graphics.getHeight
 local Player = require 'Player'
-local serpent = require 'lib/serpent'
-local unpack = require 'handlers/unpacker'
+--local unpack = require 'handlers/unpacker'
 local eventHandler = require 'handlers/eventHandler'
 
 local Game = class('Game')
@@ -15,10 +21,10 @@ local Game = class('Game')
 function Game:initialize()
     self.id = uuid()
     self.cWorld = { w = 5000, h = 3000, columns = 24, rows = 22 }
-    self.offCenter = { x = self.cWorld.w/2 - winWidth(), y = self.cWorld.h/2 - winHeight() }
+    self.offCenter = { x = self.cWorld.w/2 - winWidth()/2, y = self.cWorld.h/2 - winHeight()/2 }
     self.cam = gamera.new( 0, 0, self.cWorld.w, self.cWorld.h )
     self.cam:setWindow( 10, 10, 780, 580 )
-    self.cam:setPosition( self.offCenter.x + winWidth(), self.offCenter.y + winHeight() )
+    self.cam:setPosition( self.offCenter.x + winWidth()/2, self.offCenter.y + winHeight()/2 )
 
     love.physics.setMeter(64) --the height of a meter our worlds will be 64px
     self.world = love.physics.newWorld(0, 9.81*64, true) --create a world for the bodies to exist in with horizontal gravity of 0 and vertical gravity of 9.81
@@ -33,7 +39,7 @@ function Game:initialize()
     self.objects[x.id] = x
     x = Health:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y - 40))
     self.objects[x.id] = x
-    x = PointerPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 20, winWidth()-55/2 + self.offCenter.y - 40))
+    x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 20, winWidth()-55/2 + self.offCenter.y - 40), Pointer)
     self.objects[x.id] = x
     x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y))
     self.objects[x.id] = x
@@ -41,11 +47,10 @@ function Game:initialize()
     self:newPlayer()
     self.user = self:newPlayer()
     self.once = true
-    -- print(serpent.block(self:getState()))
+    --print(serpent.block(self:getState()))
 end
 
 function Game:update(dt, input)
-    --print(input.a)
     self.user.commands = input
 
     self.world:update(dt)
@@ -64,24 +69,63 @@ end
 function Game:getState()
     local playerState = {}
     for v in pairs(self.players) do
-        playerState[self.players[v].id] = self.players[v]:getState()
+        playerState[v] = self.players[v]:getState()
     end
 
     local objectState = {}
     --print('Gamestate')
     for i in pairs(self.objects) do
-        --print(serpent.block(self.objects[i]))
         objectState[self.objects[i].id] = self.objects[i]:getState()
     end
-    if self.once then
-        print(serpent.block(objectState))
-        self.once = false
-    end
+    -- if self.once then
+    --     print('sup \r\n')
+    --     print(serpent.block(playerState))
+    --     self.once = false
+    -- end
     return { players = playerState, objects = objectState }
 end
 
 function Game:unpackState(state)
-    unpack(state, self.objects, self.players, self.removed, self.world)
+    --print(serpent.block(state))
+    self:unpackObjects(state.objects)
+    self:unpackPlayers(state.players)
+    self:unpackRemoved(state.removed)
+end
+
+function Game:unpackObjects(stateObjects)
+    for i, state in ipairs(stateObjects) do
+        self:unpackObject(state)
+    end
+end
+
+function Game:unpackObject(objectState)
+    local object = self.objects[objectState.id]
+    if not object then
+        object = objectState.type:new()
+        object:reId(objectState)
+        self.objects[object.id] = object
+    end
+    object:unpackState(objectState, self)
+end
+
+function Game:unpackPlayers(statePlayers)
+    for i, state in ipairs(statePlayers) do
+        unpackPlayer(state)
+    end
+end
+
+function Game:unpackPlayer(playerState)
+    local player = self.players[playerState.id]
+    if not player then
+        player = playerState.type:new()
+        player:reId(playerState)
+        self.players[player.id] = player
+    end
+    object:unpackState(objectState, self.unpackObject)
+end
+
+function Game:unpackRemoved(stateRemoved)
+    
 end
 
 function Game:drawWorld(cl,ct,cw,ch)
@@ -128,7 +172,9 @@ function Game:newPlayer()
 end
 
 function beginContact(a, b, coll)
-    a:getUserData():collide(b:getUserData())
+    local aThing, bThing = a:getUserData(), b:getUserData()
+    assert(aThing.collide, aThing.class.name .. " has no collide method!")
+    aThing:collide(bThing)
 end
 
 function endContact(a, b, coll)
