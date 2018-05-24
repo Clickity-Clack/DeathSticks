@@ -37,7 +37,7 @@ function Game:initialize()
     self.events = {}
     local x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y), winWidth(), 50)
     self.objects[x.id] = x
-    x = Health:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y - 40))
+    x = HealthPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y - 40))
     self.objects[x.id] = x
     x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 20, winWidth()-55/2 + self.offCenter.y - 40), Pointer)
     self.objects[x.id] = x
@@ -47,7 +47,6 @@ function Game:initialize()
     self:newPlayer()
     self.user = self:newPlayer()
     self.once = true
-    --print(serpent.block(self:getState()))
 end
 
 function Game:update(dt, input)
@@ -73,20 +72,14 @@ function Game:getState()
     end
 
     local objectState = {}
-    --print('Gamestate')
     for i in pairs(self.objects) do
         objectState[self.objects[i].id] = self.objects[i]:getState()
     end
-    -- if self.once then
-    --     print('sup \r\n')
-    --     print(serpent.block(playerState))
-    --     self.once = false
-    -- end
+    
     return { players = playerState, objects = objectState }
 end
 
 function Game:unpackState(state)
-    --print(serpent.block(state))
     self:unpackObjects(state.objects)
     self:unpackPlayers(state.players)
     self:unpackRemoved(state.removed)
