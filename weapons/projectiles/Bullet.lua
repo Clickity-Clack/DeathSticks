@@ -6,28 +6,19 @@ function Bullet:initialize(weapon, world)
     Projectile.initialize(self, weapon, world)
 end
 
-function Bullet:collide(b)
-    b:collideBullet(self, events)
-end
-
-function Bullet:collideCharacter(aCharacter)
-    aCharacter:collideBullet(self)
+function Bullet:doop(aCharacter)
+    if self.playerId ~= aCharacter.playerId then
+        aCharacter.Health = aCharacter.Health - self.damage
+        if aCharacter.Health <= 0 then
+            aCharacter.dead = true
+            aCharacter.lastBullet = self
+        end
+        self.dead = true
+    end
 end
 
 function Bullet:collidePlatform(Platform)
     self.dead = true
-end
-
-function Bullet:collideBullet(aBullet)
-
-end
-
-function Bullet:collidePointerPower(aBullet)
-
-end
-
-function Bullet:collideHealth(aBullet)
-
 end
 
 return Bullet
