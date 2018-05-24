@@ -1,4 +1,5 @@
-local unpacker = require 'handlers/unpacker'
+--local unpacker = require 'handlers/unpacker'
+local testState = require 'clutter/testState'
 local Game = require 'Game'
 local User = require 'User'
 local overlay = require 'screens/menus/OverlayScreen'
@@ -19,19 +20,42 @@ function ClientScreen:initialize(upState)
     self.game = Game:new()
     self.user = User:new(self.game.user)
     self.sendTime = 0
+    self.once = false
 end
 
 function ClientScreen:update(dt)
     local commands = self.user:getCommands()
-    self.game:update( dt, commands )
-    self:send(commands)
+    self:sendCommands(commands)
+    if once then
+        self.game:update( dt, commands )
+    else
+        self.game:unpackState(testState)
+    end
 end
 
-function ClientScreen:send(commands)
+function ClientScreen:sendCommands(commands)
     dg = binser.serialize(commands)
-    --gd = binser.deserialize(dg)
-    --if love.keyboard.isDown('t') then print(serpent.block(commands)) print(serpent.block(gd)) end
     udp:send(dg)
+end
+
+function ClientScreen:recieveState()
+    local data, msg = udp:receive()
+    local recieved = false
+    if love.keyboard.isDown('t') then print(data) end
+    while data do
+        self.data = data
+        if pcall(function () self.packet = binser.deserialize(self.data) end) then
+            --print(serpent.block(self.packet))
+            self.game:unpackState(self.packet[1])
+        elseif msg == 'timeout' then
+        end
+
+        data, msg = udp:receive()
+        recieved = true
+    end
+    return recieved
+    -- self.game:unpackState(testState)
+    -- return true
 end
 
 function ClientScreen:mousepressed(x,y,number)
