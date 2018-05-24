@@ -5,3 +5,5 @@ methods.tablelength = function(T)
   for _ in pairs(T) do count = count + 1 end
   return count
 end
+
+return methods
