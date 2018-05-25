@@ -69,10 +69,6 @@ end
 
 function Character:update(dt, events)
     self.weapons.current:update(dt, self:getCenter())
-    if self.health.dead then
-        table.insert(events, { type = 'dead', subject = self }) -- doest't actually remove the Character
-        self.health.dead = false
-    end
     if self.isFiring and self.weapons.current.delay <= 0  then
         table.insert(events, { type = 'fire', subject = self })
     end

@@ -31,6 +31,10 @@ end
 
 function CharacterControllable:update(dt, events)
     self.character:update(dt, events)
+    if self.character.health.dead then
+        table.insert(events, { type = 'dead', subject = self })
+        self.character.health.dead = false
+    end
 end
 
 function CharacterControllable:draw(cam, id)

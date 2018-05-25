@@ -1,3 +1,4 @@
+local NullControllable = require 'character/NullControllable'
 local events = { collide = {}, dead = {}, fire = {} }
 function process( dt, game )
     for i, event in ipairs(game.events) do
@@ -17,8 +18,18 @@ events.fire.Character = function (event, game)
     end
 end
 
-events.dead.Character = function ()
-    
+events.dead.CharacterControllable = function (event, game)
+    local thePlayerId = event.subject.playerId
+    local theId = event.subject.id
+    game.players[thePlayerId].controllable = NullControllable:new()
+    game.objects[theId] = nil
+    game.removed[theId] = true
+end
+
+events.dead.FingerBullet = function (event, game)
+    local theId = event.subject.id
+    game.objects[theId] = nil
+    game.removed[theId] = true
 end
 
 return process
