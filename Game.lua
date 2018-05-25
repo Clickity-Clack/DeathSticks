@@ -160,11 +160,15 @@ function Game:draw()
 end
 
 function Game:newPlayer()
-    newCharacterControllable = CharacterControllable:new(love.physics.newBody(self.world, self.spawnPoint.x, self.spawnPoint.y, 'dynamic'))
-    self.objects[newCharacterControllable.id] = newCharacterControllable
-    newPlayer = Player:new(newCharacterControllable)
+    newPlayer = Player:new(self:newCharacterControllable())
     self.players[newPlayer.id] = newPlayer
     return newPlayer
+end
+
+function Game:newCharacterControllable()
+    local newCharacterControllable = CharacterControllable:new(love.physics.newBody(self.world, self.spawnPoint.x, self.spawnPoint.y, 'dynamic'))
+    self.objects[newCharacterControllable.id] = newCharacterControllable
+    return newCharacterControllable
 end
 
 function beginContact(a, b, coll)

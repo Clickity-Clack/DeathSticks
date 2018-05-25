@@ -31,6 +31,7 @@ end
 function Player:switchControllable( controllable )
     local oldControllable = self.controllable
     self.controllable = controllable
+    self.controllable:setPlayerId(self.id)
     return oldControllable
 end
 

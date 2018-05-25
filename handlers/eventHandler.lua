@@ -1,13 +1,19 @@
 local NullControllable = require 'character/NullControllable'
-local events = { collide = {}, dead = {}, fire = {} }
+local events = { collide = {}, dead = {}, respawn = {}, fire = {} }
 function process( dt, game )
-    for i, event in ipairs(game.events) do
-        if events[event.type] then
-            if events[event.type][event.subject.class.name] then
-                events[event.type][event.subject.class.name](event, game)
+    local event
+    for i in pairs(game.events) do
+        event = game.events[i]
+        if not event.time or not (event.time > 0) then
+            if events[event.type] then
+                if events[event.type][event.subject.class.name] then
+                    events[event.type][event.subject.class.name](event, game)
+                end
             end
+            game.events[i] = nil
+        else
+            event.time = event.time - dt
         end
-        game.events[i] = nil
     end
 end
 
@@ -20,10 +26,16 @@ end
 
 events.dead.CharacterControllable = function (event, game)
     local thePlayerId = event.subject.playerId
+    local thePlayer = game.players[thePlayerId]
     local theId = event.subject.id
-    game.players[thePlayerId].controllable = NullControllable:new()
+    thePlayer.controllable = NullControllable:new()
     game.objects[theId] = nil
     game.removed[theId] = true
+    table.insert(game.events, {type = 'respawn', time = 1, subject = thePlayer})
+end
+
+events.respawn.Player = function (event, game)
+    event.subject:switchControllable(game:newCharacterControllable())
 end
 
 events.dead.FingerBullet = function (event, game)
