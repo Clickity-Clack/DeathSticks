@@ -20,6 +20,13 @@ function WeaponCollection:unpackState(state, game)
     Packable.unpackTableState(self.weapons, state, game)
 end
 
+function WeaponCollection:fullReport()
+    Packable.fullReport(self)
+    for i in pairs(self.weapons) do
+        self.weapons[i]:fullReport()
+    end
+end
+
 function WeaponCollection:addWeapon(aWeapon)
     self.weapons[aWeapon.class.name] = aWeapon
     self.modified = true

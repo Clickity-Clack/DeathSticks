@@ -16,6 +16,7 @@ function Projectile:initialize(weapon, world)
 end
 
 function Projectile:update(dt, events)
+    DynamicBodiedPackable.update(self)
     if self.dead then
         table.insert(events, {type = 'dead', subject = self})
         self.dead = false

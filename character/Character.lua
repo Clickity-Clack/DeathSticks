@@ -81,6 +81,7 @@ function initCollisons(collisions)
 end
 
 function Character:update(dt, events)
+    DynamicBodiedPackable.update(self)
     self.weapons.current:update(dt, self:getCenter())
     if self.isFiring and self.weapons.current.delay <= 0  then
         table.insert(events, { type = 'fire', subject = self })

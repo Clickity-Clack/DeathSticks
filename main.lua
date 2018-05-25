@@ -1,7 +1,7 @@
 uuid = require 'lib/uuid'
 uuid.seed()
 class = require("lib/middleclass")
-local MainMenu = require 'screens/menus/MainMenu'
+MainMenu = require 'screens/menus/MainMenu'
 serpent = require 'lib/serpent'
 helper = require 'helper'
 

@@ -19,7 +19,7 @@ function HostScreen:initialize(upScreen)
     self.data = nil
     self.packet = nil
     self.user = User:new(self.game.user)
-    self.once = false
+    self.once = true
 end
 
 function HostScreen:update(dt)
@@ -56,6 +56,13 @@ end
 function HostScreen:send()
     local packet, state
     state = self.game:getState()
+    if love.keyboard.isDown('y') then 
+        print(serpent.block(state))
+        self.once = false
+    end
+    if love.keyboard.isDown('u') then
+        self.game:fullReport()
+    end
     packet = binser.serialize(state)
     for i in pairs(self.clients)do
         udp:sendto(packet, self.clients[i].ip, self.clients[i].port)
@@ -65,6 +72,7 @@ end
 function HostScreen:addClient(anIp, aPort)
     playerId = self.game:newPlayer()
     self.clients[anIp] = { ip = anIp, port = aPort, player = playerId }
+    self.game:fullReport()
 end
 
 function HostScreen:mousepressed(x,y)

@@ -14,9 +14,12 @@ function Platform:update(dt)
 end
 
 function Platform:getState()
-    local state = BodiedPackable.getState(self) 
-    state.height = self.height
-    state.width = self.width
+    if self.modified then
+        local state = BodiedPackable.getState(self) 
+        state.height = self.height
+        state.width = self.width
+        return state
+    end
 end
 
 function Platform:unpackState(state)
