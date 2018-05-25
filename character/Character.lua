@@ -11,7 +11,7 @@ function Character:initialize(body)
     self.size = 2
     self.direction = 1
     self.walking = false
-    self.isfiring = true
+    self.isFiring = true
     self.anim = {}
     self.anim['walk'] = Animation:new(love.graphics.newImage('res/oldHeroWalk.png'), 16, 18, self.size, 1, 8, 20) --duration of 1 means the Animation will play through each quad once per second
     self.anim['swim'] = Animation:new(love.graphics.newImage('res/oldHeroSwim.png'), 18, 17, self.size, 1, 9, 20)
@@ -73,7 +73,7 @@ function Character:update(dt, events)
         table.insert(events, { type = 'dead', subject = self }) -- doest't actually remove the Character
         self.health.dead = false
     end
-    if self.isfiring and self.weapons.current.delay <= 0  then
+    if self.isFiring and self.weapons.current.delay <= 0  then
         table.insert(events, { type = 'fire', subject = self })
     end
     if self.walking then
@@ -107,7 +107,7 @@ function Character:getY()
 end
 
 function Character:setFiring(firing)
-    self.isfiring = firing
+    self.isFiring = firing
 end
 
 function Character:destroy()
@@ -152,7 +152,7 @@ function Character:jump()
 end
 
 function Character:fire(game)
-    self.weapons.current:fire(game)
+    return self.weapons.current:fire(game)
 end
 
 function Character:toggleAnim()
