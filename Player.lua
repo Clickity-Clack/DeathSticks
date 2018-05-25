@@ -1,6 +1,6 @@
 local Packable = require'handlers/unpacking/Packable'
 local NullControllable = require 'character/NullControllable'
-local Player = class('Player')
+local Player = class('Player', Packable)
 
 function Player:initialize( controllable )
     Packable.initialize(self)
@@ -14,9 +14,11 @@ function Player:update()
 end
 
 function Player:getState()
-    local state = Packable.getState(self)
-    state.controllableId = self.controllable.id
-    return state
+    if self.modified then
+        local state = Packable.getState(self)
+        state.controllableId = self.controllable.id
+        return state
+    end
 end
 
 function Player:unpackState(state)
@@ -32,6 +34,7 @@ function Player:switchControllable( controllable )
     local oldControllable = self.controllable
     self.controllable = controllable
     self.controllable:setPlayerId(self.id)
+    self.modified = true
     return oldControllable
 end
 

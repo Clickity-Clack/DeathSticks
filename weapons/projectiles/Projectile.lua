@@ -38,6 +38,11 @@ function Projectile:draw()
     love.graphics.draw(self.image, self.body:getX(), self.body:getY(), self.body:getAngle())
 end
 
+function Projectile:kill()
+    self.dead = true
+    self.modified = true
+end
+
 function Projectile:destroy()
     self.body:destroy()
 end

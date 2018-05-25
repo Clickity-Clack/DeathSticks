@@ -38,26 +38,43 @@ function Weapon:update(dt, x, y)
     if self.delay > 0 then
         self.delay = self.delay - dt
     end
-    self.x = x
-    self.y = y
+    if self.x ~= x or self.y ~= y then
+        self.modified = true
+        self.x = x
+        self.y = y
+    end
 end
 
 function Weapon:setR(r)
-    self.r = r
+    if self.r ~= r then
+        self.r = r
+        self.modified = true
+    end
 end
 
 function Weapon:setPlayerId(id)
     self.playerId = id
+    self.modified = true
 end
 
 function Weapon:getState()
-    local state = Packable.getState(self)
-    state.r = self.r
-    return state
+    if self.modified then
+        local state = Packable.getState(self)
+        state.r = self.r
+        state.x = self.x
+        state.y = self.y
+        state.ammo = self.ammo
+        state.delay = self.delay
+        return state
+    end
 end
 
 function Weapon:unpackState(state)
     self.r = state.r
+    self.x = state.x
+    self.y = state.y
+    self.ammo = state.ammo
+    self.delay = self.delay
     Packable.unpackState(self, state)
 end
 

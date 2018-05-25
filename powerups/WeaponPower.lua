@@ -26,6 +26,14 @@ function WeaponPower:zoop(aWeaponCollection)
     end
 end
 
+function WeaponPower:getState()
+    if self.modified then
+       local state = Powerup.getState(self) 
+       state.weapon = self.weapon.name
+       return state
+    end
+end
+
 function WeaponPower:destroy()
     self.body.destroy()
 end

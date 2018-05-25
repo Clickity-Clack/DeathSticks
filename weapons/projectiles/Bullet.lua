@@ -9,7 +9,7 @@ end
 
 function initCollisions(collisions)
     collisions.Platform = function(self, Platform)
-        self.dead = true
+        self:kill()
     end
 end
 

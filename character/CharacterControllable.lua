@@ -11,12 +11,15 @@ end
 function CharacterControllable:setPlayerId(id)
     self.playerId = id
     self.character:setPlayerId(id)
+    self.modified = true
 end
 
 function CharacterControllable:getState()
-    local state = Packable.getState(self)
-    state.character = self.character:getState()
-    return state
+    if self.modified then
+        local state = Packable.getState(self)
+        state.character = self.character:getState()
+        return state
+    end
 end
 
 function CharacterControllable:reId(state)
@@ -29,12 +32,18 @@ function CharacterControllable:unpackState(state)
     self.character:unpackState(state.character)
 end
 
+function CharacterControllable:fullReport()
+    Packable.fullReport(self)
+    self.character:fullReport()
+end
+
 function CharacterControllable:update(dt, events)
     self.character:update(dt, events)
     if self.character.health.dead then
         table.insert(events, { type = 'dead', subject = self })
         self.character.health.dead = false
     end
+    self.modified = self.modified or self.character.modified
 end
 
 function CharacterControllable:draw(cam, id)

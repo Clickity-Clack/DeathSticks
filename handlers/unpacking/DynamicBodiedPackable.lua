@@ -3,6 +3,16 @@ local DynamicBodiedPackable = class('DynamicBodiedPackable', BodiedPackable)
 
 function DynamicBodiedPackable:initialize(body)
     BodiedPackable.initialize(self, body)
+    self.lastX = 0
+    self.lastY = 0
+end
+
+function DynamicBodiedPackable:update(dt)
+    if self.body:getX() ~= self.lastX or self.body:getY() ~= self.lastY then
+        self.modified = true
+        self.lastX = self.body:getX()
+        self.lastY = self.body:getY()
+    end
 end
 
 function DynamicBodiedPackable:getState()

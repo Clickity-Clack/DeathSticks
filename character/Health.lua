@@ -5,6 +5,24 @@ function Health:initialize(hp,capacity)
     self.capacity = capacity or hp
 end
 
+function Health:getState()
+    if self.modified then
+        local state = Packable.getState(self)
+        state.hp = self.hp
+        state.capacity = self.capacity
+        return state
+    end
+end
+
+function Health:unpackState(state)
+    if state then
+        assert(state.hp, 'This Health state has no hp!')
+        self.hp = state.hp
+        assert(state.capacity, 'This Health state has no capacity!')
+        self.capacity = state.capacity
+    end
+end
+
 function Health:ouch(hurtyThing)
     self.hp = self.hp - hurtyThing.damage
     if self.hp <= 0 then
@@ -14,6 +32,8 @@ function Health:ouch(hurtyThing)
             self.killerBullet = hurtyThing
         end
     end
+    hurtyThing:kill()
+    self.modified = true
 end
 
 function Health:draw(x,y)

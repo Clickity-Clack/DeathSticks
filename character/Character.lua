@@ -32,25 +32,38 @@ end
 function Character:setPlayerId(id)
     self.playerId = id
     self.weapons.current:setPlayerId(id)
+    self.modified = true
 end
 
 function Character:getState()
-    local state = DynamicBodiedPackable.getState(self)
-    state.direction = self.direction
-    state.currentAnim = self.currentAnim
-    state.weapon = self.weapons.current:getState()
-    return state
+    if self.modified then
+        local state = DynamicBodiedPackable.getState(self)
+        state.direction = self.direction
+        state.currentAnim = self.currentAnim
+        state.weapons = self.weapons:getState()
+        state.health = self.health:getState()
+        return state
+    end
 end
 
 function Character:reId(state)
     DynamicBodiedPackable.reId(state)
-    self.weapons.current.reId(state.weapons.current)
+    self.weapons:reId(state.weapons)
+    self.health:reId(state.health)
 end
 
-function unpackState(state)
+function Character:unpackState(state)
     self.direction = state.direction
     self.currentAnim = state.currentAnim
+    self.health:unpackState(state.health)
+    self.weapons:unpackState(state.weapons)
     DynamicBodiedPackable.unpackState(self)
+end
+
+function Character:fullReport()
+    DynamicBodiedPackable.fullReport(self)
+    self.health:fullReport()
+    self.weapons:fullReport()
 end
 
 function initCollisons(collisions)
@@ -75,6 +88,7 @@ function Character:update(dt, events)
     if self.walking then
         self:walk(dt)
     end
+    self.modified = self.modified or self.health.modified or self.weapons.modified
 end
 
 function Character:draw(cam)

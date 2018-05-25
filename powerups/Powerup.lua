@@ -18,6 +18,7 @@ function Powerup:update()
             self.visible = true
             self.body:isActive(true)
         end
+        self.modified = true
     end
 end
 
@@ -35,9 +36,11 @@ function Powerup:used()
 end
 
 function Powerup:getState()
-    local state = BodiedPackable.getState(self)
-    state.visible = self.visible
-    return state
+    if self.modified then
+        local state = BodiedPackable.getState(self)
+        state.visible = self.visible
+        return state
+    end
 end
 
 function Powerup:unpackState(state)

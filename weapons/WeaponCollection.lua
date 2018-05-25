@@ -2,16 +2,32 @@ local Packable = require('handlers/unpacking/Packable')
 local WeaponCollection = class('WeaponCollection', Packable)
 
 function WeaponCollection:initialize(aWeapon)
+    Packable.initialize(self)
     self.weapons = { aWeapon }
     self.current = aWeapon or nil
 end
 
+function WeaponCollection:getState()
+    if self.modified then
+        local state = Packable.getState(self)
+        state.weapons = Packable.getTableState(self.weapons)
+        state.currentId = self.current.id
+        return state
+    end
+end
+
+function WeaponCollection:unpackState(state, game)
+    Packable.unpackTableState(self.weapons, state, game)
+end
+
 function WeaponCollection:addWeapon(aWeapon)
     self.weapons[aWeapon.class.name] = aWeapon
+    self.modified = true
 end
 
 function WeaponCollection:removeWeapon(aWeapon)
     self.weapons[addWeapon.class.name] = nil
+    self.modified = true
 end
 
 function WeaponCollection:nextWeapon()
@@ -28,8 +44,8 @@ function WeaponCollection:drawHud()
     local count = helper.tablelength(self.weapons)
     local x = winWidth/2 - ((imgSize * count) + (xBuffer * (count - 1)))
     love.graphics.setColor(0,0,0)
-    for i, weapon in ipairs(self.weapons)do
-        love.graphics.rectangle('line', x, y, 30, 30)
+    for i in pairs(self.weapons)do
+        love.graphics.draw(self.weapons[i].image, x, y, 0, 2 )
         x = x + imgSize + xBuffer
     end
     

@@ -14,7 +14,6 @@ local gamera = require 'lib/gamera'
 local winWidth = love.graphics.getWidth
 local winHeight = love.graphics.getHeight
 local Player = require 'Player'
---local unpack = require 'handlers/unpacker'
 local eventHandler = require 'handlers/eventHandler'
 
 local Game = class('Game')
@@ -118,6 +117,16 @@ function Game:unpackPlayer(playerState)
         self.players[player.id] = player
     end
     object:unpackState(objectState, self.unpackObject)
+end
+
+function Game:fullReport()
+    for i in pairs(self.players) do
+        self.players[i]:fullReport()
+    end
+
+    for i in pairs(self.objects) do
+        self.objects[i]:fullReport()
+    end
 end
 
 function Game:unpackRemoved(stateRemoved)
