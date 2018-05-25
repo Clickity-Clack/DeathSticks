@@ -6,6 +6,7 @@ local CharacterControllable = require 'character/CharacterControllable'
 local NullControllable = require 'character/NullControllable'
 local FingerBullet = require 'weapons/projectiles/FingerBullet'
 local Pointer = require 'weapons/Pointer'
+local Sniper = require 'weapons/Sniper'
 local Character = require 'character/Character'
 local HealthPower = require 'powerups/HealthPower'
 local WeaponPower = require 'powerups/WeaponPower'
@@ -40,6 +41,8 @@ function Game:initialize()
     x = HealthPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y - 40))
     self.objects[x.id] = x
     x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 20, winWidth()-55/2 + self.offCenter.y - 40), Pointer)
+    self.objects[x.id] = x
+    x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 60, winWidth()-55/2 + self.offCenter.y - 40), Sniper)
     self.objects[x.id] = x
     x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y))
     self.objects[x.id] = x

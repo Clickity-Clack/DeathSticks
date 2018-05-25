@@ -2,14 +2,16 @@ local Powerup = require 'powerups/Powerup'
 local WeaponPower = class ('WeaponPower', Powerup)
 
 function WeaponPower:initialize( body, weapon )
-    local image = love.graphics.newImage('res/finger.png')
+    local image = weapon.image
     Powerup.initialize(self, body, image)
     self.weapon = weapon
 end
 
 function WeaponPower:zoop(aWeaponCollection)
+    local aWeapon
     local reached = false
-    for i, aWeapon in ipairs(aWeaponCollection.weapons) do
+    for i in pairs(aWeaponCollection.weapons) do
+        aWeapon = aWeaponCollection.weapons[i]
         if aWeapon.class.name == self.weapon.name then
             if aWeapon.ammo + aWeapon.capacity/2 < aWeapon.capacity then
                 aWeapon.ammo = aWeapon.ammo + aWeapon.capacity / 2
