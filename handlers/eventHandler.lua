@@ -6,11 +6,12 @@ function process( dt, game )
                 events[event.type][event.subject.class.name](event, game)
             end
         end
+        game.events[i] = nil
     end
 end
 
 events.fire.Character = function (event, game)
-    local obj = event.subject.weapons.current:fire(game.world)
+    local obj = event.subject:fire(game.world)
     if obj then
         game.objects[obj.id] = obj
     end
