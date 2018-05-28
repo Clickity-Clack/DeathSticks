@@ -18,8 +18,6 @@ function Health:unpackState(state)
     if state then
         assert(state.hp, 'This Health state has no hp!')
         self.hp = state.hp
-        assert(state.capacity, 'This Health state has no capacity!')
-        self.capacity = state.capacity
     end
 end
 

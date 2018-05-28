@@ -45,7 +45,7 @@ end
 
 function Powerup:unpackState(state)
     self.isActive = state.active
-    BodiedPackable.unpackState(state)
+    BodiedPackable.unpackState(self,state)
 end
 
 return Powerup

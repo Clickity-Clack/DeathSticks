@@ -47,16 +47,16 @@ function Character:getState()
 end
 
 function Character:reId(state)
-    DynamicBodiedPackable.reId(state)
+    DynamicBodiedPackable.reId(self,state)
     self.weapons:reId(state.weapons)
     self.health:reId(state.health)
 end
 
-function Character:unpackState(state)
+function Character:unpackState(state, game)
     self.direction = state.direction
     self.currentAnim = state.currentAnim
     self.health:unpackState(state.health)
-    self.weapons:unpackState(state.weapons)
+    self.weapons:unpackState(state.weapons, game)
     DynamicBodiedPackable.unpackState(self)
 end
 
@@ -96,6 +96,7 @@ function Character:draw(cam)
     self.health:draw(self:getX(), self:getY())
     love.graphics.setColorMask()
     love.graphics.setColor(1,1,1,1)
+    love.graphics.rectangle('line', self.body:getX(), self.body:getY() - (self.size * 8), self.size * 16, self.size * 16)
     self.anim[self.currentAnim]:draw(self.body:getX(), self.body:getY(), 0, self.direction)
     self.weapons.current:draw()
 end
@@ -172,6 +173,10 @@ function Character:toggleAnim()
     else
         self.currentAnim = 'walk'
     end
+end
+
+function Character:destroy()
+    self.body:destroy()
 end
 
 return Character

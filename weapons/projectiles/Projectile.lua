@@ -26,6 +26,7 @@ end
 function Projectile:getState()
     local state = DynamicBodiedPackable.getState(self)
     state.bodyDeets.angle = self.body:getAngle()
+    state.playerId = self.playerId
     return state
 end
 

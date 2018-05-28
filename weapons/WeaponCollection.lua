@@ -18,6 +18,7 @@ end
 
 function WeaponCollection:unpackState(state, game)
     Packable.unpackTableState(self.weapons, state, game)
+    self.current = weapons[state.currentId]
 end
 
 function WeaponCollection:fullReport()

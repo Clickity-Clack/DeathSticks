@@ -23,13 +23,13 @@ function CharacterControllable:getState()
 end
 
 function CharacterControllable:reId(state)
-    Packable.reId(self)
+    Packable.reId(self,state)
     self.character:reId(state.character)
 end
 
-function CharacterControllable:unpackState(state)
+function CharacterControllable:unpackState(state, game)
     Packable.unpackState(self, state)
-    self.character:unpackState(state.character)
+    self.character:unpackState(state.character, game)
 end
 
 function CharacterControllable:fullReport()
@@ -73,6 +73,10 @@ end
 
 function CharacterControllable:getCenter()
     return self.character:getCenter()
+end
+
+function CharacterControllable:destroy()
+    self.character:destroy()
 end
 
 return CharacterControllable

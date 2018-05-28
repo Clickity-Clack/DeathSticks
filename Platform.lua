@@ -25,7 +25,7 @@ end
 function Platform:unpackState(state)
     self.height = state.height
     self.width = state.lenght
-    BodiedPackable.unpackState(state)
+    BodiedPackable.unpackState(self, state)
 end
 
 
