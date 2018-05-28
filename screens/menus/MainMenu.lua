@@ -49,10 +49,10 @@ function MainMenu:mousepressed()
 end
 
 function MainMenu:keypressed(key)
-    if key == 'w' then
+    if key == 'w' or key == 'up' then
         love.audio.play(self.switchSound)
         self.theList:selectPrevious()
-    elseif key == 's' then
+    elseif key == 's' or key == 'down' then
         love.audio.play(self.switchSound)
         self.theList:selectNext()
     elseif key == 'return' then
