@@ -14,8 +14,8 @@ function Packable:getState()
     return { id = self.id, type = self.class.name }
 end
 
-function Packable:reId(id)
-    self.id = id
+function Packable:reId(state)
+    self.id = state.id
 end
 
 function Packable.static.getTableState(aTable)
@@ -31,7 +31,7 @@ function Packable.static.unpackTableState(aTable, state, game)
     for i in pairs(state) do
         thing = aTable[i]
         if thing then
-            thing:unpackState()
+            thing:unpackState(state[i])
         else
             aTable[i] = game:unpackObject(state[i])
         end

@@ -8,6 +8,7 @@ function LocalScreen:initialize(upScreen)
     self.id = uuid()
     self.upScreen = upScreen
     self.game = Game:new()
+    self.game:initBasic()
     self.user = User:new(self.game.user)
 end
 

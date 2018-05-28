@@ -29,6 +29,7 @@ events.dead.CharacterControllable = function (event, game)
     local thePlayer = game.players[thePlayerId]
     local theId = event.subject.id
     thePlayer.controllable = NullControllable:new()
+    event.subject:destroy()
     game.objects[theId] = nil
     game.removed[theId] = true
     table.insert(game.events, {type = 'respawn', time = 1, subject = thePlayer})
@@ -40,6 +41,7 @@ end
 
 events.dead.FingerBullet = function (event, game)
     local theId = event.subject.id
+    event.subject:destroy()
     game.objects[theId] = nil
     game.removed[theId] = true
 end

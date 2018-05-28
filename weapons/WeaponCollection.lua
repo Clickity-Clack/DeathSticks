@@ -17,8 +17,11 @@ function WeaponCollection:getState()
 end
 
 function WeaponCollection:unpackState(state, game)
-    Packable.unpackTableState(self.weapons, state, game)
-    self.current = weapons[state.currentId]
+    print(serpent.block(self.weapons))
+    print(serpent.block(state.weapons))
+    print(serpent.block(game))
+    Packable.unpackTableState(self.weapons, state.weapons, game)
+    self.current = self.weapons[state.currentId]
 end
 
 function WeaponCollection:fullReport()

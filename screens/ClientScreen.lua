@@ -18,19 +18,21 @@ function ClientScreen:initialize(upState)
     self.id = uuid()
     self.upState = upState
     self.game = Game:new()
+    self.game:initBasic()
     self.user = User:new(self.game.user)
     self.sendTime = 0
-    self.once = false
+    self.once = true
 end
 
 function ClientScreen:update(dt)
     local commands = self.user:getCommands()
     self:sendCommands(commands)
-    if once then
-        self.game:update( dt, commands )
-    else
-        self.game:unpackState(testState)
-    end
+    self:recieveState()
+    -- if once then
+    --     self.game:unpackState(testState)
+    -- else
+    --     self.game:update( dt, commands )
+    -- end
 end
 
 function ClientScreen:sendCommands(commands)
@@ -45,10 +47,6 @@ function ClientScreen:recieveState()
     while data do
         self.data = data
         if pcall(function () self.packet = binser.deserialize(self.data) end) then
-            if self.once then
-                print(serpent.block(self.packet))
-                self.once = false
-            end
             self.game:unpackState(self.packet[1])
         elseif msg == 'timeout' then
         end

@@ -5,6 +5,7 @@ local Platform = require 'Platform'
 local CharacterControllable = require 'character/CharacterControllable'
 local NullControllable = require 'character/NullControllable'
 local FingerBullet = require 'weapons/projectiles/FingerBullet'
+local ThirtyOdd = require 'weapons/projectiles/ThirtyOdd'
 local Pointer = require 'weapons/Pointer'
 local Sniper = require 'weapons/Sniper'
 local Character = require 'character/Character'
@@ -14,6 +15,7 @@ local gamera = require 'lib/gamera'
 local winWidth = love.graphics.getWidth
 local winHeight = love.graphics.getHeight
 local Player = require 'Player'
+local necromancer = require 'handlers/necromancer'
 local eventHandler = require 'handlers/eventHandler'
 
 local Game = class('Game')
@@ -35,20 +37,25 @@ function Game:initialize()
     self.players = {}
     self.removed = {}
     self.events = {}
-    local x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y), winWidth(), 50)
+
+    self.user = self:newPlayer(NullControllable:new())
+    self.once = true
+end
+
+function Game:initBasic()
+    local x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y, 'kinematic'), winWidth(), 50)
     self.objects[x.id] = x
-    x = HealthPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y - 40))
+    x = HealthPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'))
     self.objects[x.id] = x
-    x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 20, winWidth()-55/2 + self.offCenter.y - 40), Pointer)
+    x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 20, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'), Pointer)
     self.objects[x.id] = x
-    x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 60, winWidth()-55/2 + self.offCenter.y - 40), Sniper)
+    x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 60, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'), Sniper)
     self.objects[x.id] = x
-    x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y))
+    x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y, 'kinematic'))
     self.objects[x.id] = x
     self.spawnPoint = { x = winWidth()/2 + self.offCenter.x, y = winHeight()/2 + self.offCenter.y + 25}
     self:newPlayer()
-    self.user = self:newPlayer()
-    self.once = true
+    self.user:switchControllable(self:newCharacterControllable())
 end
 
 function Game:update(dt, input)
@@ -88,16 +95,17 @@ function Game:unpackState(state)
 end
 
 function Game:unpackObjects(stateObjects)
-    for i, state in ipairs(stateObjects) do
-        self:unpackObject(state)
+    for i in pairs(stateObjects) do
+        self:unpackObject(stateObjects[i])
     end
 end
 
 function Game:unpackObject(objectState)
     local object = self.objects[objectState.id]
     if not object then
-        object = objectState.type:new()
+        object = necromancer(objectState, self)
         object:reId(objectState)
+        if not object.id then print(objectState.id)end
         self.objects[object.id] = object
     end
     object:unpackState(objectState, self)
@@ -112,7 +120,7 @@ end
 function Game:unpackPlayer(playerState)
     local player = self.players[playerState.id]
     if not player then
-        player = playerState.type:new()
+        player = Player:new()
         player:reId(playerState)
         self.players[player.id] = player
     end
@@ -168,8 +176,8 @@ function Game:draw()
     end
 end
 
-function Game:newPlayer()
-    newPlayer = Player:new(self:newCharacterControllable())
+function Game:newPlayer(aControllable)
+    newPlayer = Player:new(aControllable or self:newCharacterControllable())
     self.players[newPlayer.id] = newPlayer
     return newPlayer
 end
