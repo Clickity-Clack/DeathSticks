@@ -67,6 +67,10 @@ function CharacterControllable:acceptCommands(commands)
         self.character:jump()
     end
 
+    if commands.weaponSwitch == 'next' then
+        self.character.weapons:nextWeapon()
+    end
+
     self.character.weapons.current:setR(commands.r)
     self.character:setFiring(commands.a)
 end

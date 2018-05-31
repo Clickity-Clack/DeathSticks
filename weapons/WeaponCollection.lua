@@ -3,7 +3,8 @@ local WeaponCollection = class('WeaponCollection', Packable)
 
 function WeaponCollection:initialize(aWeapon)
     Packable.initialize(self)
-    self.weapons = { aWeapon }
+    self.weapons = {}
+    self.weapons[aWeapon.class.name] = aWeapon
     self.current = aWeapon or nil
 end
 
@@ -17,11 +18,10 @@ function WeaponCollection:getState()
 end
 
 function WeaponCollection:unpackState(state, game)
-    print(serpent.block(self.weapons))
-    print(serpent.block(state.weapons))
-    print(serpent.block(game))
-    Packable.unpackTableState(self.weapons, state.weapons, game)
-    self.current = self.weapons[state.currentId]
+    if (state) then
+        Packable.unpackTableState(self.weapons, state.weapons, game)
+        self.current = self.weapons[state.currentId]
+    end
 end
 
 function WeaponCollection:fullReport()
@@ -42,7 +42,8 @@ function WeaponCollection:removeWeapon(aWeapon)
 end
 
 function WeaponCollection:nextWeapon()
-    
+    local nextWeapon = self.weapons[next(self.weapons, self.current.class.name)]
+    self.current = nextWeapon or self.weapons[next(self.weapons)] or self.current
 end
 
 function WeaponCollection:previousWeapon()
