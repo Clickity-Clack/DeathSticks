@@ -58,7 +58,6 @@ function HostScreen:send()
     local packet, state
     state = self.game:getState()
     if love.keyboard.isDown('y') then 
-        print(serpent.block(state))
         self.once = false
     end
     if love.keyboard.isDown('u') then
@@ -70,10 +69,21 @@ function HostScreen:send()
     end
 end
 
+function HostScreen:firstPacket(clientId)
+    assert(self.clients[clientId], "firstPacket: No client with that Id")
+    local packet, state
+    self.game:fullReport()
+    state = self.game:getState()
+    print(self.clients[clientId].player.id)
+    state.yourId = self.clients[clientId].player.id
+    packet = binser.serialize(state)
+    udp:sendto(packet, self.clients[clientId].ip, self.clients[clientId].port)
+end
+
 function HostScreen:addClient(anIp, aPort)
     playerId = self.game:newPlayer()
     self.clients[anIp] = { ip = anIp, port = aPort, player = playerId }
-    self.game:fullReport()
+    self:firstPacket(anIp)
 end
 
 function HostScreen:mousepressed(x,y)

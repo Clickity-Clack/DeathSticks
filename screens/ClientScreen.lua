@@ -18,8 +18,8 @@ function ClientScreen:initialize(upState)
     self.id = uuid()
     self.upState = upState
     self.game = Game:new()
-    self.game:initBasic()
-    self.user = User:new(self.game.user)
+    self.game:centerCam()
+    self.user = User:new()
     self.sendTime = 0
     self.once = true
 end
@@ -48,6 +48,15 @@ function ClientScreen:recieveState()
         self.data = data
         if pcall(function () self.packet = binser.deserialize(self.data) end) then
             self.game:unpackState(self.packet[1])
+            if self.once then 
+                local id = self.packet[1]['yourId']
+                assert(id, 'no yourId!')
+                self.game.user = self.game.players[id]
+                self.user.playerId = self.game.user
+                print (serpent.block(self.game:getState()))
+                self.once = false
+            end
+            self.game:centerCam()
         elseif msg == 'timeout' then
         end
 
