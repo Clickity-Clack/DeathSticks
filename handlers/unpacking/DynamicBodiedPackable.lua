@@ -1,3 +1,6 @@
+local class = require 'lib/middleclass'
+local uuid = require 'lib/uuid'
+local Packable = require('handlers/unpacking/Packable')
 local BodiedPackable = require('handlers/unpacking/BodiedPackable')
 local DynamicBodiedPackable = class('DynamicBodiedPackable', BodiedPackable)
 
@@ -24,7 +27,7 @@ function DynamicBodiedPackable:getState()
 end
 
 function DynamicBodiedPackable:unpackState(state)
-    self.body:selLinearVelocity(state.bodyDeets.xSpeed, state.bodyDeets.ySpeed)
+    self.body:setLinearVelocity(state.bodyDeets.xSpeed, state.bodyDeets.ySpeed)
 end
 
 return DynamicBodiedPackable

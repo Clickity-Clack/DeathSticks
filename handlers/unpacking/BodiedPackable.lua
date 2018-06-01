@@ -20,7 +20,7 @@ end
 
 function BodiedPackable:unpackState(state)
     self.body:setX(state.bodyDeets.x)
-    self.body:setX(state.bodyDeets.x)
+    self.body:setY(state.bodyDeets.y)
     Packable.unpackState(self, state)
 end
 
