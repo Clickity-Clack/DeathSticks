@@ -6,4 +6,10 @@ methods.tablelength = function(T)
   return count
 end
 
+methods.printProperty = function(aTable, prop)
+  assert(prop, "You didn't pass a property into printProperty")
+  for i in pairs(aTable)do
+    print(aTable[i][prop])
+  end
+end
 return methods
