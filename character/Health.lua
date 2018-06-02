@@ -34,6 +34,17 @@ function Health:ouch(hurtyThing)
     self.modified = true
 end
 
+function Health:heal(healPoints)
+    if aHealth.hp < aHealth.capacity then
+        aHealth.hp = aHealth.hp + healPoints
+        if aHealth.hp > aHealth.capacity then
+            aHealth.hp = aHealth.capacity
+        end
+        return true
+    end
+    return false
+end
+
 function Health:draw(x,y)
     width = 70
     height = 10

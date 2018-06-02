@@ -9,13 +9,7 @@ function HealthPower:initialize( body )
 end
 
 function HealthPower:zoop(aHealth)
-    if aHealth.hp < aHealth.capacity then
-        aHealth.hp = aHealth.hp + self.value
-        if aHealth.hp > aHealth.capacity then
-            aHealth.hp = aHealth.capacity
-        end
-        self.used = true
-    end
+    self.used = aHealth:heal(self.value)
 end
 
 function HealthPower:destroy()
