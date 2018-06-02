@@ -32,4 +32,8 @@ function Body:setLinearVelocity(x,y)
     self.ySpeed = y
 end
 
+function Body:destroy()
+    
+end
+
 return Body
