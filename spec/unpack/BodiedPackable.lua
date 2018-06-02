@@ -41,6 +41,32 @@ describe('BodiedPackable', function()
         end)
     end)
 
+    describe('getState', function()
+        it('should return a corresponding state', function()
+            local bodiedPackableState = dummyBPObj:getState()
+            assert.same(dummyBPObj.id, bodiedPackableState.id)
+            assert.same(dummyBPObj.class.name, bodiedPackableState.type)
+            assert.same(dummyBPObj.body.x, bodiedPackableState.bodyDeets.x)
+            assert.same(dummyBPObj.body.y, bodiedPackableState.bodyDeets.y)
+        end)
+        it('should set modified to false', function()
+            dummyBPObj.modified = true
+            dummyBPObj:getState()
+            assert.is_false(dummyBPObj.modified)
+        end)
+    end)
+
+    describe('unpackState', function()
+        it('should update relevant properties to match the state', function()
+            local bodiedPackableState = { id = 'hotDang', type = 'derf-a-nerf', bodyDeets = { x = 12, y = 12} }
+            dummyBPObj:unpackState(bodiedPackableState)
+            assert.is_not.same(dummyBPObj.id, bodiedPackableState.id)
+            assert.is_not.same(dummyBPObj.class.name, bodiedPackableState.type)
+            assert.same(dummyBPObj.body.x, bodiedPackableState.bodyDeets.x)
+            assert.same(dummyBPObj.body.y, bodiedPackableState.bodyDeets.y)
+        end)
+    end)
+
     describe('reId', function()
         local bodiedPackableState = { id = 'fluffernutter', type = 'BodiedPackable', bodyDeets = { x = 12, y = 12} }
         it('should set the id', function()
