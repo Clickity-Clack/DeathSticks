@@ -29,17 +29,17 @@ end
 function Packable.static.unpackTableState(aTable, state, game)
     local thing
     for i in pairs(state) do
-        thing = aTable[i]
+        thing = aTable[state[i].id]
         if thing then
             thing:unpackState(state[i])
         else
-            aTable[i] = game:unpackObject(state[i])
+            aTable[state[i].id] = game:unpackObject(state[i])
         end
     end
     for i in pairs(aTable) do
         thing = state[i]
         if not thing then
-            assert(false, 'This ' .. thing.class.name .. ' has not been removed from its respective table!')
+            --assert(false, 'This ' .. aTable[i].class.name .. ' has not been removed from its respective table!')
         end
     end
 end
