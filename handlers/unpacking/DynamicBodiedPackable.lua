@@ -1,6 +1,3 @@
-local class = require 'lib/middleclass'
-local uuid = require 'lib/uuid'
-local Packable = require('handlers/unpacking/Packable')
 local BodiedPackable = require('handlers/unpacking/BodiedPackable')
 local DynamicBodiedPackable = class('DynamicBodiedPackable', BodiedPackable)
 
