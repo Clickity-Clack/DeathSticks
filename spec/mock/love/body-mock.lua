@@ -33,7 +33,6 @@ function Body:setLinearVelocity(x,y)
 end
 
 function Body:destroy()
-    
 end
 
 return Body
