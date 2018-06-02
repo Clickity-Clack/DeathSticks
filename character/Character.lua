@@ -122,10 +122,6 @@ function Character:setFiring(firing)
     self.isFiring = firing
 end
 
-function Character:destroy()
-
-end
-
 function Character:walkRight()
     self.direction = 1
     self.walking = true
