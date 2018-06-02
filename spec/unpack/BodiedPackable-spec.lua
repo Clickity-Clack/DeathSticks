@@ -3,7 +3,7 @@ describe('BodiedPackable', function()
     setup(function()
         _G.class = require 'lib/middleclass'
         _G.uuid = require 'lib/uuid'
-        _G.love = require 'spec/mock/love-mock'
+        _G.love = require 'spec/mock/love/love-mock'
         _G.Packable = require 'handlers/unpacking/Packable'
         _G.BodiedPackable = require 'handlers/unpacking/BodiedPackable'
         DummyBPObj = require 'spec/unpack/DummyBPObj'
