@@ -25,6 +25,7 @@ end
 
 function DynamicBodiedPackable:unpackState(state)
     self.body:setLinearVelocity(state.bodyDeets.xSpeed, state.bodyDeets.ySpeed)
+    BodiedPackable.unpackState(self, state)
 end
 
 return DynamicBodiedPackable
