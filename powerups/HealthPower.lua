@@ -13,7 +13,7 @@ function HealthPower:zoop(aHealth)
 end
 
 function HealthPower:destroy()
-    self.body.destroy()
+    self.body:destroy()
 end
 
 return HealthPower
