@@ -8,8 +8,6 @@ function BodiedPackable:initialize(body)
     self.fixture = love.physics.newFixture(self.body, self.shape)
     self.fixture:setUserData(self)
     self.collisions = {}
-    assert(self.unpackState, "WHat?! No unpackState method?!")
-    assert(self.collide, "WHat?! No collide method?!")
 end
 
 function BodiedPackable:getState()
