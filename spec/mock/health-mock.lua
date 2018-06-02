@@ -6,10 +6,10 @@ function HealthMock:initialixe()
 end
 
 function HealthMock:heal(healPoints)
-    if aHealth.hp < aHealth.capacity then
-        aHealth.hp = aHealth.hp + healPoints
-        if aHealth.hp > aHealth.capacity then
-            aHealth.hp = aHealth.capacity
+    if self.hp < self.capacity then
+        self.hp = self.hp + healPoints
+        if self.hp > self.capacity then
+            self.hp = self.capacity
         end
         return true
     end
