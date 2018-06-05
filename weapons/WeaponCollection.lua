@@ -50,6 +50,14 @@ function WeaponCollection:previousWeapon()
 
 end
 
+function WeaponCollection:contains(aWeapon)
+    for i in pairs(self.weapons) do
+        if self.weapons[i].class.name == aWeapon.name then
+            return self.weapons[i]
+        end
+    end
+end
+
 function WeaponCollection:drawHud()
     local imgSize, xBuffer, y = 30, 10, 10
     local winWidth = love.graphics.getWidth()

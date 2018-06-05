@@ -52,6 +52,14 @@ function Weapon:setR(r)
     end
 end
 
+function Weapon:refill()
+    if self.ammo + self.capacity/2 < self.capacity then
+        self.ammo = self.ammo + self.capacity / 2
+    else
+        self.ammo = self.ammo + self.capacity / 2 - ((self.ammo + self.capacity / 2) % self.capacity)
+    end
+end
+
 function Weapon:setPlayerId(id)
     self.playerId = id
     self.modified = true
