@@ -1,22 +1,23 @@
 describe('BodiedPackable', function()
-    local dummyBPObj, DummyBPObj
+    local healthPower, HealthPower, HealthMock
     setup(function()
         _G.class = require 'lib/middleclass'
         _G.uuid = require 'lib/uuid'
         _G.love = require 'spec/mock/love/love-mock'
         _G.Packable = require 'handlers/unpacking/Packable'
         _G.BodiedPackable = require 'handlers/unpacking/BodiedPackable'
-        DummyBPObj = require 'spec/unpack/DummyBPObj'
+        HealthMock = require 'spec/mock/health-mock'
+        HealthPower = require 'powerups/HealthPower'
         
     end)
 
     teardown(function()
-        dummyBPObj = nil
-        DummyBPObj = nil
+        healthPower = nil
+        HealthPower = nil
     end)
 
     before_each(function()
-        dummyBPObj = DummyBPObj:new()    
+        healthPower = HealthPower:new()    
     end)
 
     describe('properties', function()
@@ -34,8 +35,11 @@ describe('BodiedPackable', function()
             end)
 
             it('should modify the passed in health appropriately', function()
-                assert(healthPower.zoop)
-                assert.same(type(healthPower.zoop), 'function')
+                local aHealth = HealthMock:new()
+                local s = spy.on(aHealth, 'heal')
+                healthPower:zoop(aHealth)
+                assert.spy(s).was.called()
+                assert.spy(s).was.called_with(aHealth,healthPower.value)
             end)
         end)
     end)

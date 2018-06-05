@@ -1,6 +1,6 @@
 local HealthMock = class('HealthMock')
 
-function HealthMock:initialixe()
+function HealthMock:initialize()
     self.hp = 100
     self.capacity = 100
 end

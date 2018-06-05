@@ -44,7 +44,7 @@ function Powerup:getState()
 end
 
 function Powerup:unpackState(state)
-    self.isActive = state.active
+    self.visible = state.visible
     BodiedPackable.unpackState(self,state)
 end
 
