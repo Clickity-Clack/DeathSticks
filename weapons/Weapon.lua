@@ -82,7 +82,7 @@ function Weapon:unpackState(state)
     self.x = state.x
     self.y = state.y
     self.ammo = state.ammo
-    self.delay = self.delay
+    self.delay = state.delay
     Packable.unpackState(self, state)
 end
 
