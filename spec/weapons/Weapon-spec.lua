@@ -5,7 +5,6 @@ describe('Weapon', function()
         _G.uuid = require 'lib/uuid'
         _G.love = require 'spec/mock/love/love-mock'
         _G.Packable = require 'handlers/unpacking/Packable'
-        _G.Weapon = require 'weapons/Weapon'
         DummyWeaponObj = require 'spec/weapons/DummyWeaponObj'
     end)
 

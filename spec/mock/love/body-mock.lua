@@ -23,6 +23,18 @@ function Body:setY(y)
     self.y = y
 end
 
+function Body:setAngle(angle)
+    self.angle = angle
+end
+
+function Body:getAngle()
+    return self.angle
+end
+
+function Body:isBullet(bool)
+    self.bullet = bool
+end
+
 function Body:getLinearVelocity()
     return self.xSpeed, self.ySpeed
 end

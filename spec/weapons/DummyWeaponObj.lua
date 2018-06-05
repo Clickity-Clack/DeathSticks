@@ -1,4 +1,5 @@
 local DummyWeaponObj = class('dummyWeapon', Weapon)
+local Weapon = require 'weapons/Weapon'
 
 function DummyWeaponObj:initialize()
     self.image = love.graphics.newImage()
