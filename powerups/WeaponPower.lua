@@ -19,7 +19,7 @@ end
 function WeaponPower:getState()
     if self.modified then
        local state = Powerup.getState(self) 
-       state.weapon = self.weapon.name
+       state.weaponName = self.weapon.name
        return state
     end
 end
