@@ -1,4 +1,4 @@
-describe('BodiedPackable', function()
+describe('HealthPower', function()
     local healthPower, HealthPower, HealthMock
     setup(function()
         _G.class = require 'lib/middleclass'
