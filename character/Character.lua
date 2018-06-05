@@ -46,18 +46,18 @@ function Character:getState()
     end
 end
 
-function Character:reId(state)
-    DynamicBodiedPackable.reId(self,state)
-    self.weapons:reId(state.weapons)
-    if state.health then self.health:reId(state.health) end
-end
-
 function Character:unpackState(state, game)
     self.direction = state.direction
     self.currentAnim = state.currentAnim
     self.health:unpackState(state.health)
     self.weapons:unpackState(state.weapons, game)
     DynamicBodiedPackable.unpackState(self, state)
+end
+
+function Character:reId(state)
+    DynamicBodiedPackable.reId(self,state)
+    self.weapons:reId(state.weapons)
+    if state.health then self.health:reId(state.health) end
 end
 
 function Character:fullReport()
