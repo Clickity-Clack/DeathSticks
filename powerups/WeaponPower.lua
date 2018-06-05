@@ -10,8 +10,7 @@ function WeaponPower:zoop(aWeaponCollection)
     local weapon = aWeaponCollection:contains(self.weapon)
     if weapon then
         weapon:refill()
-    end
-    if not reached then
+    else
         aWeaponCollection:addWeapon(self.weapon:new())
     end
 end
