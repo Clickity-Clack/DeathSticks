@@ -1,16 +1,20 @@
-local mockFixture = class('mockFixture')
+local MockFixture = class('MockFixture')
 
-function mockFixture:initialize(body, shape)
+function MockFixture:initialize(body, shape)
     self.body = body
     self.shape = shape
 end
 
-function mockFixture:setUserData(userData)
+function MockFixture:setUserData(userData)
     self.userData = userData
 end
 
-function mockFixture:getUserData()
+function MockFixture:getUserData()
     return self.userData
 end
 
-return mockFixture
+function MockFixture:setSensor()
+    
+end
+
+return MockFixture
