@@ -1,7 +1,7 @@
 local BodiedPackable = require 'handlers/unpacking/BodiedPackable'
-local Edge = class("Edge", BodiedPackable)
+local Bottom = class("Bottom", BodiedPackable)
 
-function Edge:initialize( body, width )
+function Bottom:initialize( body, width )
     self.width = width or 50
     self.height = 10
     self.shape = love.physics.newRectangleShape(self.width, self.height)
@@ -9,11 +9,11 @@ function Edge:initialize( body, width )
     self.fixture:setSensor(true)
 end
 
-function Edge:update(dt)
+function Bottom:update(dt)
 
 end
 
-function Edge:getState()
+function Bottom:getState()
     if self.modified then
         local state = BodiedPackable.getState(self) 
         state.width = self.width
@@ -21,13 +21,13 @@ function Edge:getState()
     end
 end
 
-function Edge:unpackState(state)
+function Bottom:unpackState(state)
     self.width = state.width
     BodiedPackable.unpackState(self, state)
 end
 
 
-function Edge:draw()
+function Bottom:draw()
 end
 
-return Edge
+return Bottom

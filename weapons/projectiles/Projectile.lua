@@ -13,7 +13,7 @@ function Projectile:initialize(weapon, world)
     self.fixture:setUserData(self)
     self.dead = false
     self.playerId = weapon.playerId
-    self:initCollisions()
+    initCollisions(self.collisions)
 end
 
 function Projectile:update(dt, events)
@@ -36,7 +36,7 @@ function Projectile:unpackState(state)
     DynamicBodiedPackable.unpackState(self, state)
 end
 
-function initCollisions(collisions)
+function Projectile:initCollisions(collisions)
     collisions.Bottom = function(self, Bottom)
         self:kill()
     end
