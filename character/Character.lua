@@ -78,6 +78,10 @@ function initCollisons(collisions)
     collisions.FingerBullet = function(self, bullet)
         self.health:ouch(bullet)
     end
+
+    collisions.Bottom = function(self, Bottom)
+        self.health:kill(Bottom)
+    end
 end
 
 function Character:update(dt, events)

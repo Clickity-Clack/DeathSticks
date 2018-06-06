@@ -25,11 +25,7 @@ end
 function Health:ouch(hurtyThing)
     self.hp = self.hp - hurtyThing.damage
     if self.hp <= 0 then
-        self.hp = 0
-        if not self.dead then
-            self.dead = true
-            self.killerBullet = hurtyThing
-        end
+        self:kill(hurtyThing)
     end
     hurtyThing:kill()
     self.modified = true
@@ -44,6 +40,14 @@ function Health:heal(healPoints)
         return true
     end
     return false
+end
+
+function Health:kill(killer)
+    self.hp = 0
+    if not self.dead then
+        self.dead = true
+        self.killer = killer
+    end
 end
 
 function Health:draw(x,y)
