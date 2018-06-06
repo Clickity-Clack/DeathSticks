@@ -3,6 +3,7 @@ local Health = class('Health', Packable)
 function Health:initialize(hp,capacity)
     self.hp = hp
     self.capacity = capacity or hp
+    Packable.initialize(self)
 end
 
 function Health:getState()
