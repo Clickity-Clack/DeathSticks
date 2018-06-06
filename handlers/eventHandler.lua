@@ -32,6 +32,7 @@ events.dead.CharacterControllable = function (event, game)
     event.subject:destroy()
     game.objects[theId] = nil
     game.removed[theId] = true
+    game.removedChanged = true
     table.insert(game.events, {type = 'respawn', time = 1, subject = thePlayer})
 end
 

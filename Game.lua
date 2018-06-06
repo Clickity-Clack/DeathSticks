@@ -2,6 +2,7 @@ Packable = require 'handlers/unpacking/Packable'
 BodiedPackable = require 'handlers/unpacking/BodiedPackable'
 DynamicBodiedPackable = require 'handlers/unpacking/DynamicBodiedPackable'
 local Platform = require 'Platform'
+local Bottom = require 'Bottom'
 local CharacterControllable = require 'character/CharacterControllable'
 local NullControllable = require 'character/NullControllable'
 local FingerBullet = require 'weapons/projectiles/FingerBullet'
@@ -15,6 +16,7 @@ local gamera = require 'lib/gamera'
 local winWidth = love.graphics.getWidth
 local winHeight = love.graphics.getHeight
 local Player = require 'Player'
+local NullPlayer = require 'NullPlayer'
 local necromancer = require 'handlers/necromancer'
 local eventHandler = require 'handlers/eventHandler'
 
@@ -38,7 +40,7 @@ function Game:initialize()
     self.removed = {}
     self.events = {}
 
-    self.user = self:newPlayer(NullControllable:new())
+    self.user = NullPlayer:new()
     self.once = true
 end
 
@@ -53,9 +55,15 @@ function Game:initBasic()
     self.objects[x.id] = x
     x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y, 'kinematic'))
     self.objects[x.id] = x
+    x = Bottom:new(love.physics.newBody(self.world, 0, winHeight()/2 + self.offCenter.y + 1500, 'kinematic'), self.cWorld.w)
+    self.objects[x.id] = x
     self.spawnPoint = { x = winWidth()/2 + self.offCenter.x, y = winHeight()/2 + self.offCenter.y + 25}
     self:newPlayer()
-    self.user:switchControllable(self:newCharacterControllable())
+    self.user = self:newPlayer()
+end
+
+function Game:centerCam()
+    self.cam:setPosition( self.offCenter.x + winWidth()/2, self.offCenter.y + winHeight()/2 )
 end
 
 function Game:update(dt, input)
@@ -68,7 +76,7 @@ function Game:update(dt, input)
         self.players[i]:update()
     end
 
-    self.cam:setPosition( self.user:getCenter() )
+    if(self.user.controllable.class.name ~= 'NullControllable') then self.cam:setPosition( self.user:getCenter() ) end
     for v in pairs(self.objects) do
         self.objects[v]:update(dt, self.events)
     end
@@ -85,7 +93,7 @@ function Game:getState()
         objectState[self.objects[i].id] = self.objects[i]:getState()
     end
     
-    return { players = playerState, objects = objectState }
+    return { players = playerState, objects = objectState, removed = self.removed }
 end
 
 function Game:unpackState(state)
@@ -104,27 +112,28 @@ function Game:unpackObject(objectState)
     local object = self.objects[objectState.id]
     if not object then
         object = necromancer(objectState, self)
-        object:reId(objectState)
-        if not object.id then print(objectState.id)end
-        self.objects[object.id] = object
+        if objectState.type == 'CharacterControllable' then self.objects[object.id] = object end
     end
     object:unpackState(objectState, self)
+    return object
 end
 
 function Game:unpackPlayers(statePlayers)
-    for i, state in ipairs(statePlayers) do
-        unpackPlayer(state)
+    for i in pairs(statePlayers) do
+        self:unpackPlayer(statePlayers[i])
     end
 end
 
 function Game:unpackPlayer(playerState)
     local player = self.players[playerState.id]
     if not player then
-        player = Player:new()
+        controllable = self.objects[playerState.controllableId]
+        player = self:newPlayer(controllable)
         player:reId(playerState)
         self.players[player.id] = player
     end
-    object:unpackState(objectState, self.unpackObject)
+    player:unpackState(playerState, self)
+    return player
 end
 
 function Game:fullReport()
@@ -135,10 +144,25 @@ function Game:fullReport()
     for i in pairs(self.objects) do
         self.objects[i]:fullReport()
     end
+    self.removedChanged = true
 end
 
 function Game:unpackRemoved(stateRemoved)
-    
+    if(stateRemoved) then
+        for i in pairs(stateRemoved)do
+            if self.objects[i] then
+                self.objects[i]:destroy()
+                self.objects[i] = nil
+            elseif self.players[i] then
+                self.players[i]:destroy()
+            end
+        end
+    end
+end
+
+function Game.remove(anId)
+    self.removed[anId] = true
+    self.removedChanged = true
 end
 
 function Game:drawWorld(cl,ct,cw,ch)
