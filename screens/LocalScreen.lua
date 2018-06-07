@@ -1,6 +1,6 @@
 local Game = require 'Game'
 local overlay = require 'screens/menus/OverlayScreen'
-local User = require 'User'
+local User = require 'screens/User'
 
 local LocalScreen = class('LocalScreen')
 

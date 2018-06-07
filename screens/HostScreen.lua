@@ -1,5 +1,5 @@
 local Game = require 'Game'
-local User = require 'User'
+local User = require 'screens/User'
 local overlay = require 'screens/menus/OverlayScreen'
 local socket = require 'socket'
 local binser = require 'lib/binser'

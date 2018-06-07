@@ -1,5 +1,5 @@
 local User = class('User')
-local DefaultBindings = require 'DefaultBindings'
+local DefaultBindings = require 'screens/DefaultBindings'
 
 function User:initialize(player)
     self.bindings = DefaultBindings:new()
