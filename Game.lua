@@ -77,6 +77,7 @@ function Game:update(dt, input)
     end
 
     if(self.user.controllable.class.name ~= 'NullControllable') then self.cam:setPosition( self.user:getCenter() ) end
+
     for v in pairs(self.objects) do
         self.objects[v]:update(dt, self.events)
     end
@@ -160,7 +161,7 @@ function Game:unpackRemoved(stateRemoved)
     end
 end
 
-function Game.remove(anId)
+function Game:remove(anId)
     self.removed[anId] = true
     self.removedChanged = true
 end
