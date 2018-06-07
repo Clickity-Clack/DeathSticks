@@ -55,7 +55,7 @@ function Game:initBasic()
     self.objects[x.id] = x
     x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y, 'kinematic'))
     self.objects[x.id] = x
-    x = Bottom:new(love.physics.newBody(self.world, 0, winHeight()/2 + self.offCenter.y + 1500, 'kinematic'), self.cWorld.w)
+    x = Bottom:new(love.physics.newBody(self.world, self.cWorld.w/2, winHeight()/2 + self.offCenter.y + 1500, 'kinematic'), self.cWorld.w)
     self.objects[x.id] = x
     self.spawnPoint = { x = winWidth()/2 + self.offCenter.x, y = winHeight()/2 + self.offCenter.y + 25}
     self:newPlayer()
