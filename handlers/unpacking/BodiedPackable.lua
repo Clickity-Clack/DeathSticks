@@ -34,4 +34,34 @@ function BodiedPackable:collide(b)
     end
 end
 
+function BodiedPackable:getX()
+    return self.body:getX()
+end
+
+function BodiedPackable:getY()
+    return self.body:getY()
+end
+
+function BodiedPackable:getCenter()
+    return self:getX(), self:getY()
+end
+
+function BodiedPackable:getShapeDimensions()
+    local height, width = self:averagePoints{self.shape:getPoints()}
+    return width, height
+end
+
+function BodiedPackable:averagePoints(args)
+    local totalx = 0
+    local totaly = 0
+    for i in pairs(args) do
+        if i%2 == 1 then 
+            totalx = totalx + args[i]
+        else
+            totaly = totaly + args[i]
+        end
+    end
+    return totalx / (#arg / 2), totaly / (#arg / 2)
+end
+
 return BodiedPackable

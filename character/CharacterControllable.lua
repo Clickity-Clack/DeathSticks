@@ -79,6 +79,14 @@ function CharacterControllable:getCenter()
     return self.character:getCenter()
 end
 
+function CharacterControllable:getX()
+    return self.character:getX()
+end
+
+function CharacterControllable:getY()
+    return self.character:getY()
+end
+
 function CharacterControllable:destroy()
     self.character:destroy()
 end

@@ -100,26 +100,14 @@ function Character:draw(cam)
     self.health:draw(self:getX(), self:getY())
     love.graphics.setColorMask()
     love.graphics.setColor(1,1,1,1)
-    love.graphics.rectangle('line', self.body:getX(), self.body:getY() - (self.size * 8), self.size * 16, self.size * 16)
+    love.graphics.rectangle('line', self.body:getX() - (self.size * 8), self.body:getY() - (self.size * 8), self.size * 16, self.size * 16)
     self.anim[self.currentAnim]:draw(self.body:getX(), self.body:getY(), 0, self.direction)
     self.weapons.current:draw()
-end
-
-function Character:getCenter()
-    return self.body:getX() + 16, self.body:getY() + 16
 end
 
 function Character:drawHud()
     self.health:drawHud()
     self.weapons:drawHud()
-end
-
-function Character:getX()
-    return self.body:getX()
-end
-
-function Character:getY()
-    return self.body:getY()
 end
 
 function Character:setFiring(firing)
