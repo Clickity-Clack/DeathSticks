@@ -1,8 +1,8 @@
 Packable = require 'handlers/unpacking/Packable'
 BodiedPackable = require 'handlers/unpacking/BodiedPackable'
 DynamicBodiedPackable = require 'handlers/unpacking/DynamicBodiedPackable'
-local Platform = require 'Platform'
-local Bottom = require 'Bottom'
+local Platform = require 'platform/Platform'
+local Bottom = require 'platform/Bottom'
 local CharacterControllable = require 'character/CharacterControllable'
 local NullControllable = require 'character/NullControllable'
 local FingerBullet = require 'weapons/projectiles/FingerBullet'
@@ -15,8 +15,8 @@ local WeaponPower = require 'powerups/WeaponPower'
 local gamera = require 'lib/gamera'
 local winWidth = love.graphics.getWidth
 local winHeight = love.graphics.getHeight
-local Player = require 'Player'
-local NullPlayer = require 'NullPlayer'
+local Player = require 'player/Player'
+local NullPlayer = require 'player/NullPlayer'
 local necromancer = require 'handlers/necromancer'
 local eventHandler = require 'handlers/eventHandler'
 

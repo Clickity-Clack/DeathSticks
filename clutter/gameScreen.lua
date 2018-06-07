@@ -1,4 +1,4 @@
-local Platform = require 'Platform'
+local Platform = require 'platform/Platform'
 local Character = require 'Character'
 local CharacterControllable = require 'CharacterControllable'
 local gamera = require 'lib/gamera'
@@ -6,7 +6,7 @@ local isDown = love.keyboard.isDown
 local winWidth = love.graphics.getWidth
 local winHeight = love.graphics.getHeight
 local overlay = require './menus/OverlayScreen'
-local Player = require 'Player'
+local Player = require 'player/Player'
 local eventHandler = require 'eventHandler'
 
 local GameScreen = class('GameScreen')

@@ -1,4 +1,4 @@
-local Platform = require 'Platform'
+local Platform = require 'platform/Platform'
 local CharacterControllable = require 'character/CharacterControllable'
 local NullControllable = require 'character/NullControllable'
 local FingerBullet = require 'weapons/projectiles/FingerBullet'
