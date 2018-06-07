@@ -54,11 +54,11 @@ function Health:draw(x,y)
     width = 70
     height = 10
     love.graphics.setColor(0,0,0)
-    love.graphics.rectangle('fill', x, y, width, height)
+    love.graphics.rectangle('fill', x - width / 2, y - 30, width, height)
     love.graphics.setColor(1,0.2,0.4)
-    love.graphics.rectangle('fill', x, y, self.hp/self.capacity *  width, height)
+    love.graphics.rectangle('fill', x - width / 2, y - 30, self.hp/self.capacity *  width, height)
     love.graphics.setColor(1,1,1)
-    love.graphics.print(self.hp, x + width/2 - font:getWidth(self.hp)/2, y + height/2 - font:getHeight()/2)
+    love.graphics.print(self.hp, x - font:getWidth(self.hp)/2, y + height/2 - font:getHeight()/2 - 29) 
 end
 
 function Health:drawHud()

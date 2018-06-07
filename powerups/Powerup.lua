@@ -26,7 +26,7 @@ function Powerup:draw()
     if self.visible then
         love.graphics.setColorMask()
         love.graphics.setColor(1,1,1,1)
-        love.graphics.draw( self.image, self.body:getX(), self.body:getY() )
+        love.graphics.draw( self.image, self.body:getX() - (self.image:getWidth() * 1.5), self.body:getY() - (self.image:getHeight() * 1.5), 0, 2.5 )
     end
 end
 

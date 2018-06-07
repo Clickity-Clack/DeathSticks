@@ -29,7 +29,7 @@ end
 
 function Animation:draw(x, y, r, direction)
     local spriteNum = math.floor(self.currentTime / self.duration * #self.quads) + 1
-    love.graphics.draw(self.spriteSheet, self.quads[spriteNum], x + self.width, y + self.height, r, self.size*direction, self.size, self.ox, self.oy)
+    love.graphics.draw(self.spriteSheet, self.quads[spriteNum], x, y + self.height, r, self.size*direction, self.size, self.ox, self.oy)
 end
 
 function Animation:transition(otherAnimation)
