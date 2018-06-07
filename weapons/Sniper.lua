@@ -10,6 +10,7 @@ function Sniper:initialize()
     self.oy = 10
     self.r = 0
     self.scale = 2
+    self.barrelLen = 30
     self.ammo = 10
     self.capacity = 30
     self.rof = 1

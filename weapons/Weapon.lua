@@ -9,6 +9,7 @@ function Weapon:initialize()
     assert(type(self.scale) == 'number')
     assert(type(self.ox) == 'number')
     assert(type(self.oy) == 'number')
+    assert(type(self.barrelLen) == 'number')
     assert(type(self.ammo) == 'number')
     assert(type(self.capacity) == 'number')
     assert(type(self.rof) == 'number')
@@ -32,6 +33,13 @@ function Weapon:fire(world)
         self.delay = self.rof
         return obj
     end
+end
+
+function Weapon:getBarrelDeets()
+    local anx, ay, anr = self.x, self.y, self.r
+    anx = anx + self.barrelLen * math.cos(anr)
+    ay = ay + self.barrelLen * math.sin(anr)
+    return { x = anx, y = ay, r = anr }
 end
 
 function Weapon:update(dt, x, y)
