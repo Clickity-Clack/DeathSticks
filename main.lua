@@ -1,9 +1,9 @@
 uuid = require 'lib/uuid'
 uuid.seed()
 class = require("lib/middleclass")
-MainMenu = require 'screens/menus/MainMenu'
 serpent = require 'lib/serpent'
 helper = require 'helper'
+MainMenu = require 'screens/menus/MainMenu'
 
 function love.load()
     font = love.graphics.newFont(14)
