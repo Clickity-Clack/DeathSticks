@@ -19,6 +19,7 @@ local Player = require 'player/Player'
 local NullPlayer = require 'player/NullPlayer'
 local necromancer = require 'handlers/necromancer'
 local eventHandler = require 'handlers/eventHandler'
+local Bot = require 'player/Bot'
 
 local Game = class('Game')
 
@@ -37,6 +38,7 @@ function Game:initialize()
 
     self.objects = {}
     self.players = {}
+    self.ai = {}
     self.removed = {}
     self.events = {}
 
@@ -58,7 +60,8 @@ function Game:initBasic()
     x = Bottom:new(love.physics.newBody(self.world, self.cWorld.w/2, winHeight()/2 + self.offCenter.y + 1500, 'kinematic'), self.cWorld.w)
     self.objects[x.id] = x
     self.spawnPoint = { x = winWidth()/2 + self.offCenter.x, y = winHeight()/2 + self.offCenter.y + 25}
-    self:newPlayer()
+    x = Bot:new(self:newPlayer())
+    self.ai[x.id] = x
     self.user = self:newPlayer()
 end
 
@@ -72,9 +75,14 @@ function Game:update(dt, input)
     self.world:update(dt)
 
     eventHandler( dt, self )
+
     for i in pairs(self.players) do
         self.players[i]:update()
     end
+    for i in pairs(self.ai) do
+        self.ai[i]:update()
+    end
+
 
     if(self.user.controllable.class.name ~= 'NullControllable') then self.cam:setPosition( self.user:getCenter() ) end
 
