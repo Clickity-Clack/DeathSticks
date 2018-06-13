@@ -1,4 +1,5 @@
 local Platform = require 'platform/Platform'
+local Bottom = require 'platform/Bottom'
 local CharacterControllable = require 'character/CharacterControllable'
 local NullControllable = require 'character/NullControllable'
 local FingerBullet = require 'weapons/projectiles/FingerBullet'
@@ -40,15 +41,19 @@ unpackables.NullControllable = function (state, game)
     return NullControllable:new()
 end
 unpackables.FingerBullet = function (state, game)
-    return FingerBullet:new(dummyWeapon(state), game.world)
+    return FingerBullet:new(dummyBarrelDeets(state), state.playerId, game.world)
+end
+
+unpackables.Bottom = function (state, game)
+    return Bottom:new(makeBody(state, game, 'kinematic'), state.width)
 end
 
 unpackables.ThirtyOdd = function (state, game)
-    return ThirtyOdd:new(dummyWeapon(state), game)
+    return ThirtyOdd:new(dummyBarrelDeets(state), state.playerId, game)
 end
 
-function dummyWeapon(state)
-    return { x = state.bodyDeets.x, y = state.bodyDeets.y, r = state.bodyDeets.angle, playerId = state.playerId }
+function dummyBarrelDeets(state)
+    return { x = state.bodyDeets.x, y = state.bodyDeets.y, r = state.bodyDeets.angle }
 end
 
 unpackables.Pointer = function (state, game)

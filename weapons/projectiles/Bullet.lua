@@ -1,9 +1,9 @@
 local Projectile = require 'weapons/projectiles/Projectile'
 local Bullet = class('Bullet', Projectile)
 
-function Bullet:initialize(weapon, world)
+function Bullet:initialize(barrelDeets, aPlayerId, world)
     assert(self.damage)
-    Projectile.initialize(self, weapon, world)
+    Projectile.initialize(self, barrelDeets, aPlayerId, world)
     initCollisions(self.collisions)
 end
 

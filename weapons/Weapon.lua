@@ -28,7 +28,7 @@ end
 function Weapon:fire(world)
     if self.ammo > 0 and self.delay <= 0 then
         love.audio.play(self.sound)
-        local obj = self.projectile:new(self, world)
+        local obj = self.projectile:new(self:getBarrelDeets(), self.playerId, world)
         self.ammo = self.ammo - 1
         self.delay = self.rof
         return obj

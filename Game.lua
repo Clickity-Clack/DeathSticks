@@ -113,7 +113,6 @@ end
 
 function Game:unpackObjects(stateObjects)
     for i in pairs(stateObjects) do
-        print(i)
         self:unpackObject(stateObjects[i])
     end
 end
@@ -122,7 +121,7 @@ function Game:unpackObject(objectState)
     local object = self.stems[objectState.id]
     if not object then
         object = necromancer(objectState, self)
-        if not object then print(serpent.block(objcetState)) end
+        if not object then print(serpent.block(objectState)) end
         if objectState.type == 'CharacterControllable' then self.stems[object.id] = object end
     end
     object:unpackState(objectState, self)

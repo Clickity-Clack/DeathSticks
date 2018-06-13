@@ -1,11 +1,10 @@
 local DynamicBodiedPackable = require('handlers/unpacking/DynamicBodiedPackable')
 local Projectile = class('Projectile', DynamicBodiedPackable)
 
-function Projectile:initialize(weapon, world)
+function Projectile:initialize(barrelDeets, aPlayerId, world)
     assert (self.speed)
     assert (self.shape)
     assert (self.image)
-    local barrelDeets = weapon:getBarrelDeets()
     DynamicBodiedPackable.initialize(self, love.physics.newBody(world, barrelDeets.x, barrelDeets.y, 'dynamic'))
     self.body:setAngle(barrelDeets.r)
     self.body:isBullet(true)
@@ -13,7 +12,7 @@ function Projectile:initialize(weapon, world)
     self.fixture = love.physics.newFixture(self.body, self.shape, 1)
     self.fixture:setUserData(self)
     self.dead = false
-    self.playerId = weapon.playerId
+    self.playerId = aPlayerId
     initCollisions(self.collisions)
 end
 
