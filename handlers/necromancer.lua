@@ -72,7 +72,7 @@ weapons.Pointer = Pointer
 weapons.Sniper = Sniper
 
 unpackables.WeaponPower = function (state, game)
-    return WeaponPower:new(makeBody(state, game, 'kinematic'), weapons[state.weapon])
+    return WeaponPower:new(makeBody(state, game, 'kinematic'), weapons[state.weaponName])
 end
 
 unpackables.Health = function (state, game)
