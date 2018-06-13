@@ -36,7 +36,7 @@ function Game:initialize()
     self.world:setCallbacks(beginContact, endContact)
     love.graphics.setBackgroundColor( 1, 1, 1 )
 
-    self.objects = {}
+    self.stems = {}
     self.players = {}
     self.ai = {}
     self.removed = {}
@@ -48,17 +48,17 @@ end
 
 function Game:initBasic()
     local x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y, 'kinematic'), winWidth(), 50)
-    self.objects[x.id] = x
+    self.stems[x.id] = x
     x = HealthPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'))
-    self.objects[x.id] = x
+    self.stems[x.id] = x
     x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 20, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'), Pointer)
-    self.objects[x.id] = x
+    self.stems[x.id] = x
     x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 60, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'), Sniper)
-    self.objects[x.id] = x
+    self.stems[x.id] = x
     x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y, 'kinematic'))
-    self.objects[x.id] = x
+    self.stems[x.id] = x
     x = Bottom:new(love.physics.newBody(self.world, self.cWorld.w/2, winHeight()/2 + self.offCenter.y + 1500, 'kinematic'), self.cWorld.w)
-    self.objects[x.id] = x
+    self.stems[x.id] = x
     self.spawnPoint = { x = winWidth()/2 + self.offCenter.x, y = winHeight()/2 + self.offCenter.y + 25}
     x = Bot:new(self:newPlayer())
     self.ai[x.id] = x
@@ -86,8 +86,8 @@ function Game:update(dt, input)
 
     if(self.user.controllable.class.name ~= 'NullControllable') then self.cam:setPosition( self.user:getCenter() ) end
 
-    for v in pairs(self.objects) do
-        self.objects[v]:update(dt, self.events)
+    for v in pairs(self.stems) do
+        self.stems[v]:update(dt, self.events)
     end
 end
 
@@ -98,30 +98,32 @@ function Game:getState()
     end
 
     local objectState = {}
-    for i in pairs(self.objects) do
-        objectState[self.objects[i].id] = self.objects[i]:getState()
+    for i in pairs(self.stems) do
+        objectState[self.stems[i].id] = self.stems[i]:getState()
     end
     
-    return { players = playerState, objects = objectState, removed = self.removed }
+    return { players = playerState, stems = objectState, removed = self.removed }
 end
 
 function Game:unpackState(state)
-    self:unpackObjects(state.objects)
+    self:unpackObjects(state.stems)
     self:unpackPlayers(state.players)
     self:unpackRemoved(state.removed)
 end
 
 function Game:unpackObjects(stateObjects)
     for i in pairs(stateObjects) do
+        print(i)
         self:unpackObject(stateObjects[i])
     end
 end
 
 function Game:unpackObject(objectState)
-    local object = self.objects[objectState.id]
+    local object = self.stems[objectState.id]
     if not object then
         object = necromancer(objectState, self)
-        if objectState.type == 'CharacterControllable' then self.objects[object.id] = object end
+        if not object then print(serpent.block(objcetState)) end
+        if objectState.type == 'CharacterControllable' then self.stems[object.id] = object end
     end
     object:unpackState(objectState, self)
     return object
@@ -136,7 +138,7 @@ end
 function Game:unpackPlayer(playerState)
     local player = self.players[playerState.id]
     if not player then
-        controllable = self.objects[playerState.controllableId]
+        controllable = self.stems[playerState.controllableId]
         player = self:newPlayer(controllable)
         player:reId(playerState)
         self.players[player.id] = player
@@ -150,8 +152,8 @@ function Game:fullReport()
         self.players[i]:fullReport()
     end
 
-    for i in pairs(self.objects) do
-        self.objects[i]:fullReport()
+    for i in pairs(self.stems) do
+        self.stems[i]:fullReport()
     end
     self.removedChanged = true
 end
@@ -159,9 +161,9 @@ end
 function Game:unpackRemoved(stateRemoved)
     if(stateRemoved) then
         for i in pairs(stateRemoved)do
-            if self.objects[i] then
-                self.objects[i]:destroy()
-                self.objects[i] = nil
+            if self.stems[i] then
+                self.stems[i]:destroy()
+                self.stems[i] = nil
             elseif self.players[i] then
                 self.players[i]:destroy()
             end
@@ -199,8 +201,8 @@ function Game:draw()
     self.cam:draw(
         function(l,t,w,h)
             self:drawWorld(l,t,w,h)
-            for v in pairs(self.objects) do
-                self.objects[v]:draw(self.cam, self.user)
+            for v in pairs(self.stems) do
+                self.stems[v]:draw(self.cam, self.user)
             end
         end
     )
@@ -217,7 +219,7 @@ end
 
 function Game:newCharacterControllable()
     local newCharacterControllable = CharacterControllable:new(love.physics.newBody(self.world, self.spawnPoint.x, self.spawnPoint.y, 'dynamic'))
-    self.objects[newCharacterControllable.id] = newCharacterControllable
+    self.stems[newCharacterControllable.id] = newCharacterControllable
     return newCharacterControllable
 end
 

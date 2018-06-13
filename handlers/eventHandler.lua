@@ -20,7 +20,7 @@ end
 events.fire.Character = function (event, game)
     local obj = event.subject:fire(game.world)
     if obj then
-        game.objects[obj.id] = obj
+        game.stems[obj.id] = obj
     end
 end
 
@@ -30,7 +30,7 @@ events.dead.CharacterControllable = function (event, game)
     local theId = event.subject.id
     thePlayer.controllable = NullControllable:new()
     event.subject:destroy()
-    game.objects[theId] = nil
+    game.stems[theId] = nil
     game.removed[theId] = true
     game.removedChanged = true
     table.insert(game.events, {type = 'respawn', time = 1, subject = thePlayer})
@@ -43,7 +43,7 @@ end
 events.dead.FingerBullet = function (event, game)
     local theId = event.subject.id
     event.subject:destroy()
-    game.objects[theId] = nil
+    game.stems[theId] = nil
     game.removed[theId] = true
 end
 
