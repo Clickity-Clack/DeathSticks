@@ -74,7 +74,6 @@ function HostScreen:firstPacket(clientId)
     local packet, state
     self.game:fullReport()
     state = self.game:getState()
-    print(self.clients[clientId].player.id)
     state.yourId = self.clients[clientId].player.id
     packet = binser.serialize(state)
     udp:sendto(packet, self.clients[clientId].ip, self.clients[clientId].port)

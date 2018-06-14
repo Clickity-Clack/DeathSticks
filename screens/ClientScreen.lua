@@ -28,11 +28,10 @@ function ClientScreen:update(dt)
     local commands = self.user:getCommands()
     self:sendCommands(commands)
     self:recieveState()
-    -- if once then
-    --     self.game:unpackState(testState)
-    -- else
-    --     self.game:update( dt, commands )
-    -- end
+    if self.once then
+        print(serpent.block(self.game.user))
+        self.once = false
+    end
 end
 
 function ClientScreen:sendCommands(commands)
@@ -43,7 +42,6 @@ end
 function ClientScreen:recieveState()
     local data, msg = udp:receive()
     local recieved = false
-    if love.keyboard.isDown('t') then print(data) end
     while data do
         self.data = data
         if pcall(function () self.packet = binser.deserialize(self.data) end) then
@@ -52,8 +50,8 @@ function ClientScreen:recieveState()
                 local id = self.packet[1]['yourId']
                 assert(id, 'no yourId!')
                 self.game.user = self.game.players[id]
+                assert(self.game.user, "Id not in players!!")
                 self.user.playerId = self.game.user
-                print (serpent.block(self.game:getState()))
                 self.once = false
             end
             self.game:centerCam()
