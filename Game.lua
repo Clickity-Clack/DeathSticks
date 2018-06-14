@@ -65,7 +65,6 @@ function Game:initBasic()
     self.user = self:newPlayer()
 end
 
-
 function Game:centerCam()
     self.cam:setPosition( self.offCenter.x + winWidth()/2, self.offCenter.y + winHeight()/2 + 175 )
 end
