@@ -66,7 +66,7 @@ function Game:initBasic()
 end
 
 function Game:centerCam()
-    self.cam:setPosition( self.offCenter.x + winWidth()/2, self.offCenter.y + winHeight()/2 )
+    self.cam:setPosition( self.offCenter.x + winWidth()/2, self.offCenter.y + winHeight()/2 + 175 )
 end
 
 function Game:update(dt, input)
@@ -121,7 +121,6 @@ function Game:unpackObject(objectState)
     local object = self.stems[objectState.id]
     if not object then
         object = necromancer(objectState, self)
-        if not object then print(serpent.block(objectState)) end
         if objectState.type == 'CharacterControllable' then self.stems[object.id] = object end
     end
     object:unpackState(objectState, self)
