@@ -13,7 +13,7 @@ function Projectile:initialize(barrelDeets, aPlayerId, world)
     self.fixture:setUserData(self)
     self.dead = false
     self.playerId = aPlayerId
-    initCollisions(self.collisions)
+    self:initCollisions(self.collisions)
 end
 
 function Projectile:update(dt, events)

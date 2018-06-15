@@ -106,5 +106,13 @@ describe('Projectile', function()
                 assert.same(dummyProjectileObj.playerId, dynamicBodiedPackableState.playerId)
             end)
         end)
+
+        describe('reId', function()
+            local dynamicBodiedPackableState = { id = 'hotDang', type = 'derf-a-nerf', bodyDeets = { x = 12, y = 12, xSpeed = 43, ySpeed = 89} }
+            it('should set the id', function()
+                dummyProjectileObj:reId(dynamicBodiedPackableState)
+                assert.same(dummyProjectileObj.id, dynamicBodiedPackableState.id)
+            end)
+        end)
     end)
 end)
