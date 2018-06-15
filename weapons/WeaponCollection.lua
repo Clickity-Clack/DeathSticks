@@ -6,13 +6,20 @@ function WeaponCollection:initialize(aWeapon)
     self.weapons = {}
     self.weapons[aWeapon.class.name] = aWeapon
     self.current = aWeapon or nil
+    self.modified = true
+end
+
+function WeaponCollection:update(dt)
+    for i in pairs(self.weapons) do
+        self.modified = self.modified or self.weapons[i].modified
+    end
 end
 
 function WeaponCollection:getState()
     if self.modified then
         local state = Packable.getState(self)
         state.weapons = Packable.getTableState(self.weapons)
-        state.currentId = self.current.id
+        state.currentId = self.current.class.name
         return state
     end
 end
@@ -24,6 +31,13 @@ function WeaponCollection:unpackState(state, game)
     end
 end
 
+function WeaponCollection:reId(state)
+    Packable.reId(self, state)
+    for i in pairs(self.weapons) do
+        self.weapons[i]:reId(state.weapons[i])
+    end
+end
+
 function WeaponCollection:fullReport()
     Packable.fullReport(self)
     for i in pairs(self.weapons) do
@@ -32,13 +46,17 @@ function WeaponCollection:fullReport()
 end
 
 function WeaponCollection:addWeapon(aWeapon)
-    self.weapons[aWeapon.class.name] = aWeapon
-    self.modified = true
+    if not self.weapons[aWeapon.class.name] then
+        self.weapons[aWeapon.class.name] = aWeapon
+        self.modified = true
+    end
 end
 
 function WeaponCollection:removeWeapon(aWeapon)
-    self.weapons[addWeapon.class.name] = nil
-    self.modified = true
+    if self.weapons[aWeapon.class.name] then
+        self.weapons[addWeapon.class.name] = nil
+        self.modified = true
+    end
 end
 
 function WeaponCollection:nextWeapon()
