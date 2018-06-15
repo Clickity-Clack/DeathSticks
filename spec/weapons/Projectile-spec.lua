@@ -94,7 +94,7 @@ describe('Projectile', function()
 
         describe('unpackState', function()
             it('should update relevant properties to match the state', function()
-                local dynamicBodiedPackableState = { id = 'hotDang', type = 'derf-a-nerf', bodyDeets = { x = 12, y = 12, xSpeed = 43, ySpeed = 89} }
+                local dynamicBodiedPackableState = { id = 'hotDang', type = 'derf-a-nerf', bodyDeets = { x = 12, y = 12, xSpeed = 43, ySpeed = 89, angle = 0.2} }
                 dummyProjectileObj:unpackState(dynamicBodiedPackableState)
                 assert.is_not.same(dummyProjectileObj.id, dynamicBodiedPackableState.id)
                 assert.is_not.same(dummyProjectileObj.class.name, dynamicBodiedPackableState.type)
@@ -108,7 +108,7 @@ describe('Projectile', function()
         end)
 
         describe('reId', function()
-            local dynamicBodiedPackableState = { id = 'hotDang', type = 'derf-a-nerf', bodyDeets = { x = 12, y = 12, xSpeed = 43, ySpeed = 89} }
+            local dynamicBodiedPackableState = { id = 'hotDang', type = 'derf-a-nerf', bodyDeets = { x = 12, y = 12, xSpeed = 43, ySpeed = 89, angle = 0.1} }
             it('should set the id', function()
                 dummyProjectileObj:reId(dynamicBodiedPackableState)
                 assert.same(dummyProjectileObj.id, dynamicBodiedPackableState.id)
