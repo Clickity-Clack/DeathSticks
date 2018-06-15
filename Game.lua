@@ -121,7 +121,7 @@ function Game:unpackObject(objectState)
     local object = self.stems[objectState.id]
     if not object then
         object = necromancer(objectState, self)
-        if objectState.type == 'CharacterControllable' then self.stems[object.id] = object end
+        if objectState.bodyDeets then self.stems[object.id] = object end
     end
     object:unpackState(objectState, self)
     return object
