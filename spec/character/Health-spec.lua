@@ -71,7 +71,7 @@ describe('Health', function()
         end)
 
         describe('reId', function()
-            local healthState = { id = 'hotDang', type = 'derf-a-nerf' }
+            local healthState = { id = 'hotDang', type = 'derf-a-nerf', hp = 50, capacity = 100 }
             it('should change the id', function()
                 health:reId(healthState)
                 assert.same(health.id, healthState.id)
