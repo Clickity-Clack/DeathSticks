@@ -1,4 +1,4 @@
-local Body = class('Body')
+local Body = class('BodyMock')
 
 function Body:initialize(x,y)
     self.x = x or 0
@@ -29,6 +29,14 @@ end
 
 function Body:getAngle()
     return self.angle
+end
+
+function Body:setFixedRotation(fixedRotation)
+    self.fixedRotation = fixedRotation
+end
+
+function Body:setGravityScale(gravityScale)
+    self.gravityScale = gravityScale
 end
 
 function Body:isBullet(bool)
