@@ -6,7 +6,6 @@ function WeaponCollection:initialize(aWeapon)
     self.weapons = {}
     self.weapons[aWeapon.class.name] = aWeapon
     self.current = aWeapon or nil
-    self.modified = true
 end
 
 function WeaponCollection:update(dt)

@@ -7,7 +7,7 @@ function GameMock:initialize(udp)
 end
 local unpackable = {}
 function GameMock:unpackObject(state)
-    return unpackable[state.type]
+    return unpackable[state.type](self, state)
 end
 unpackable.WeaponMock = function(game, state)
     return WeaponMock:new(state.udp)
