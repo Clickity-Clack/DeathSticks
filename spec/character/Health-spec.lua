@@ -60,7 +60,7 @@ describe('Health', function()
             end)
             
             it('should update relevant properties to match the state', function()
-                local newHealthState = { id = 'hotDang', type = 'derf-a-nerf', hp = 50, capacity = 100 }
+                local newHealthState = { id = 'hotDang', type = 'derf-a-nerf', hp = 50, capacity = 120 }
                 health:unpackState(newHealthState)
                 local healthState = health:getState()
                 assert.is_not.same(healthState.id, newHealthState.id)

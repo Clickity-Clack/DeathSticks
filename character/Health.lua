@@ -19,6 +19,7 @@ function Health:unpackState(state)
     if state then
         assert(state.hp, 'This Health state has no hp!')
         self.hp = state.hp
+        self.capacity = state.capacity
     end
 end
 
@@ -37,6 +38,7 @@ function Health:heal(healPoints)
         if self.hp > self.capacity then
             self.hp = self.capacity
         end
+        self.modified = true
         return true
     end
     return false
