@@ -35,9 +35,9 @@ function OverlayScreen:mousepressed(x,y)
 end
 
 function OverlayScreen:keypressed(key, scancode, isrepeat )
-    if key == 'w' then
+    if key == 'w' or key == 'up' then
         self.theList:selectPrevious()
-    elseif key == 's' then
+    elseif key == 's' or key == 'down' then
         self.theList:selectNext()
     elseif key == 'return' then
         self.theList:boopCurrent(self)
