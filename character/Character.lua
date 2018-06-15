@@ -57,7 +57,7 @@ end
 function Character:reId(state)
     DynamicBodiedPackable.reId(self,state)
     self.weapons:reId(state.weapons)
-    if state.health then self.health:reId(state.health) end
+    self.health:reId(state.health)
 end
 
 function Character:fullReport()
