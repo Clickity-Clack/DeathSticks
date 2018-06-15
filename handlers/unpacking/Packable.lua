@@ -29,11 +29,11 @@ end
 function Packable.static.unpackTableState(aTable, state, game)
     local thing
     for i in pairs(state) do
-        thing = aTable[state[i].id]
+        thing = aTable[i]
         if thing then
             thing:unpackState(state[i])
         else
-            aTable[state[i].id] = game:unpackObject(state[i])
+            aTable[i] = game:unpackObject(state[i])
         end
     end
     for i in pairs(aTable) do
