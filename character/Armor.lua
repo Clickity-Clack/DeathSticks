@@ -18,7 +18,6 @@ function Armor:getState()
 end
 
 function Armor:unpackState(state)
-    print(serpent.block(state))
     if state then
         self.hp = state.hp
         self.capacity = state.capacity

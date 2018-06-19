@@ -10,7 +10,6 @@ end
 
 function WeaponCollection:update(dt)
     for i in pairs(self.weapons) do
-        --print(self.weapons[i].modified)
         self.modified = self.modified or self.weapons[i].modified
     end
 end
