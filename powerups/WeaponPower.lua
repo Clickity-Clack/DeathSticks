@@ -23,8 +23,4 @@ function WeaponPower:getState()
     end
 end
 
-function WeaponPower:destroy()
-    self.body.destroy()
-end
-
 return WeaponPower

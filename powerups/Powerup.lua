@@ -48,4 +48,8 @@ function Powerup:unpackState(state)
     BodiedPackable.unpackState(self,state)
 end
 
+function Powerup:destroy()
+    self.body.destroy()
+end
+
 return Powerup

@@ -12,8 +12,4 @@ function HealthPower:zoop(aHealth)
     self.used = aHealth:heal(self.value)
 end
 
-function HealthPower:destroy()
-    self.body:destroy()
-end
-
 return HealthPower
