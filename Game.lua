@@ -12,6 +12,7 @@ local Sniper = require 'weapons/Sniper'
 local Character = require 'character/Character'
 local HealthPower = require 'powerups/HealthPower'
 local WeaponPower = require 'powerups/WeaponPower'
+local ArmorPower = require 'powerups/ArmorPower'
 local gamera = require 'lib/gamera'
 local winWidth = love.graphics.getWidth
 local winHeight = love.graphics.getHeight
@@ -58,6 +59,8 @@ function Game:initBasic()
     x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 20, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'), Pointer)
     self.stems[x.id] = x
     x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 60, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'), Sniper)
+    self.stems[x.id] = x
+    x = ArmorPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 100, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'))
     self.stems[x.id] = x
     x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y, 'kinematic'))
     self.stems[x.id] = x

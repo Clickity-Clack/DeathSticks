@@ -49,7 +49,7 @@ end
 function Character:unpackState(state, game)
     self.direction = state.direction
     self.currentAnim = state.currentAnim
-    self.health:unpackState(state.health)
+    self.health:unpackState(state.health, game)
     self.weapons:unpackState(state.weapons, game)
     DynamicBodiedPackable.unpackState(self, state)
 end
@@ -73,6 +73,10 @@ function initCollisons(collisions)
     
     collisions.WeaponPower = function(self, WeaponPower)
         WeaponPower:zoop(self.weapons)
+    end
+    
+    collisions.ArmorPower = function(self, ArmorPower)
+        ArmorPower:zoop(self.health)
     end
     
     collisions.FingerBullet = function(self, bullet)

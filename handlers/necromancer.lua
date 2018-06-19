@@ -2,13 +2,17 @@ local Platform = require 'platform/Platform'
 local Bottom = require 'platform/Bottom'
 local CharacterControllable = require 'character/CharacterControllable'
 local NullControllable = require 'character/NullControllable'
+local Character = require 'character/Character'
+local Health = require 'character/Health'
+local Armor = require 'character/Armor'
+local NullArmor = require 'character/NullArmor'
 local FingerBullet = require 'weapons/projectiles/FingerBullet'
 local ThirtyOdd = require 'weapons/projectiles/ThirtyOdd'
 local Pointer = require 'weapons/Pointer'
 local Sniper = require 'weapons/Sniper'
-local Character = require 'character/Character'
 local HealthPower = require 'powerups/HealthPower'
 local WeaponPower = require 'powerups/WeaponPower'
+local ArmorPower = require 'powerups/ArmorPower'
 
 local newBody = love.physics.newBody
 
@@ -81,8 +85,20 @@ unpackables.WeaponPower = function (state, game)
     return WeaponPower:new(makeBody(state, game, 'kinematic'), weapons[state.weaponName])
 end
 
+unpackables.ArmorPower = function (state, game)
+    return ArmorPower:new(makeBody(state,game))
+end
+
 unpackables.Health = function (state, game)
     return Health:new(state.hp, state.capacity)
+end
+
+unpackables.Armor = function (state, game)
+    return Armor:new(state.hp, state.capacity)
+end
+
+unpackables.NullArmor = function (state, game)
+    return NullArmor:new(state.hp, state.capacity)
 end
 
 unpackables.WeaponCollection = function (state, game)
