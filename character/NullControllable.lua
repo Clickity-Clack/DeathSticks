@@ -3,6 +3,7 @@ local NullControllable = class('NullControllable', Packable)
 function NullControllable:initialize(body)
     Packable.initialize(self)
     self.playerId = nil
+    self.isNull = true
 end
 
 function NullControllable:setPlayerId(id)

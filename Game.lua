@@ -91,7 +91,7 @@ function Game:update(dt, input)
 end
 
 function Game:updateCamera()
-    if self.user.controllable.class.name ~= 'NullControllable' then self.cam:setPosition( self.user:getCenter() ) end
+    if not self.user.controllable.isNull then self.cam:setPosition( self.user:getCenter() ) end
 end
 
 function Game:getState()

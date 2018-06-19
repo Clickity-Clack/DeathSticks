@@ -6,6 +6,7 @@ function CharacterControllable:initialize(body)
     Packable.initialize(self)
     self.playerId = nil
     self.character = Character:new(body)
+    self.isNull = false
 end
 
 function CharacterControllable:setPlayerId(id)
