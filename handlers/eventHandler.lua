@@ -28,7 +28,9 @@ events.dead.CharacterControllable = function (event, game)
     local thePlayerId = event.subject.playerId
     local thePlayer = game.players[thePlayerId]
     local theId = event.subject.id
-    thePlayer.controllable = NullControllable:new()
+    local newNull = NullControllable:new()
+    thePlayer:switchControllable(newNull)
+    game.stems[newNull.id] = newNull
     event.subject:destroy()
     game.stems[theId] = nil
     game.removed[theId] = true

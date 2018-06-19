@@ -40,6 +40,7 @@ end
 unpackables.NullControllable = function (state, game)
     return NullControllable:new()
 end
+
 unpackables.FingerBullet = function (state, game)
     return FingerBullet:new(dummyBarrelDeets(state), state.playerId, game.world)
 end

@@ -47,6 +47,7 @@ function HostScreen:recieve()
                 theClient = self.clients[msg_or_ip]
             end
             theClient.player.commands = self.packet[1]
+            theClient.timeout = 0
         elseif msg_or_ip == 'timeout' then
             
         end
@@ -65,7 +66,12 @@ function HostScreen:send()
     end
     packet = binser.serialize(state)
     for i in pairs(self.clients)do
-        udp:sendto(packet, self.clients[i].ip, self.clients[i].port)
+        if self.clients[i].timeout < 12 then
+            udp:sendto(packet, self.clients[i].ip, self.clients[i].port)
+            self.clients[i].timeout = self.clients[i].timeout + 1
+        else
+            self:removeClient(i)
+        end
     end
 end
 
@@ -80,9 +86,14 @@ function HostScreen:firstPacket(clientId)
 end
 
 function HostScreen:addClient(anIp, aPort)
-    playerId = self.game:newPlayer(self.game:newCharacterControllable())
-    self.clients[anIp] = { ip = anIp, port = aPort, player = playerId }
+    local playerObj = self.game:newPlayer(self.game:newCharacterControllable())
+    self.clients[anIp] = { ip = anIp, port = aPort, player = playerObj, timeout = 0 }
     self:firstPacket(anIp)
+end
+
+function HostScreen:removeClient(anIp)
+    self.game:removePlayer(self.clients[anIp].player.id)
+    self.clients[anIp] = nil
 end
 
 function HostScreen:mousepressed(x,y)

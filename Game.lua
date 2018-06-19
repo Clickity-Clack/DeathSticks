@@ -218,6 +218,25 @@ function Game:newPlayer(aControllable)
     return newPlayer
 end
 
+function Game:removePlayer(aPlayerId)
+    local thePlayer = self.players[aPlayerId]
+    thePlayer.controllable:destroy()
+    self:remove(self.players[aPlayerId].controllable.id)
+    self.stems[thePlayer.controllable.id] = nil
+    local event
+    for i in pairs(self.events) do
+        event = self.events[i]
+        if(event.subject) then
+            if (event.subject.id == aPlayerId) then
+                self.events[i] = nil
+            end
+        end
+    end
+
+    self:remove(aPlayerId)
+    self.players[aPlayerId] = nil
+end
+
 function Game:newCharacterControllable()
     local newCharacterControllable = CharacterControllable:new(love.physics.newBody(self.world, self.spawnPoint.x, self.spawnPoint.y, 'dynamic'))
     self.stems[newCharacterControllable.id] = newCharacterControllable

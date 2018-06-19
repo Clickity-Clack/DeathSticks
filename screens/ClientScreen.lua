@@ -43,9 +43,7 @@ function ClientScreen:recieveState()
             self.game:unpackState(self.packet[1])
             if self.once then 
                 local id = self.packet[1]['yourId']
-                assert(id, 'no yourId!')
                 self.game.user = self.game.players[id]
-                assert(self.game.user, "Id not in players!!")
                 self.user.playerId = self.game.user
                 self.once = false
             end

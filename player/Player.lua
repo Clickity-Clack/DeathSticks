@@ -21,8 +21,8 @@ function Player:getState()
     end
 end
 
-function Player:unpackState(state)
-    self.controllableId = state.controllableId
+function Player:unpackState(state, game)
+    self.controllable = game.stems[state.controllableId]
     Packable.unpackState(self,state)
 end
 

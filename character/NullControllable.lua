@@ -25,4 +25,7 @@ function NullControllable:getCenter()
     return 0,0
 end
 
+function NullControllable:destroy()
+end
+
 return NullControllable
