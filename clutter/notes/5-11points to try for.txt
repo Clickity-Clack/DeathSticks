@@ -33,9 +33,9 @@ Possible extra:
     #Design format to store dialog, write dialog, trigger dialog on events
 - Physics involved in gibbing [2]
     #Make stick figure, spawn line bodies on death with momentum corresponding to fatal implement
-- Headswap with interesting items, e.g. grenade [2]
+- Headswap with interesting items, e.g. grenade [2] -
     #attach on collision event
-- Melee Weapons [3]
+- Melee Weapons [3] -
     #Find out how to keep Player from colliding with the weapon, create collision for weapon
-- Gungame: Players progress through different weapons with each kill [2]
+- Gungame: Players progress through different weapons with each kill [2] -
     #Create new mode where Players get a new gun each time they kill another Player, then win after the last weapon

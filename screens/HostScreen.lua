@@ -80,7 +80,7 @@ function HostScreen:firstPacket(clientId)
 end
 
 function HostScreen:addClient(anIp, aPort)
-    playerId = self.game:newPlayer()
+    playerId = self.game:newPlayer(self.game:newCharacterControllable())
     self.clients[anIp] = { ip = anIp, port = aPort, player = playerId }
     self:firstPacket(anIp)
 end

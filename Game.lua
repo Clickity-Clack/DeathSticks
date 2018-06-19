@@ -23,6 +23,8 @@ local Bot = require 'player/Bot'
 
 local Game = class('Game')
 
+Game.static.stemTypes = {CharacterControllable = true, ThirtyOdd = true, HealthPower = true, WeaponPower = true, FingerBullet = true, NullControllable = true, Platform = true, Bottom = true}
+
 function Game:initialize()
     self.id = uuid()
     self.cWorld = { w = 5000, h = 3000, columns = 24, rows = 22 }
@@ -43,7 +45,9 @@ function Game:initialize()
     self.events = {}
 
     self.user = NullPlayer:new()
-    self.once = true
+    self.once = false
+
+    self.cam:setPosition( self.offCenter.x + winWidth()/2, self.offCenter.y + winHeight()/2 + 175 )
 end
 
 function Game:initBasic()
@@ -60,13 +64,9 @@ function Game:initBasic()
     x = Bottom:new(love.physics.newBody(self.world, self.cWorld.w/2, winHeight()/2 + self.offCenter.y + 1500, 'kinematic'), self.cWorld.w)
     self.stems[x.id] = x
     self.spawnPoint = { x = winWidth()/2 + self.offCenter.x, y = winHeight()/2 + self.offCenter.y + 25}
-    x = Bot:new(self:newPlayer())
+    x = Bot:new(self:newPlayer(self:newCharacterControllable()))
     self.ai[x.id] = x
-    self.user = self:newPlayer()
-end
-
-function Game:centerCam()
-    self.cam:setPosition( self.offCenter.x + winWidth()/2, self.offCenter.y + winHeight()/2 + 175 )
+    self.user = self:newPlayer(self:newCharacterControllable())
 end
 
 function Game:update(dt, input)
@@ -83,12 +83,15 @@ function Game:update(dt, input)
         self.ai[i]:update()
     end
 
-
-    if(self.user.controllable.class.name ~= 'NullControllable') then self.cam:setPosition( self.user:getCenter() ) end
+    self:updateCamera()
 
     for v in pairs(self.stems) do
         self.stems[v]:update(dt, self.events)
     end
+end
+
+function Game:updateCamera()
+    if self.user.controllable.class.name ~= 'NullControllable' then self.cam:setPosition( self.user:getCenter() ) end
 end
 
 function Game:getState()
@@ -121,7 +124,7 @@ function Game:unpackObject(objectState)
     local object = self.stems[objectState.id]
     if not object then
         object = necromancer(objectState, self)
-        if objectState.bodyDeets then self.stems[object.id] = object end
+        if Game.stemTypes[objectState.type] then self.stems[object.id] = object end
     end
     object:unpackState(objectState, self)
     return object
@@ -210,7 +213,7 @@ function Game:draw()
 end
 
 function Game:newPlayer(aControllable)
-    newPlayer = Player:new(aControllable or self:newCharacterControllable())
+    newPlayer = Player:new(aControllable)
     self.players[newPlayer.id] = newPlayer
     return newPlayer
 end

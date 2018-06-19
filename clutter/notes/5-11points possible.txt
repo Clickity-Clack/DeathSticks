@@ -12,7 +12,7 @@ Replicate Advanced Stick Soldiers II Functionality
 	- Adjustable bot difficulty [2]
 Multiplayer Networking [8]
 Destructable Environments
-	- Walls have integrity levels, can break [4]
+	- Walls have integrity levels, can break [4] -
 	- Walls can be sliced by laser, parts fall off [2]
 	- Destructable in-Game objects [5]
 	- Object with sufficient momentum can damage/kill Characters on contact [4]
@@ -24,7 +24,7 @@ New Elements
 	- Interactables: Buttons that trigger events [5]
 	- Manipulable elements such as turrets or crane arms [4]
 	- Water or zero-gravity areas [5]
-	- Fatal elements such as lava, space, or lasers [4]
+	- Fatal elements such as lava, space, or lasers [4] -
 	- Aility to layer terrain [4]
 Flourishes
 	- Melee Weapons [3]

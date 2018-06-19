@@ -18,7 +18,6 @@ function ClientScreen:initialize(upState)
     self.id = uuid()
     self.upState = upState
     self.game = Game:new()
-    self.game:centerCam()
     self.user = User:new()
     self.sendTime = 0
     self.once = true
@@ -28,10 +27,6 @@ function ClientScreen:update(dt)
     local commands = self.user:getCommands()
     self:sendCommands(commands)
     self:recieveState()
-    if self.once then
-        print(serpent.block(self.game.user))
-        self.once = false
-    end
 end
 
 function ClientScreen:sendCommands(commands)
@@ -54,7 +49,7 @@ function ClientScreen:recieveState()
                 self.user.playerId = self.game.user
                 self.once = false
             end
-            self.game:centerCam()
+            self.game:updateCamera()
         elseif msg == 'timeout' then
         end
 

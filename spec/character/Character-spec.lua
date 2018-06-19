@@ -119,6 +119,7 @@ describe('Projectile', function()
                 assert.same(character.body.ySpeed, characterState.bodyDeets.ySpeed)
             end)
             it('should set modified to false', function()
+                assert.is_true(character.modified)
                 character:getState()
                 assert.is_false(character.modified)
             end)
@@ -158,6 +159,18 @@ describe('Projectile', function()
                 assert.same(character.health.id, characterState.health.id)
                 assert.same(character.weapons.id, characterState.weapons.id)
             end)
+        end)
+
+        describe('fullReport', function()
+            it('should set its own modified false, and call its children\'s fullReport method')
+            character.modified = false
+            character.weapons.modified = false
+            character.health.modified = false
+            local wepSpy = spy.on(character.weapons, 'fullReport')
+            local healthSpy = spy.on(character.health, 'fullReport')
+            character:fullReport()
+            assert.spy(wepSpy).was.called()
+            assert.spy(healthSpy).was.called()
         end)
 
         describe('update', function()

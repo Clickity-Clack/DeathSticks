@@ -93,6 +93,7 @@ function Character:update(dt, events)
     if self.walking then
         self:walk(dt)
     end
+    self.weapons:update()
     self.modified = self.modified or self.health.modified or self.weapons.modified
 end
 

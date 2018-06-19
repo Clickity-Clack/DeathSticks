@@ -2,6 +2,8 @@ describe('Packable', function()
     local Packable, packable
 
     setup(function()
+        _G.uuid = require 'lib/uuid'
+        _G.class = require 'lib/middleclass'
         Packable = require 'handlers/unpacking/Packable'
     end)
 
@@ -39,27 +41,28 @@ describe('Packable', function()
                 assert.same(packable.class.name, packableState.type)
             end)
             it('should set modified to false', function()
-                packable.modified = true
+                assert.is_true(packable.modified)
                 packable:getState()
                 assert.is_false(packable.modified)
             end)
         end)
 
         describe('unpackState', function()
-            local newPackableState = { id = 'fluffernutter', type = 'Packable' }
+            local newPackableState = { id = 'fluffernutter', type = 'grunk' }
             it('should change nothing', function()
-                local packableState = packable:getState()
                 packable:unpackState(newPackableState)
-                assert.same(packable.id, packableState.id)
-                assert.same(packable.class.name, packableState.type)
+                local packableState = packable:getState()
+                assert.is_not.same(packableState.id, newPackableState.id)
+                assert.is_not.same(packableState.type, newPackableState.type)
             end)
         end)
 
         describe('reId', function()
-            local packableState = { id = 'fluffernutter', type = 'Packable' }
+            local packableState = { id = 'fluffernutter', type = 'grunk' }
             it('should change the id', function()
                 packable:reId(packableState)
                 assert.same(packable.id, packableState.id)
+                assert.is_not.same(packable.class.name, packableState.type)
             end)
         end)
     end)

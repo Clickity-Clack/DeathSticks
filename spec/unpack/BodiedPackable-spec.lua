@@ -7,7 +7,6 @@ describe('BodiedPackable', function()
         _G.Packable = require 'handlers/unpacking/Packable'
         _G.BodiedPackable = require 'handlers/unpacking/BodiedPackable'
         DummyBPObj = require 'spec/unpack/DummyBPObj'
-        
     end)
 
     teardown(function()
@@ -51,7 +50,7 @@ describe('BodiedPackable', function()
                 assert.same(dummyBPObj.body.y, bodiedPackableState.bodyDeets.y)
             end)
             it('should set modified to false', function()
-                dummyBPObj.modified = true
+                assert.is_true(dummyBPObj.modified)
                 dummyBPObj:getState()
                 assert.is_false(dummyBPObj.modified)
             end)
@@ -65,6 +64,7 @@ describe('BodiedPackable', function()
                 assert.is_not.same(dummyBPObj.class.name, bodiedPackableState.type)
                 assert.same(dummyBPObj.body.x, bodiedPackableState.bodyDeets.x)
                 assert.same(dummyBPObj.body.y, bodiedPackableState.bodyDeets.y)
+                
                 bodiedPackableState = { id = 'hotDang', type = 'derf-a-nerf', bodyDeets = { x = 18, y = 93} }
                 dummyBPObj:unpackState(bodiedPackableState)
                 assert.is_not.same(dummyBPObj.id, bodiedPackableState.id)
