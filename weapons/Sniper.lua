@@ -14,7 +14,7 @@ function Sniper:initialize()
     self.ammo = 10
     self.capacity = 30
     self.rof = 1
-    self.sound = love.audio.newSource('sounds/you.mp3', 'static')
+    self.sound = love.audio.newSource('sounds/pa-kew.wav', 'static')
     Weapon.initialize(self)
 end
 
