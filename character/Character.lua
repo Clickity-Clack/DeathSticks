@@ -1,38 +1,36 @@
-local Animation = require 'character/Animation'
 local Pointer = require 'weapons/Pointer'
 local Health = require 'character/Health'
+local NullJetpack = require 'character/NullJetpack'
+local Animation = require 'character/Animation'
 local WeaponCollection = require 'weapons/WeaponCollection'
 local DynamicBodiedPackable = require('handlers/unpacking/DynamicBodiedPackable')
 
 local Character = class('Character', DynamicBodiedPackable)
 
-function Character:initialize(body)
-    self.playerId = nil
+function Character:initialize(body, aPlayerId)
+    self.playerId = aPlayerId
     self.size = 2
     self.direction = 1
     self.walking = false
     self.isFiring = true
+    self.isBlasting = true
     self.anim = {}
     self.anim['walk'] = Animation:new(love.graphics.newImage('res/oldHeroWalk.png'), 16, 18, self.size, 1, 8, 20) --duration of 1 means the Animation will play through each quad once per second
     self.anim['swim'] = Animation:new(love.graphics.newImage('res/oldHeroSwim.png'), 18, 17, self.size, 1, 9, 20)
     self.currentAnim = 'swim'
-    self.weapons = WeaponCollection:new(Pointer:new())
-    self.health = Health:new(100)
     self.dead = false
+    self.weapons = WeaponCollection:new(self.playerId,Pointer:new(self.playerId))
+    self.health = Health:new(self.playerId, 100)
+    self.jetpack = NullJetpack:new()
 
     self.shape = love.physics.newRectangleShape(self.size * 16, self.size * 16)
     DynamicBodiedPackable.initialize(self, body)
     assert(self.collide, "WHat?! No collide method?!")
+    self.fixture:setGroupIndex(-12)
     self.body:setFixedRotation(true)
     self.body:setGravityScale(4)
     assert(self.collisions, 'No collisions table')
     initCollisons(self.collisions)
-end
-
-function Character:setPlayerId(id)
-    self.playerId = id
-    self.weapons.current:setPlayerId(id)
-    self.modified = true
 end
 
 function Character:getState()
@@ -51,6 +49,7 @@ function Character:unpackState(state, game)
     self.currentAnim = state.currentAnim
     self.health:unpackState(state.health, game)
     self.weapons:unpackState(state.weapons, game)
+    self.jetpack:unpackState(state.jetpack, game)
     DynamicBodiedPackable.unpackState(self, state)
 end
 
@@ -79,6 +78,10 @@ function initCollisons(collisions)
         ArmorPower:zoop(self.health)
     end
     
+    collisions.JetpackPower = function(self, JetpackPower)
+        JetpackPower:zoop(self)
+    end
+    
     collisions.FingerBullet = function(self, bullet)
         self.health:ouch(bullet)
     end
@@ -97,22 +100,27 @@ function Character:update(dt, events)
     if self.walking then
         self:walk(dt)
     end
+    if self.isBlasting then
+        self.jetpack:blast(dt, self.body)
+    end
     self.weapons:update()
     self.modified = self.modified or self.health.modified or self.weapons.modified
 end
 
 function Character:draw(cam)
-    self.health:draw(self:getX(), self:getY())
     love.graphics.setColorMask()
     love.graphics.setColor(1,1,1,1)
     love.graphics.rectangle('line', self.body:getX() - (self.size * 8), self.body:getY() - (self.size * 8), self.size * 16, self.size * 16)
     self.anim[self.currentAnim]:draw(self.body:getX(), self.body:getY(), 0, self.direction)
-    self.weapons.current:draw()
+    self.health:draw(self:getX(), self:getY())
+    self.weapons:draw()
+    self.jetpack:draw(self:getX(), self:getY())
 end
 
 function Character:drawHud()
     self.health:drawHud()
     self.weapons:drawHud()
+    self.jetpack:drawHud()
 end
 
 function Character:setFiring(firing)
@@ -158,6 +166,15 @@ end
 
 function Character:fire(game)
     return self.weapons.current:fire(game)
+end
+
+function Character:setBlasting(tf)
+    self.isBlasting = tf
+end
+
+function Character:switchJetpack(aJetpack)
+    self.jetpack = aJetpack
+    self.modified = true
 end
 
 function Character:toggleAnim()

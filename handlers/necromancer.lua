@@ -6,12 +6,15 @@ local Character = require 'character/Character'
 local Health = require 'character/Health'
 local Armor = require 'character/Armor'
 local NullArmor = require 'character/NullArmor'
+local Jetpack = require 'character/Jetpack'
+local NullJetpack = require 'character/NullJetpack'
 local FingerBullet = require 'weapons/projectiles/FingerBullet'
 local ThirtyOdd = require 'weapons/projectiles/ThirtyOdd'
 local Pointer = require 'weapons/Pointer'
 local Sniper = require 'weapons/Sniper'
 local HealthPower = require 'powerups/HealthPower'
 local WeaponPower = require 'powerups/WeaponPower'
+local JetpackPower = require 'powerups/JetpackPower'
 local ArmorPower = require 'powerups/ArmorPower'
 
 local newBody = love.physics.newBody
@@ -70,6 +73,7 @@ unpackables.Sniper = function (state, game)
 end
 
 unpackables.Character = function (state, game)
+    if not state.health then print(serpent.block(state)) end
     return Character:new(makeBody(state, game, 'dynamic'))
 end
 
@@ -89,6 +93,10 @@ unpackables.ArmorPower = function (state, game)
     return ArmorPower:new(makeBody(state,game))
 end
 
+unpackables.JetpackPower = function (state, game)
+    return JetpackPower:new(makeBody(state,game))
+end
+
 unpackables.Health = function (state, game)
     return Health:new(state.hp, state.capacity)
 end
@@ -98,7 +106,15 @@ unpackables.Armor = function (state, game)
 end
 
 unpackables.NullArmor = function (state, game)
-    return NullArmor:new(state.hp, state.capacity)
+    return NullArmor:new()
+end
+
+unpackables.Jetpack = function (state, game)
+    return Jetpack:new()
+end
+
+unpackables.NullJetpack = function (state, game)
+    return NullJetpack:new()
 end
 
 unpackables.WeaponCollection = function (state, game)

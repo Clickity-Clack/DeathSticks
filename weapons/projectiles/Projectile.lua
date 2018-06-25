@@ -11,6 +11,7 @@ function Projectile:initialize(barrelDeets, aPlayerId, world)
     self.body:setLinearVelocity(self.speed * math.cos(self.body:getAngle()), self.speed * math.sin(self.body:getAngle()))
     self.fixture = love.physics.newFixture(self.body, self.shape, 1)
     self.fixture:setUserData(self)
+    self.fixture:setGroupIndex(-2)
     self.dead = false
     self.playerId = aPlayerId
     self:initCollisions(self.collisions)
@@ -33,6 +34,7 @@ end
 
 function Projectile:unpackState(state)
     self.body:setAngle(state.bodyDeets.angle)
+    self.playerId = state.playerId
     DynamicBodiedPackable.unpackState(self, state)
 end
 

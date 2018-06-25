@@ -6,7 +6,6 @@ function Player:initialize( controllable )
     Packable.initialize(self)
     self.commands = { direction = 'stopped', jump = false, r = 0, a = false, b = false, c = false, weaponSwitch = 'no' }
     self.controllable = controllable or NullControllable()
-    self.controllable:setPlayerId(self.id)
 end
 
 function Player:update()
@@ -33,7 +32,6 @@ end
 function Player:switchControllable( controllable )
     local oldControllable = self.controllable
     self.controllable = controllable
-    self.controllable:setPlayerId(self.id)
     self.modified = true
     return oldControllable
 end

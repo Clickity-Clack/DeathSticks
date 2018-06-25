@@ -55,7 +55,7 @@ function Armor:draw(x,y)
     love.graphics.setColor(0.5,0.5,0.5)
     love.graphics.rectangle('fill', x - width / 2, y - 20, self.hp/self.capacity *  width, height)
     love.graphics.setColor(1,1,1)
-    love.graphics.print(self.hp, x - font:getWidth(self.hp)/2, y + height/2 - font:getHeight()/2 - 29)
+    love.graphics.print(self.hp, x - font:getWidth(self.hp)/2, y + height/2 - font:getHeight()/2 - 19)
 end
 
 function Armor:drawHud()

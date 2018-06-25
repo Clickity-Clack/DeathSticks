@@ -1,16 +1,18 @@
 local NullArmor = require('character/NullArmor')
 local Health = class('Health', Packable)
 
-function Health:initialize(hp,capacity,armor)
+function Health:initialize(parentId,hp,capacity,armor)
     self.hp = hp
     self.capacity = capacity or hp
     self.armor = armor or NullArmor:new()
+    self.parentId = parentId
     Packable.initialize(self)
 end
 
 function Health:getState()
     if self.modified then
         local state = Packable.getState(self)
+        state.parentId = parentId
         state.hp = self.hp
         state.capacity = self.capacity
         state.armor = self.armor:getState()
@@ -21,6 +23,7 @@ end
 function Health:unpackState(state, game)
     if state then
         assert(state.hp, 'This Health state has no hp!')
+        self.parentId = state.parentId
         self.hp = state.hp
         self.capacity = state.capacity
         if(state.armor and self.armor.id ~= state.armor.id) then
@@ -31,7 +34,13 @@ function Health:unpackState(state, game)
     end
 end
 
+function Health:setParentId(anId)
+    self.parentId = anId
+end
+
 function Health:ouch(hurtyThing)
+    --print(self.parentId) print(hurtyThing.playerId)
+    if hurtyThing.playerId == self.parentId then return end
     if(self.armor.isNull) then
         self.hp = self.hp - hurtyThing.damage
         if self.hp <= 0 then
@@ -78,6 +87,7 @@ function Health:kill(killer)
 end
 
 function Health:draw(x,y)
+    y = y - 10
     width = 70
     height = 10
     love.graphics.setColor(0,0,0)

@@ -1,11 +1,14 @@
 local Packable = require('handlers/unpacking/Packable')
 local WeaponCollection = class('WeaponCollection', Packable)
 
-function WeaponCollection:initialize(aWeapon)
+function WeaponCollection:initialize(aPlayerId, aWeapon)
     Packable.initialize(self)
+    self.playerId = aPlayerId
     self.weapons = {}
-    self.weapons[aWeapon.class.name] = aWeapon
-    self.current = aWeapon or nil
+    if aWeapon then 
+        self:addWeapon(aWeapon)
+        self.current = aWeapon or nil
+    end
 end
 
 function WeaponCollection:update(dt)
@@ -19,6 +22,7 @@ function WeaponCollection:getState()
         local state = Packable.getState(self)
         state.weapons = Packable.getTableState(self.weapons)
         state.currentId = self.current.class.name
+        state.playerId = self.playerId
         return state
     end
 end
@@ -27,6 +31,7 @@ function WeaponCollection:unpackState(state, game)
     if (state) then
         Packable.unpackTableState(self.weapons, state.weapons, game)
         self.current = self.weapons[state.currentId]
+        self.playerId = self.playerId
     end
 end
 
@@ -73,6 +78,10 @@ function WeaponCollection:contains(aWeapon)
             return self.weapons[i]
         end
     end
+end
+
+function WeaponCollection:draw()
+    self.current:draw()
 end
 
 function WeaponCollection:drawHud()

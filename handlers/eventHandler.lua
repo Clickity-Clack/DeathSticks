@@ -39,7 +39,7 @@ events.dead.CharacterControllable = function (event, game)
 end
 
 events.respawn.Player = function (event, game)
-    event.subject:switchControllable(game:newCharacterControllable())
+    event.subject:switchControllable(game:newCharacterControllable(event.subject.id))
 end
 
 events.dead.FingerBullet = function (event, game)

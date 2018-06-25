@@ -13,6 +13,7 @@ local Character = require 'character/Character'
 local HealthPower = require 'powerups/HealthPower'
 local WeaponPower = require 'powerups/WeaponPower'
 local ArmorPower = require 'powerups/ArmorPower'
+local JetpackPower = require 'powerups/JetpackPower'
 local gamera = require 'lib/gamera'
 local winWidth = love.graphics.getWidth
 local winHeight = love.graphics.getHeight
@@ -62,14 +63,18 @@ function Game:initBasic()
     self.stems[x.id] = x
     x = ArmorPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 100, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'))
     self.stems[x.id] = x
+    x = JetpackPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 140, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'))
+    self.stems[x.id] = x
     x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y, 'kinematic'))
     self.stems[x.id] = x
     x = Bottom:new(love.physics.newBody(self.world, self.cWorld.w/2, winHeight()/2 + self.offCenter.y + 1500, 'kinematic'), self.cWorld.w)
     self.stems[x.id] = x
     self.spawnPoint = { x = winWidth()/2 + self.offCenter.x, y = winHeight()/2 + self.offCenter.y + 25}
-    x = Bot:new(self:newPlayer(self:newCharacterControllable()))
+    x = Bot:new(self:newPlayer())
+    x.player:switchControllable(self:newCharacterControllable(x.player.id))
     self.ai[x.id] = x
-    self.user = self:newPlayer(self:newCharacterControllable())
+    self.user = self:newPlayer()
+    self.user:switchControllable(self:newCharacterControllable(self.user.id))
 end
 
 function Game:update(dt, input)
@@ -240,8 +245,8 @@ function Game:removePlayer(aPlayerId)
     self.players[aPlayerId] = nil
 end
 
-function Game:newCharacterControllable()
-    local newCharacterControllable = CharacterControllable:new(love.physics.newBody(self.world, self.spawnPoint.x, self.spawnPoint.y, 'dynamic'))
+function Game:newCharacterControllable(aPlayerId)
+    local newCharacterControllable = CharacterControllable:new(love.physics.newBody(self.world, self.spawnPoint.x, self.spawnPoint.y, 'dynamic'), aPlayerId)
     self.stems[newCharacterControllable.id] = newCharacterControllable
     return newCharacterControllable
 end

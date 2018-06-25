@@ -2,22 +2,17 @@ local Character = require 'character/Character'
 local Packable = require('handlers/unpacking/Packable')
 local CharacterControllable = class('CharacterControllable', Packable)
 
-function CharacterControllable:initialize(body)
+function CharacterControllable:initialize(body, aPlayerId)
     Packable.initialize(self)
-    self.playerId = nil
-    self.character = Character:new(body)
+    self.playerId = aPlayerId
+    self.character = Character:new(body,self.playerId)
     self.isNull = false
-end
-
-function CharacterControllable:setPlayerId(id)
-    self.playerId = id
-    self.character:setPlayerId(id)
-    self.modified = true
 end
 
 function CharacterControllable:getState()
     if self.modified then
         local state = Packable.getState(self)
+        state.playerId = self.playerId
         state.character = self.character:getState()
         return state
     end
@@ -30,6 +25,7 @@ end
 
 function CharacterControllable:unpackState(state, game)
     Packable.unpackState(self, state)
+    self.playerId = state.playerId
     self.character:unpackState(state.character, game)
 end
 
@@ -74,6 +70,7 @@ function CharacterControllable:acceptCommands(commands)
 
     self.character.weapons.current:setR(commands.r)
     self.character:setFiring(commands.a)
+    self.character:setBlasting(commands.c)
 end
 
 function CharacterControllable:getCenter()

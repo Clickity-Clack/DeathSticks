@@ -1,7 +1,7 @@
 local Packable = require ('handlers/unpacking/Packable')
 local Weapon = class('Weapon', Packable)
 
-function Weapon:initialize()
+function Weapon:initialize(aPlayerId)
     assert(self.image)
     assert(type(self.x) == 'number')
     assert(type(self.y) == 'number')
@@ -15,6 +15,7 @@ function Weapon:initialize()
     assert(type(self.rof) == 'number')
     assert(self.projectile)
     assert(self.sound)
+    self.playerId = aPlayerId
     Packable.initialize(self)
     self.firing = false
     self.delay = 0
@@ -68,11 +69,6 @@ function Weapon:refill()
     end
 end
 
-function Weapon:setPlayerId(id)
-    self.playerId = id
-    self.modified = true
-end
-
 function Weapon:getState()
     if self.modified then
         local state = Packable.getState(self)
@@ -81,6 +77,7 @@ function Weapon:getState()
         state.y = self.y
         state.ammo = self.ammo
         state.delay = self.delay
+        state.playerId = self.playerId
         return state
     end
 end
@@ -91,6 +88,7 @@ function Weapon:unpackState(state)
     self.y = state.y
     self.ammo = state.ammo
     self.delay = state.delay
+    self.playerId = state.playerId
     Packable.unpackState(self, state)
 end
 

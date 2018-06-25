@@ -2,7 +2,7 @@ local Weapon = require('weapons/Weapon')
 local Pointer = class('Pointer', Weapon)
 local FingerBullet = require 'weapons/projectiles/FingerBullet'
 
-function Pointer:initialize()
+function Pointer:initialize(aPlayerId)
     self.projectile = FingerBullet
     self.x = 0
     self.y = 0
@@ -15,7 +15,7 @@ function Pointer:initialize()
     self.capacity = 30
     self.rof = 0.2
     self.sound = love.audio.newSource('sounds/you.mp3', 'static')
-    Weapon.initialize(self)
+    Weapon.initialize(self, aPlayerId)
 end
 
 Pointer.image = love.graphics.newImage('res/finger.png')
