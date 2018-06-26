@@ -28,8 +28,13 @@ function Jetpack:draw(x,y)
 end
 
 function Jetpack:drawHud(x,y)
-    -- love.graphics.setColor(0,0,0)
-    -- love.graphics.rectangle('fill', x-10, y, 5,10)
+    local x, y = 10, 70
+    love.graphics.setColor(0.01,0.01,0.1)
+    love.graphics.rectangle('fill', x, y, 100, 20)
+    love.graphics.setColor(0.2,0.2,0.8)
+    love.graphics.rectangle('fill', x, y, self.fuel/self.capacity * 100, 20)
+    love.graphics.setColor(1,1,1)
+    love.graphics.print(self.fuel, x + width/2 - font:getWidth(self.fuel)/2, y + height/2 - font:getHeight()/2)
 end
 
 return Jetpack
