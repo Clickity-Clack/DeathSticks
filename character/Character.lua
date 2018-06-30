@@ -104,6 +104,7 @@ function Character:update(dt, events)
         self.jetpack:blast(dt, self.body)
     end
     self.weapons:update()
+    self.jetpack:update(dt, events)
     self.modified = self.modified or self.health.modified or self.weapons.modified
 end
 

@@ -5,6 +5,9 @@ function NullJetpack:initialize()
     Packable.initialize(self)
 end
 
+function NullJetpack:update()
+end
+
 function NullJetpack:refill(amount)
 end
 

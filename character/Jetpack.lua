@@ -1,10 +1,16 @@
 local Jetpack = class ('Jetpack', Packable)
 
-function Jetpack:initialize()
+function Jetpack:initialize(aPlayerId)
     self.fuel = 100
     self.capacity = 100
-    self.force = 20
+    self.force = 54
+    self.playerId = aPlayerId
+    self.dead = false
     Packable.initialize(self)
+end
+
+function Jetpack:update(dt, events)
+    if self.dead then table.insert(events, {type = 'dead', subject = self}) end
 end
 
 function Jetpack:refill(amount)
@@ -17,8 +23,12 @@ function Jetpack:blast(dt, body)
     if self.fuel > 0 then
         local x,y = body:getLinearVelocity()
         self.modified = true
-        self.fuel = self.fuel - (self.capacity/10)
-        body:setLinearVelocity(x, ( self.force * 0.85 + (y - self.force)))
+        self.fuel = math.ceil(self.fuel - (self.capacity/60))
+        body:setLinearVelocity(x, ( self.force * 0.00000000000000000000000000000000000000000005 + (y - self.force)))
+        if self.fuel <= 0 then 
+            self.fuel = 0 
+            self.dead = true
+        end
     end
 end
 

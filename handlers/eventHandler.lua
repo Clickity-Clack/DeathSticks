@@ -1,4 +1,5 @@
 local NullControllable = require 'character/NullControllable'
+local NullJetpack = require 'character/NullJetpack'
 local events = { collide = {}, dead = {}, respawn = {}, fire = {} }
 function process( dt, game )
     local event
@@ -24,7 +25,17 @@ events.fire.Character = function (event, game)
     end
 end
 
+events.dead.Jetpack = function (event, game)
+    print(serpent.block(event))
+    print(event.subject.playerId)
+    print(game.players[event.subject.playerId])
+    print(game.players[event.subject.playerId].controllable)
+    print(game.players[event.subject.playerId].controllable.character)
+    game.players[event.subject.playerId].controllable.character:switchJetpack(NullJetpack:new())
+end
+
 events.dead.CharacterControllable = function (event, game)
+    print(serpent.block(event))
     local thePlayerId = event.subject.playerId
     local thePlayer = game.players[thePlayerId]
     local theId = event.subject.id
