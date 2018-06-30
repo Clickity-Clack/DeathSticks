@@ -25,7 +25,7 @@ local Bot = require 'player/Bot'
 
 local Game = class('Game')
 
-Game.static.stemTypes = {CharacterControllable = true, ThirtyOdd = true, HealthPower = true, WeaponPower = true, FingerBullet = true, NullControllable = true, Platform = true, Bottom = true}
+Game.static.stemTypes = {CharacterControllable = true, ThirtyOdd = true, HealthPower = true, WeaponPower = true, ArmorPower = true, JetpackPower = true, FingerBullet = true, NullControllable = true, Platform = true, Bottom = true}
 
 function Game:initialize()
     self.id = uuid()
