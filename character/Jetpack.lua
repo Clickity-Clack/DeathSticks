@@ -31,7 +31,6 @@ end
 
 function Jetpack:unpackState(state,game)
     if state then
-        print(serpent.block(state))
         self.fuel = state.fuel
         self.dead = state.dead
         Packable.unpackState(self)
