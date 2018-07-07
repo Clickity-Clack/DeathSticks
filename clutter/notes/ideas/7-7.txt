@@ -1,0 +1,1 @@
+Eraser object gives damage proportional to friction against player
