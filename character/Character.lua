@@ -40,6 +40,7 @@ function Character:getState()
         state.currentAnim = self.currentAnim
         state.weapons = self.weapons:getState()
         state.health = self.health:getState()
+        state.jetpack = self.jetpack:getState()
         return state
     end
 end
@@ -49,7 +50,12 @@ function Character:unpackState(state, game)
     self.currentAnim = state.currentAnim
     self.health:unpackState(state.health, game)
     self.weapons:unpackState(state.weapons, game)
-    self.jetpack:unpackState(state.jetpack, game)
+    if(state.jetpack and self.jetpack.id ~= state.jetpack.id) then
+        print('yo')
+        self.jetpack = game:unpackObject(state.jetpack)
+    else
+        self.jetpack:unpackState(state.jetpack)
+    end
     DynamicBodiedPackable.unpackState(self, state)
 end
 
@@ -57,12 +63,14 @@ function Character:reId(state)
     DynamicBodiedPackable.reId(self,state)
     self.weapons:reId(state.weapons)
     self.health:reId(state.health)
+    self.jetpack:reId(state.jetpack)
 end
 
 function Character:fullReport()
     DynamicBodiedPackable.fullReport(self)
     self.health:fullReport()
     self.weapons:fullReport()
+    self.jetpack:fullReport()
 end
 
 function initCollisons(collisions)
@@ -105,7 +113,7 @@ function Character:update(dt, events)
     end
     self.weapons:update()
     self.jetpack:update(dt, events)
-    self.modified = self.modified or self.health.modified or self.weapons.modified
+    self.modified = self.modified or self.health.modified or self.weapons.modified or self.jetpack.modified
 end
 
 function Character:draw(cam)

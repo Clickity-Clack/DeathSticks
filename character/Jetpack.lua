@@ -19,6 +19,25 @@ function Jetpack:refill(amount)
     self.modified = true
 end
 
+function Jetpack:getState()
+    if self.modified then
+        local state = Packable.getState(self)
+        state.fuel = self.fuel
+        state.dead = self.dead
+        state.playerId = self.playerId
+        return state
+    end
+end
+
+function Jetpack:unpackState(state,game)
+    if state then
+        print(serpent.block(state))
+        self.fuel = state.fuel
+        self.dead = state.dead
+        Packable.unpackState(self)
+    end
+end
+
 function Jetpack:blast(dt, body)
     if self.fuel > 0 then
         local x,y = body:getLinearVelocity()
