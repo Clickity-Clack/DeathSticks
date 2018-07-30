@@ -258,7 +258,7 @@ function beginContact(a, b, coll)
 end
 
 function endContact(a, b, coll)
-
+    
 end
 
 return Game

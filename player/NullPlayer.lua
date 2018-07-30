@@ -1,4 +1,3 @@
-local Packable = require'handlers/unpacking/Packable'
 local NullControllable = require 'character/NullControllable'
 local NullPlayer = class('NullPlayer', Packable)
 
