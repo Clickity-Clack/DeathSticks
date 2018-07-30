@@ -1,0 +1,54 @@
+  /| -----
+ / | |
+/  | |----
+---|     |
+   | ----|  Points!!!
+
+--------------------------------------------------------------------------------DONE-------------------------------------------------------------------------------
+- Player can move around landscape, fire weapon, recieve damage from others, die, respawn [10]
+    #Still need to die and respawn
+- Replicate Powerups (Health, Armor, Jetpack) [3]
+    #Powerups can disappear, time reappearance, implement jetpack
+        #Design jetpack object, design attachment to Character
+- Multiplayer Networking [8]
+    #Game accepts states, confirm packing + unpacking works, store commands until client can reconnect, host can interpret command stacks
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SECTION TOTAL: 21
+TOTAL: 21
+
+--------------------------------------------------------------------------SORTA DONE-------------------------------------------------------------------------------
+- Replicate weapons (Grenade Launcher, Bazooka, Sniper Rifle, Regular Guns) [5]
+    #Make a texture for each, alignment for each, implement firing speed, make bullet projectile, make explosion, make grenade projectile, make rocket projectile
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SECTION TOTAL: 5
+TOTAL: 26
+
+-----------------------------------------------------------------------------STARTED-------------------------------------------------------------------------------
+- Bots autonomously move around, shoot at others [5]
+    #Design bot object, bot aiming, moving, jumping, line-of-sight algorithm, finds ledges, finds walls, finds jumpables
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SECTION TOTAL: 5
+(MAY ABANDON)
+
+---------------------------------------------------------------------------NECESSARY-------------------------------------------------------------------------------
+- Free-for-all and team deathmatch game modes [5]
+    #Design game mode, implement each
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SECTION TOTAL: 5
+TOTAL: 31
+
+--------------------------------------------------------------------------------NEXT-------------------------------------------------------------------------------
+- Head-swapping [1]
+    #find conditions under which a head-pop would occur, create head-pop event, make Character bleed while headless, create head collision
+- Headswap with interesting items, e.g. grenade [2]
+    #attach on collision event
+- Melee Weapons [3]
+    #Find out how to keep Player from colliding with the weapon, create collision for weapon
+- Gungame: Players progress through different weapons with each kill [2]
+    #Create new mode where Players get a new gun each time they kill another Player, then win after the last weapon
+- Fatal elements such as lava, space, or lasers [4]
+- Walls have integrity levels, can break [4]
+- Titan: Destroy other team's base [6]
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SECTION TOTAL: 16
+TOTAL: 53

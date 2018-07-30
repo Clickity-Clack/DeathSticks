@@ -1,0 +1,29 @@
+PLAN:
+
+EXPLOSIONS
+    -Create crash-n-burn test(Explosive projectile: EmptyJetpack)
+MAP
+    -Make a symmetrical map
+    -Design spawn point system
+GAME MODE
+    -Design requisite parts
+STATIC ELEMENTS
+    -Create killer platform
+    -Create destroyable pltform
+WEAPONS
+    -Make Grenade(explosive with slow speed, timer, high bounce)
+    -Make Grenade Launcher
+    -Make Rocket(explosive with low drop, pops on contact)
+    -Make Rocket Launcher
+    -Make Pistol(shoots bullet with low-medium power as fast as click, [refills on empty?])
+    -Make Rifle(shoots medium power bullets somewhat quickly)
+
+NET RESULT:
+    Replicate Weapons[5]
+    Destructible platforms[4]
+    Fatal platforms[4]
+    Set groundwork for Team Deathmatch/Free-for-all[`5]
+    Jetpack bits explode
+
+END POINTS: 34 (21+13)
+    
