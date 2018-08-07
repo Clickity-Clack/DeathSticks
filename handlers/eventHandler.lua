@@ -29,17 +29,21 @@ events.dead.Jetpack = function (event, game)
     game.players[event.subject.playerId].controllable.character:switchJetpack(NullJetpack:new(event.subject.playerId))
 end
 
-events.dead.CharacterControllable = function (event, game)
-    local thePlayerId = event.subject.playerId
-    local thePlayer = game.players[thePlayerId]
+stemDead = function(event, game)
     local theId = event.subject.id
-    local newNull = NullControllable:new()
-    thePlayer:switchControllable(newNull)
-    game.stems[newNull.id] = newNull
     event.subject:destroy()
     game.stems[theId] = nil
     game.removed[theId] = true
     game.removedChanged = true
+end
+
+events.dead.CharacterControllable = function (event, game)
+    local thePlayerId = event.subject.playerId
+    local thePlayer = game.players[thePlayerId]
+    local newNull = NullControllable:new()
+    thePlayer:switchControllable(newNull)
+    game.stems[newNull.id] = newNull
+    stemDead(event, game)
     table.insert(game.events, {type = 'respawn', time = 1, subject = thePlayer})
 end
 
@@ -47,11 +51,7 @@ events.respawn.Player = function (event, game)
     event.subject:switchControllable(game:newCharacterControllable(event.subject.id))
 end
 
-events.dead.FingerBullet = function (event, game)
-    local theId = event.subject.id
-    event.subject:destroy()
-    game.stems[theId] = nil
-    game.removed[theId] = true
-end
+events.dead.FingerBullet = stemDead
+events.dead.ThirtyOdd = stemDead
 
 return process
