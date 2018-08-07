@@ -1,2 +1,3 @@
 -HostScreen only uses one character for all clients (cuz you're using localHost ya dingus)
 -sometimes server doesn't respond to jump command
+-bullets contact characters twice, dealing double damage??
