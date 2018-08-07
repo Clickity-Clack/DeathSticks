@@ -1,0 +1,1 @@
+-There's no percievable difference between a regular old projectile object that causes ouch on impact and a projectile object that spawns an explosion on death and doesn't cause ouch on impact. Shouldn't that information be consolidated into the object?
