@@ -90,9 +90,12 @@ function initCollisons(collisions)
         JetpackPower:zoop(self)
     end
     
-    collisions.FingerBullet = function(self, bullet)
-        self.health:ouch(bullet)
+    ouch = function(self, hurtyThing)
+        self.health:ouch(hurtyThing)
     end
+
+    collisions.FingerBullet = ouch
+    collisions.ThirtyOdd = ouch
 
     collisions.Bottom = function(self, Bottom)
         self.health:kill(Bottom)
