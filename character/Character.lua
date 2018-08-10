@@ -51,7 +51,6 @@ function Character:unpackState(state, game)
     self.health:unpackState(state.health, game)
     self.weapons:unpackState(state.weapons, game)
     if(state.jetpack and self.jetpack.id ~= state.jetpack.id) then
-        print('yo')
         self.jetpack = game:unpackObject(state.jetpack)
     else
         self.jetpack:unpackState(state.jetpack)
@@ -73,23 +72,7 @@ function Character:fullReport()
     self.jetpack:fullReport()
 end
 
-function initCollisons(collisions)
-    collisions.HealthPower = function(self, HealthPower)
-        HealthPower:zoop(self.health)
-    end
-    
-    collisions.WeaponPower = function(self, WeaponPower)
-        WeaponPower:zoop(self.weapons)
-    end
-    
-    collisions.ArmorPower = function(self, ArmorPower)
-        ArmorPower:zoop(self.health)
-    end
-    
-    collisions.JetpackPower = function(self, JetpackPower)
-        JetpackPower:zoop(self)
-    end
-    
+function initCollisons(collisions)    
     ouch = function(self, hurtyThing)
         self.health:ouch(hurtyThing)
     end

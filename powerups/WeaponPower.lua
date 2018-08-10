@@ -6,7 +6,8 @@ function WeaponPower:initialize( body, weapon )
     self.weapon = weapon
 end
 
-function WeaponPower:zoop(aWeaponCollection)
+function WeaponPower:zoop(aCharacter)
+    local aWeaponCollection = aCharacter.weapons
     local weapon = aWeaponCollection:contains(self.weapon)
     if weapon then
         weapon:refill()

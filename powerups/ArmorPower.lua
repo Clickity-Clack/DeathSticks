@@ -7,7 +7,8 @@ function ArmorPower:initialize( body )
     self.weapon = weapon
 end
 
-function ArmorPower:zoop(aHealth)
+function ArmorPower:zoop(aCharacter)
+    local aHealth = aCharacter.health
     if aHealth.armor.isNull then
         aHealth:setArmor(Armor:new(50, 100))
     else

@@ -7,8 +7,8 @@ function HealthPower:initialize( body )
     self.value = 50
 end
 
-function HealthPower:zoop(aHealth)
-    self.used = aHealth:heal(self.value)
+function HealthPower:zoop(aCharacter)
+    self.used = aCharacter.health:heal(self.value)
 end
 
 return HealthPower

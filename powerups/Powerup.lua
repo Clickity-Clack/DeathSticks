@@ -7,7 +7,7 @@ function Powerup:initialize( body, image )
     BodiedPackable.initialize(self,body)
     self.fixture:setSensor(true)
     self.visible = true
-
+    Powerup.initCollisions(self)
 end
 
 function Powerup:update()
@@ -33,6 +33,15 @@ end
 function Powerup:used()
     self.body:isActive(false)
     self.delay = 10
+end
+
+function Powerup:initCollisions()
+    self.collisions.Character = function(self, aCharacter)
+        -- assert(self, "no self!")
+        -- assert(self.class, "no class!")
+        -- assert(self.zoop, self.class.name .. " doesn't have a zoop!\r\n" .. serpent.block(self.collisions))
+        self:zoop(aCharacter)
+    end
 end
 
 function Powerup:getState()
