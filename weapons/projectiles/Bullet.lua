@@ -4,11 +4,11 @@ local Bullet = class('Bullet', Projectile)
 function Bullet:initialize(barrelDeets, aPlayerId, world)
     assert(self.damage)
     Projectile.initialize(self, barrelDeets, aPlayerId, world)
-    initCollisions(self.collisions)
+    Bullet.initCollisions(self)
 end
 
-function initCollisions(collisions)
-    collisions.Platform = function(self, Platform)
+function Bullet:initCollisions()
+    self.collisions.Platform = function(self, Platform)
         self:kill()
     end
 end

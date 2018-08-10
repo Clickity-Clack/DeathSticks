@@ -14,7 +14,7 @@ function Projectile:initialize(barrelDeets, aPlayerId, world)
     self.fixture:setGroupIndex(-2)
     self.dead = false
     self.playerId = aPlayerId
-    self:initCollisions(self.collisions)
+    Projectile.initCollisions(self)
 end
 
 function Projectile:update(dt, events)
@@ -38,8 +38,9 @@ function Projectile:unpackState(state)
     DynamicBodiedPackable.unpackState(self, state)
 end
 
-function Projectile:initCollisions(collisions)
-    collisions.Bottom = function(self, Bottom)
+function Projectile:initCollisions()
+    self.collisions.Bottom = function(self, Bottom)
+        print("yo")
         self:kill()
     end
 end

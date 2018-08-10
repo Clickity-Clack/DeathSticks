@@ -8,7 +8,7 @@ function Explosion:initialize(body, aPlayerId)
     self.shape = love.physics.newCircleShape(self.radius)
     self.duration = 0.01
     BodiedPackable.initialize(self)
-    initCollisions(self.collisions)
+    Explosion.initCollisions(self)
 end
 
 function Explosion:update(dt, events)
@@ -18,8 +18,8 @@ function Explosion:update(dt, events)
     end
 end
 
-function initCollisions(collisions)
-    collisions.Character = function(self, character)
+function Explosion:initCollisions()
+    self.collisions.Character = function(self, character)
         self:calculateDamage(character.body)
         character.health:ouch(self)
         self.damage = nil
