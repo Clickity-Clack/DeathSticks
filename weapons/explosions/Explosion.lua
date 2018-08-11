@@ -21,7 +21,7 @@ end
 function Explosion:initCollisions()
     self.collisions.Character = function(self, character)
         self:calculateDamage(character.body)
-        character.health:ouch(self)
+        character:ouch(self)
         self.damage = nil
     end
 end
