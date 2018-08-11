@@ -72,17 +72,14 @@ function Character:fullReport()
     self.jetpack:fullReport()
 end
 
-function initCollisons(collisions)    
-    ouch = function(self, hurtyThing)
-        self.health:ouch(hurtyThing)
-    end
-
-    collisions.FingerBullet = ouch
-    collisions.ThirtyOdd = ouch
-
+function initCollisons(collisions)
     collisions.Bottom = function(self, Bottom)
         self.health:kill(Bottom)
     end
+end
+
+function Character:ouch(hurtyThing)
+    self.health:ouch(hurtyThing)
 end
 
 function Character:update(dt, events)

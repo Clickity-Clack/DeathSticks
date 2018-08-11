@@ -8,7 +8,11 @@ function Bullet:initialize(barrelDeets, aPlayerId, world)
 end
 
 function Bullet:initCollisions()
-    self.collisions.Platform = function(self, Platform)
+    self.collisions.Character = function(self, aCharacter)
+        aCharacter:ouch(self)
+    end
+
+    self.collisions.Platform = function(self, aPlatform)
         self:kill()
     end
 end
