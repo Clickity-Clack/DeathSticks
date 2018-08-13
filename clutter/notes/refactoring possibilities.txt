@@ -1,0 +1,2 @@
+Move draw method to bodiedPackable?
+Move kill method up the inheritance tree?
