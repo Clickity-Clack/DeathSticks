@@ -40,7 +40,6 @@ end
 
 function Projectile:initCollisions()
     self.collisions.Bottom = function(self, Bottom)
-        print("yo")
         self:kill()
     end
 end
