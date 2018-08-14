@@ -1,12 +1,14 @@
 local Character = require 'character/Character'
 local Packable = require('handlers/unpacking/Packable')
 local CharacterControllable = class('CharacterControllable', Packable)
+local spawnSound = love.audio.newSource('sounds/weow.wav', 'static')
 
 function CharacterControllable:initialize(body, aPlayerId)
     Packable.initialize(self)
     self.playerId = aPlayerId
     self.character = Character:new(body,self.playerId)
     self.isNull = false
+    love.audio.play(spawnSound)
 end
 
 function CharacterControllable:getState()
