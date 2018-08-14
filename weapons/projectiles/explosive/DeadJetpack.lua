@@ -10,9 +10,10 @@ function DeadJetpack:initialize(barrelDeets, aPlayerId, world)
 end
 
 function DeadJetpack:initCollisions()
-    self.collisions.Platform = function(self, platform)
+    die = function(self, thing)
         self:kill()
     end
+    self.collisions.Platform = die
 end
 
 return DeadJetpack

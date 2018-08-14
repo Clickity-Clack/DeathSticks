@@ -16,7 +16,6 @@ end
 
 function Explosion:update(dt, events)
     self.duration = self.duration - dt
-    if not self.once then print(self.duration) self.once = true end
     if (self.duration <= 0) then
         table.insert(events, {type = 'dead', subject = self})
     end
