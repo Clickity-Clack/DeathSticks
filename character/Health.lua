@@ -74,8 +74,8 @@ function Health:setArmor(anArmor)
 end
 
 function Health:refillArmor(amount)
-    self.armor:refill(amount)
     self.modified = true
+    return self.armor:refill(amount)
 end
 
 function Health:kill(killer)
