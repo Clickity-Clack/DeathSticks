@@ -23,6 +23,8 @@ local necromancer = require 'handlers/necromancer'
 local eventHandler = require 'handlers/eventHandler'
 local Bot = require 'player/Bot'
 
+local spawnSound = love.audio.newSource('sounds/weow.wav', 'static')
+
 local Game = class('Game')
 
 Game.static.stemTypes = {CharacterControllable = true, ThirtyOdd = true, HealthPower = true, WeaponPower = true, ArmorPower = true, JetpackPower = true, FingerBullet = true, NullControllable = true, Platform = true, Bottom = true}
@@ -221,6 +223,7 @@ function Game:draw()
 end
 
 function Game:newPlayer(aControllable)
+    love.audio.play(spawnSound)
     newPlayer = Player:new(aControllable)
     self.players[newPlayer.id] = newPlayer
     return newPlayer
