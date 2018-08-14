@@ -53,7 +53,6 @@ function Health:ouch(hurtyThing)
         self.hp = 0
         self:kill(hurtyThing)
     end
-    hurtyThing:kill()
     self.modified = true
 end
 

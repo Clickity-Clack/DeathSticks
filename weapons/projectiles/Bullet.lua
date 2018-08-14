@@ -10,6 +10,7 @@ end
 function Bullet:initCollisions()
     self.collisions.Character = function(self, aCharacter)
         aCharacter:ouch(self)
+        self:kill()
     end
 
     self.collisions.Platform = function(self, aPlatform)
