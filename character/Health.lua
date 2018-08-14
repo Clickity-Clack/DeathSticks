@@ -42,15 +42,16 @@ function Health:ouch(hurtyThing)
     --print(self.parentId) print(hurtyThing.playerId)
     if hurtyThing.playerId == self.parentId then return end
     if(self.armor.isNull) then
-        self.hp = self.hp - hurtyThing.damage
-        if self.hp <= 0 then
-            self:kill(hurtyThing)
-        end
+        self.hp = self.hp - math.ceil(hurtyThing.damage)
     else
-        self.hp = self.hp - self.armor:ouch(hurtyThing)
+        self.hp = self.hp - math.ceil(self.armor:ouch(hurtyThing))
         if (self.armor.dead) then
             self.armor = NullArmor:new()
         end
+    end
+    if(self.hp <= 0) then
+        self.hp = 0
+        self:kill(hurtyThing)
     end
     hurtyThing:kill()
     self.modified = true

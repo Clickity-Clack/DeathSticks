@@ -25,7 +25,7 @@ function Armor:unpackState(state)
 end
 
 function Armor:ouch(hurtyThing)
-    self.hp = self.hp - hurtyThing.damage
+    self.hp = self.hp - math.ceil(hurtyThing.damage)
     hurtyThing:kill()
     self.modified = true
     if self.hp <= 0 then
