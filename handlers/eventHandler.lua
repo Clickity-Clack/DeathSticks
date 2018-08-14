@@ -61,12 +61,15 @@ events.dead.FingerBullet = stemDead
 events.dead.ThirtyOdd = stemDead
 events.dead.Explosion = stemDead
 
-events.dead.DeadJetpack = function(event, game)
+explode = function(event, game)
     local obj = event.subject.replacement:new(love.physics.newBody(game.world, event.subject:getX(), event.subject:getY(), 'dynamic'),event.subject.plyerId)
     if obj then
         game.stems[obj.id] = obj
     end
     stemDead(event, game)
 end
+
+events.dead.DeadJetpack = explode
+events.dead.Rocket = explode
 
 return process

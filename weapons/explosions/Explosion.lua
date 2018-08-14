@@ -5,16 +5,20 @@ function Explosion:initialize(body, aPlayerId)
     self.radius = 250
     self.potentialDamage = 175
     self.shape = love.physics.newCircleShape(self.radius)
-    self.duration = 0.1
+    self.duration = 0.5
     self.once = false
     self.image = love.graphics.newImage("res/flame.png")
+    self.scale = 6
+    self.r = 0
     BodiedPackable.initialize(self, body)
     self.fixture:setSensor(true)
+    self.body:setGravityScale(0)
     Explosion.initCollisions(self)
     love.audio.play(love.audio.newSource('sounds/kaPff.wav', 'static'))
 end
 
 function Explosion:update(dt, events)
+    self.r = self.r + dt*10000
     self.duration = self.duration - dt
     if (self.duration <= 0) then
         table.insert(events, {type = 'dead', subject = self})
@@ -39,7 +43,8 @@ end
 
 function Explosion:draw(cam, user)
     love.graphics.setColor(1,1,1)
-    love.graphics.draw(self.image, self.body:getX(), self.body:getY(), self.body:getAngle())
+    love.graphics.draw(self.image, self.body:getX(), self.body:getY(), self.r, self.scale, self.scale, self.image:getWidth()/2, self.image:getHeight()/2)
+    love.graphics.circle('line', self.body:getX(), self.body:getY(), self.radius)
 end
 
 function Explosion:kill()

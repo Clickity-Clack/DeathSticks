@@ -62,11 +62,13 @@ function Weapon:setR(r)
 end
 
 function Weapon:refill()
+    if self.ammo == self.capacity then return false end
     if self.ammo + self.capacity/2 < self.capacity then
         self.ammo = self.ammo + self.capacity / 2
     else
         self.ammo = self.ammo + self.capacity / 2 - ((self.ammo + self.capacity / 2) % self.capacity)
     end
+    return true
 end
 
 function Weapon:getState()
