@@ -1,6 +1,7 @@
 local NullControllable = require 'character/NullControllable'
 local NullJetpack = require 'character/NullJetpack'
 local events = { collide = {}, dead = {}, respawn = {}, fire = {} }
+local spawnSound = love.audio.newSource('sounds/weow.wav', 'static')
 function process( dt, game )
     local event
     for i in pairs(game.events) do
@@ -27,6 +28,10 @@ end
 
 events.dead.Jetpack = function (event, game)
     game.players[event.subject.playerId].controllable.character:switchJetpack(NullJetpack:new(event.subject.playerId))
+    local obj = event.subject.replacement:new(event.subject:getBarrelDeets(), event.subject.playerId, game.world)
+    if obj then
+        game.stems[obj.id] = obj
+    end
 end
 
 stemDead = function(event, game)
@@ -48,10 +53,20 @@ events.dead.CharacterControllable = function (event, game)
 end
 
 events.respawn.Player = function (event, game)
+    love.audio.play(spawnSound)
     event.subject:switchControllable(game:newCharacterControllable(event.subject.id))
 end
 
 events.dead.FingerBullet = stemDead
 events.dead.ThirtyOdd = stemDead
+events.dead.Explosion = stemDead
+
+events.dead.DeadJetpack = function(event, game)
+    local obj = event.subject.replacement:new(love.physics.newBody(game.world, event.subject:getX(), event.subject:getY(), 'dynamic'),event.subject.plyerId)
+    if obj then
+        game.stems[obj.id] = obj
+    end
+    stemDead(event, game)
+end
 
 return process
