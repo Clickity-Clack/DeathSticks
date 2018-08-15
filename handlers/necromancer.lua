@@ -64,7 +64,7 @@ unpackables.NullControllable = function (state, game)
 end
 
 unpackables.Explosion = function(state, game)
-    return Explosion:new(makeBody(state), state.playerId)
+    return Explosion:new(makeBody(state, game, 'static'), state.playerId)
 end
 
 unpackBullet = function(type, state, game)

@@ -64,7 +64,7 @@ events.dead.Twelve = stemDead
 events.dead.NineMil = stemDead
 
 explode = function(event, game)
-    local obj = event.subject.replacement:new(love.physics.newBody(game.world, event.subject:getX(), event.subject:getY(), 'dynamic'),event.subject.plyerId)
+    local obj = event.subject.replacement:new(love.physics.newBody(game.world, event.subject:getX(), event.subject:getY(), 'static'),event.subject.plyerId)
     if obj then
         game.stems[obj.id] = obj
     end

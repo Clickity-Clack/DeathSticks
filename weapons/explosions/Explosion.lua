@@ -6,13 +6,11 @@ function Explosion:initialize(body, aPlayerId)
     self.potentialDamage = 175
     self.shape = love.physics.newCircleShape(self.radius)
     self.duration = 0.5
-    self.once = false
     self.image = love.graphics.newImage("res/flame.png")
     self.scale = 6
     self.r = 0
     BodiedPackable.initialize(self, body)
     self.fixture:setSensor(true)
-    self.body:setGravityScale(0)
     Explosion.initCollisions(self)
     love.audio.play(love.audio.newSource('sounds/kaPff.wav', 'static'))
 end
@@ -20,6 +18,7 @@ end
 function Explosion:update(dt, events)
     self.r = self.r + dt*10000
     self.duration = self.duration - dt
+    self.modified = true
     if (self.duration <= 0) then
         table.insert(events, {type = 'dead', subject = self})
     end
@@ -49,6 +48,25 @@ end
 
 function Explosion:kill()
     --I'll die when I'm good and ready!!
+end
+
+function Explosion:getState()
+    if self.modified then
+        local state = BodiedPackable.getState(self)
+        state.r = self.r
+        state.duration = self.duration
+        state.playerId = self.playerId
+        return state
+    end
+end
+
+function Explosion:unpackState(state, game)
+    if state then
+        BodiedPackable.unpackState(self, state)
+        self.r = state.r
+        self.duration = state.duration
+        self.playerId = state.playerId
+    end
 end
 
 function Explosion:destroy()
