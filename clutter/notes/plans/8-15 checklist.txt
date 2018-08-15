@@ -1,0 +1,30 @@
+PLANNING
+    -Re-read email
+    -Assess goals in light of proposal
+MAP
+    -Make a symmetrical map (two spawn points and a battleground) [ ]
+    -Design spawn point system [ ]
+    DIFFICULTY PROJECTION: Time consuming, mindless, little debugging
+    TIME CONSUMPTION PROJECTION: 3-4 hours
+    ACTUAL TIME TAKEN: ___
+GAME MODE
+    -Design requisite parts [ ]
+    -Titan: team wins on block destruction [ ]
+    DIFFICULTY PROJECTION: Lots of planning, extensive debugging, moderate coding
+    TIME CONSUMPTION PROJECTION: 4-5 hours
+    ACTUAL TIME TAKEN: ___
+STATIC ELEMENTS
+    -Create killer platform [ ]
+    -Create destroyable pltform [ ]
+    DIFFICULTY PROJECTION: Quick, little planning, some debugging, little coding
+    TIME CONSUMPTION PROJECTION: 2-3 hours
+    ACTUAL TIME TAKEN: ___
+WEAPONS
+    -Necromance [X]
+    TIME CONSUMPTION PROJECTION: 1-2.5 hours
+    ACTUAL TIME TAKEN: 2:45
+ONLINE
+    -Get working with multiple computers [ ]
+    DIFFICULTY PROJECTION: moderate to extensive debugging, little planning, little coding
+    TIME CONSUMPTION PROJECTION: 1-6 hours
+    ACTUAL TIME TAKEN: ___

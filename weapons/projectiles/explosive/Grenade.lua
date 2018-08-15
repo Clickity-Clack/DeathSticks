@@ -9,6 +9,7 @@ function Grenade:initialize(barrelDeets, aPlayerId, world)
     self.scale = 2
     ExplosiveProjectile.initialize(self, barrelDeets, aPlayerId, world)
     self.fixture:setRestitution(0.9)
+    self.body:setGravityScale(2)
     self:initCollisions()
 end
 
