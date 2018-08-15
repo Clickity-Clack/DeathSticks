@@ -1,5 +1,8 @@
 PLAN:
 
+PLANNING
+    -Re-read email
+    -Assess goals in light of proposal
 MAP
     -Make a symmetrical map (two spawn points and a battleground)
     -Design spawn point system
