@@ -13,7 +13,7 @@ function WeaponPower:zoop(aCharacter)
     if weapon then
         if weapon:refill() then love.audio.play(WeaponPower.zoopSound) end
     else
-        aWeaponCollection:addWeapon(self.weapon:new())
+        aWeaponCollection:addWeapon(self.weapon:new(aCharacter.playerId))
         love.audio.play(WeaponPower.zoopSound) 
     end
 end
