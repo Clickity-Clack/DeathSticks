@@ -11,8 +11,8 @@ function GrenadeLauncher:initialize(aPlayerId)
     self.r = 0
     self.scale = 2
     self.barrelLen = 40
-    self.ammo = 6
-    self.capacity = 6
+    self.ammo = 8
+    self.capacity = 8
     self.rof = 0.5
     self.sound = love.audio.newSource('sounds/thoom.wav', 'static')
     Weapon.initialize(self, aPlayerId)

@@ -27,11 +27,14 @@ function MultiShot:update(dt, events)
     end
     self.time = self.time - dt
     if self.time <= 0 then 
-        for i in pairs(self.shots) do
-            self.shots[i]:destroy()
-            self.shots[i] = nil
-        end
         table.insert(events, {type = 'dead', subject = self})
+    end
+end
+
+function MultiShot:destroy()
+    for i in pairs(self.shots) do
+        self.shots[i]:destroy()
+        self.shots[i] = nil
     end
 end
 
