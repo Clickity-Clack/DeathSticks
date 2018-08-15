@@ -29,6 +29,7 @@ function MultiShot:update(dt, events)
     if self.time <= 0 then 
         table.insert(events, {type = 'dead', subject = self})
     end
+    self.modified = true
 end
 
 function MultiShot:destroy()
@@ -41,6 +42,36 @@ end
 function MultiShot:draw()
     for i in pairs(self.shots) do
        self.shots[i]:draw()
+    end
+end
+
+function MultiShot:unpackState(state, game)
+    if state then
+        Packable.unpackTableState(self.shots, state.shots, game)
+        self.playerId = state.playerId
+    end
+end
+
+function MultiShot:getState()
+    if self.modified then
+        local state = Packable.getState(self)
+        state.shots = Packable.getTableState(self.shots)
+        state.playerId = self.playerId
+        return state
+    end
+end
+
+function MultiShot:reId(state)
+    Packable.reId(self, state)
+    for i in pairs(state.shots) do
+        self.shots[i]:reId(state.shots[i])
+    end
+end
+
+function MultiShot:fullReport()
+    Packable.fullReport(self)
+    for i in pairs(self.shots) do
+        self.shots[i]:fullReport()
     end
 end
 

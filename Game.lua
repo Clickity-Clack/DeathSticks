@@ -28,7 +28,7 @@ local Bot = require 'player/Bot'
 
 local Game = class('Game')
 
-Game.static.stemTypes = {CharacterControllable = true, ThirtyOdd = true, HealthPower = true, WeaponPower = true, ArmorPower = true, JetpackPower = true, FingerBullet = true, NullControllable = true, Platform = true, Bottom = true}
+Game.static.stemTypes = {CharacterControllable = true, ThirtyOdd = true, NineMil = true, Twelve = true, Rocket = true, Grenade = true, Explosion = true, HealthPower = true, WeaponPower = true, ArmorPower = true, JetpackPower = true, FingerBullet = true, NullControllable = true, Platform = true, Bottom = true}
 
 function Game:initialize()
     self.id = uuid()
@@ -140,6 +140,8 @@ end
 function Game:unpackObject(objectState)
     local object = self.stems[objectState.id]
     if not object then
+        -- print(serpent.block(objectState))
+        -- print()
         object = necromancer(objectState, self)
         if Game.stemTypes[objectState.type] then self.stems[object.id] = object end
     end
