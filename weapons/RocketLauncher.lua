@@ -14,7 +14,7 @@ function RocketLauncher:initialize(aPlayerId)
     self.ammo = 4
     self.capacity = 4
     self.rof = 1
-    self.sound = love.audio.newSource('sounds/sh-ffffff.wav', 'static')
+    self.sound = love.audio.newSource('sounds/sheew.wav', 'static')
     Weapon.initialize(self, aPlayerId)
 end
 

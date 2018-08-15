@@ -46,7 +46,7 @@ end
 
 function Projectile:draw()
     love.graphics.setColor(1,1,1)
-    love.graphics.draw(self.image, self.body:getX(), self.body:getY(), self.body:getAngle())
+    love.graphics.draw(self.image, self.body:getX(), self.body:getY(), self.body:getAngle(), self.scale or 1)
 end
 
 function Projectile:kill()

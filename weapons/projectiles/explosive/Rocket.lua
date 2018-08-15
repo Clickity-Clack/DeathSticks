@@ -6,6 +6,7 @@ function Rocket:initialize(barrelDeets, aPlayerId, world)
     self.image = love.graphics.newImage("res/rocket.png")
     self.shape = love.physics.newRectangleShape(self.image:getHeight()/2, self.image:getWidth()/2)
     self.time = 3
+    self.scale = 2
     ExplosiveProjectile.initialize(self, barrelDeets, aPlayerId, world)
     self.body:setGravityScale(0.0001)
     self:initCollisions()
