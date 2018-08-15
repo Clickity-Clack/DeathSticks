@@ -31,7 +31,7 @@ function WeaponCollection:unpackState(state, game)
     if (state) then
         Packable.unpackTableState(self.weapons, state.weapons, game)
         self.current = self.weapons[state.currentId]
-        self.playerId = self.playerId
+        self.playerId = state.playerId
     end
 end
 
