@@ -1,0 +1,29 @@
+PLAN:
+
+MAP
+    -Make a symmetrical map (two spawn points and a battleground)
+    -Design spawn point system
+GAME MODE
+    -Design requisite parts
+    -Titan: team wins on block destruction
+STATIC ELEMENTS
+    -Create killer platform
+    -Create destroyable pltform
+WEAPONS
+    -Necromance
+ONLINE
+    -Get working with multiple computers
+
+NET RESULT
+    Replicate Weapons[5]
+    Destructible platforms[4]
+    Fatal platforms[4]
+    Team Deathmatch/Free-for-all[`5]
+    Titan[6]
+
+    Playable Map
+
+POINTS
+    To achieve in sprint: 24
+    End Total: 45
+    

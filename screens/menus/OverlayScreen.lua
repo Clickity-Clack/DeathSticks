@@ -8,13 +8,13 @@ function OverlayScreen:initialize(upScreen)
     self.upScreen = upScreen
 
     local dimensions = { width = love.graphics.getWidth()/5, height = love.graphics.getHeight()/5 }
-    local position = { x = love.graphics.getWidth()/5, y = love.graphics.getHeight()/5 }
+    local position = { x = love.graphics.getWidth()/2.5, y = love.graphics.getHeight()/3 }
     local options = { 
-        PlainOption:new('beep',function()
-                local doot = love.audio.newSource( 'sounds/you.mp3', 'static' )
-                love.audio.play(doot)
-             end),
-        PlainOption:new('nothing',function() end),
+        -- PlainOption:new('beep',function()
+        --         local doot = love.audio.newSource( 'sounds/you.mp3', 'static' )
+        --         love.audio.play(doot)
+        --      end),
+        -- PlainOption:new('nothing',function() end),
         PlainOption:new('quit',function(self, menu)
                 local aMainMenu = MainMenu:new(menu.upScreen)
                 menu.upScreen[aMainMenu.id] = aMainMenu
