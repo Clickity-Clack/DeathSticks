@@ -2,9 +2,9 @@ local ExplosiveProjectile = require 'weapons/projectiles/explosive/ExplosiveProj
 local Grenade = class('Grenade', ExplosiveProjectile)
 
 function Grenade:initialize(barrelDeets, aPlayerId, world)
-    self.speed = 500
+    self.speed = 650
     self.image = love.graphics.newImage("res/grenade.png")
-    self.shape = love.physics.newCircleShape(self.image:getHeight()/2)
+    self.shape = love.physics.newCircleShape(5)
     self.time = 1.5
     self.scale = 2
     ExplosiveProjectile.initialize(self, barrelDeets, aPlayerId, world)
