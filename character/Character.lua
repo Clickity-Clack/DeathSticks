@@ -1,4 +1,4 @@
-local Pointer = require 'weapons/Pointer'
+local Pistol = require 'weapons/Pistol'
 local Health = require 'character/Health'
 local NullJetpack = require 'character/NullJetpack'
 local Animation = require 'character/Animation'
@@ -19,7 +19,7 @@ function Character:initialize(body, aPlayerId)
     self.anim['swim'] = Animation:new(love.graphics.newImage('res/oldHeroSwim.png'), 18, 17, self.size, 1, 9, 20)
     self.currentAnim = 'swim'
     self.dead = false
-    self.weapons = WeaponCollection:new(self.playerId,Pointer:new(self.playerId))
+    self.weapons = WeaponCollection:new(self.playerId,Pistol:new(self.playerId))
     self.health = Health:new(self.playerId, 100)
     self.jetpack = NullJetpack:new()
 
