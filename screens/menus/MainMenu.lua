@@ -13,7 +13,7 @@ function MainMenu:initialize(upScren)
     local dimensions = { width = love.graphics.getWidth() - (love.graphics.getWidth()/10)*2, height = love.graphics.getHeight()- (love.graphics.getHeight()/10)*2 }
     local position = { x = love.graphics.getWidth()/10, y = love.graphics.getHeight()/10}
     local options = {
-        PlainOption:new('normal game',function(self, aMainMenu)
+        PlainOption:new('local game',function(self, aMainMenu)
                 newGame = LocalScreen:new(upScren)
                 aMainMenu.upScren.s[newGame.id] = newGame
                 aMainMenu.upScren.current = newGame
