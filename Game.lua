@@ -11,6 +11,7 @@ local Pointer = require 'weapons/Pointer'
 local Sniper = require 'weapons/Sniper'
 local Shotgun = require 'weapons/Shotgun'
 local RocketLauncher = require 'weapons/RocketLauncher'
+local GrenadeLauncher = require 'weapons/GrenadeLauncher'
 local Character = require 'character/Character'
 local HealthPower = require 'powerups/HealthPower'
 local WeaponPower = require 'powerups/WeaponPower'
@@ -70,6 +71,8 @@ function Game:initBasic()
     x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 180, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'), RocketLauncher)
     self.stems[x.id] = x
     x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 220, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'), Shotgun)
+    self.stems[x.id] = x
+    x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 260, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'), GrenadeLauncher)
     self.stems[x.id] = x
     x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y, 'kinematic'))
     self.stems[x.id] = x

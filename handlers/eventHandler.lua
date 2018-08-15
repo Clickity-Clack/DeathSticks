@@ -71,5 +71,6 @@ end
 
 events.dead.DeadJetpack = explode
 events.dead.Rocket = explode
+events.dead.Grenade = explode
 
 return process
