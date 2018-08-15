@@ -87,7 +87,7 @@ end
 function WeaponCollection:drawHud()
     local imgSize, xBuffer, y = 30, 10, 10
     local winWidth = love.graphics.getWidth()
-    local count = helper.tablelength(self.weapons)
+    local count = helper.tableLength(self.weapons)
     local x = winWidth/2 - ((imgSize * count)/2 + (xBuffer * (count - 1))/2)
     love.graphics.setColor(0,0,0)
     for i in pairs(self.weapons)do
