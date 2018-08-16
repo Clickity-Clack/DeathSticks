@@ -60,15 +60,13 @@ function Game:initBasic()
     self.stems[x.id] = x
     x = HealthPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'))
     self.stems[x.id] = x
-    x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 20, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'), Pointer)
+    x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()/2 + self.offCenter.y - 140, 'kinematic'), Sniper)
     self.stems[x.id] = x
-    x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 60, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'), Sniper)
+    x = ArmorPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x - 500, winWidth()/2 + self.offCenter.y + 600, 'kinematic'))
     self.stems[x.id] = x
-    x = ArmorPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 100, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'))
+    x = JetpackPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 500, winWidth()/2 + self.offCenter.y + 600, 'kinematic'))
     self.stems[x.id] = x
-    x = JetpackPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 140, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'))
-    self.stems[x.id] = x
-    x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 180, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'), RocketLauncher)
+    x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 180, winWidth()/2 + self.offCenter.y + 600, 'kinematic'), RocketLauncher)
     self.stems[x.id] = x
     x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 220, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'), Shotgun)
     self.stems[x.id] = x
@@ -76,7 +74,15 @@ function Game:initBasic()
     self.stems[x.id] = x
     x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y, 'kinematic'))
     self.stems[x.id] = x
-    x = Bottom:new(love.physics.newBody(self.world, self.cWorld.w/2, winHeight()/2 + self.offCenter.y + 1500, 'kinematic'), self.cWorld.w)
+    x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x - 500, winHeight()/2 + self.offCenter.y + 750, 'kinematic'), winWidth(), 50)
+    self.stems[x.id] = x
+    x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 500, winHeight()/2 + self.offCenter.y + 750, 'kinematic'), winWidth(), 50)
+    self.stems[x.id] = x
+    x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y + 700, 'kinematic'), 50, 500)
+    self.stems[x.id] = x
+    x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y + 1050, 'kinematic'), 500, 50)
+    self.stems[x.id] = x
+    x = Bottom:new(love.physics.newBody(self.world, self.cWorld.w/2, winHeight()/2 + self.offCenter.y + 2500, 'kinematic'), self.cWorld.w)
     self.stems[x.id] = x
     self.spawnPoint = { x = winWidth()/2 + self.offCenter.x, y = winHeight()/2 + self.offCenter.y + 25}
     x = Bot:new(self:newPlayer())
