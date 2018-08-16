@@ -26,6 +26,7 @@ local Player = require 'player/Player'
 local NullPlayer = require 'player/NullPlayer'
 local necromancer = require 'handlers/necromancer'
 local eventHandler = require 'handlers/eventHandler'
+local Victory = require 'handlers/victory/Victory'
 local Bot = require 'player/Bot'
 
 local Game = class('Game')
@@ -51,6 +52,7 @@ function Game:initialize()
     self.removed = {}
     self.events = {}
 
+    self.victory = Victory:new()
     self.user = NullPlayer:new()
     self.once = false
 
@@ -82,9 +84,9 @@ function Game:initBasic()
     self.stems[x.id] = x
     x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y + 700, 'kinematic'), 50, 500)
     self.stems[x.id] = x
-    x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y + 1050, 'kinematic'), 500, 50)
-    self.stems[x.id] = x
     x = DeadlyPlatform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y + 1055, 'kinematic'), winWidth(), 50)
+    self.stems[x.id] = x
+    x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y + 1024, 'kinematic'), 500, 30)
     self.stems[x.id] = x
     x = Bottom:new(love.physics.newBody(self.world, self.cWorld.w/2, winHeight()/2 + self.offCenter.y + 2500, 'kinematic'), self.cWorld.w)
     self.stems[x.id] = x
@@ -115,6 +117,9 @@ function Game:update(dt, input)
     for v in pairs(self.stems) do
         self.stems[v]:update(dt, self.events)
     end
+    if self.victory.win then 
+
+    end
 end
 
 function Game:updateCamera()
@@ -132,13 +137,14 @@ function Game:getState()
         objectState[self.stems[i].id] = self.stems[i]:getState()
     end
     
-    return { players = playerState, stems = objectState, removed = self.removed }
+    return { players = playerState, stems = objectState, removed = self.removed, victory = self.victory:getState()}
 end
 
 function Game:unpackState(state)
     self:unpackObjects(state.stems)
     self:unpackPlayers(state.players)
     self:unpackRemoved(state.removed)
+    self:unpackVictory(state.victory)
 end
 
 function Game:unpackObjects(stateObjects)
@@ -206,6 +212,10 @@ function Game:remove(anId)
     self.removedChanged = true
 end
 
+function Game:unpackVictory(victoryState)
+    self.victory:unpackState(victoryState)
+end
+
 function Game:drawWorld(cl,ct,cw,ch)
     local w = self.cWorld.w / self.cWorld.columns
     local h = self.cWorld.h / self.cWorld.rows
@@ -239,11 +249,13 @@ function Game:draw()
     if self.user.controllable then
         self.user.controllable:drawHud()
     end
+    self.victory:draw()
 end
 
 function Game:newPlayer(aControllable)
     newPlayer = Player:new(aControllable)
     self.players[newPlayer.id] = newPlayer
+    self.victory:assess({type='join', subject = newPlayer})
     return newPlayer
 end
 
@@ -262,6 +274,7 @@ function Game:removePlayer(aPlayerId)
         end
     end
 
+    self.victory:assess({type='leave', subject = newPlayer})
     self:remove(aPlayerId)
     self.players[aPlayerId] = nil
 end

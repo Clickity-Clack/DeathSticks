@@ -1,0 +1,8 @@
+What systems are needed?
+    -Swappable game mode: pass in events, tally score, draw to the screen, has triggerable win condition
+        What does it need to be?
+            I want to have a table of methods indexed by relevant event type([objectType][eventType]). Each method makes changes, appropriate for the corresponding event, to a table of contestants and their score.
+        Should this be an object?
+            I want to have inheritance, but there aren't really any instance variables. That's a lie. There are plenty of instance variables.
+        How is this events-methods-table going to be modified/added onto during inheritance
+    -Win screen (Display winners(game passes back object with contestant list, rank, and score), return to main menu afterward)

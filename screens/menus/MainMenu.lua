@@ -8,7 +8,7 @@ local HostScreen = require 'screens/HostScreen'
 function MainMenu:initialize(upScren)
     self.id = uuid()
     self.upScren = upScren
-    self.switchSound = love.audio.newSource( 'sounds/you.mp3', 'static' )
+    self.switchSound = love.audio.newSource( 'sounds/pop1.wav', 'static' )
     love.graphics.setBackgroundColor(0,0,0)
     local dimensions = { width = love.graphics.getWidth() - (love.graphics.getWidth()/10)*2, height = love.graphics.getHeight()- (love.graphics.getHeight()/10)*2 }
     local position = { x = love.graphics.getWidth()/10, y = love.graphics.getHeight()/10}
