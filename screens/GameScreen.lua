@@ -8,15 +8,15 @@ function GameScreen:initialize(upScreen)
     self.game = Game:new()
 end
 
-function GameScreen:mousepressed(x,y, number)
-    self.user:mousepressed( x,y,number )
+function GameScreen:mousepressed(x, y, number)
+    self.user:mousepressed(x, y, number)
 end
 
 function GameScreen:keypressed(key, scancode, isrepeat )
     if key == 'escape' then
         self.upScreen.current = overlay:new(self.upScreen)
     end
-    self.user:keypressed( key, scancode, isrepeat )
+    self.user:keypressed(key, scancode, isrepeat)
 end
 
 function GameScreen:draw()
