@@ -40,7 +40,7 @@ end
 
 function Health:ouch(hurtyThing)
     --print(self.parentId) print(hurtyThing.playerId)
-    if hurtyThing.playerId == self.parentId then return end
+    if hurtyThing.playerId == self.parentId and hurtyThing.class.name ~= 'Explosion' then return end
     if(self.armor.isNull) then
         self.hp = self.hp - math.ceil(hurtyThing.damage)
     else

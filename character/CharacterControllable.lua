@@ -39,7 +39,7 @@ end
 function CharacterControllable:update(dt, events)
     self.character:update(dt, events)
     if self.character.health.dead then
-        table.insert(events, { type = 'dead', subject = self })
+        table.insert(events, { type = 'dead', subject = self, killer = self.character.health.killer })
         self.character.health.dead = false
     end
     self.modified = self.modified or self.character.modified
