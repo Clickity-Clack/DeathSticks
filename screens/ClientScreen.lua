@@ -1,23 +1,19 @@
---local unpacker = require 'handlers/unpacker'
-local testState = require 'clutter/testState'
 local Game = require 'Game'
 local User = require 'screens/User'
-local overlay = require 'screens/menus/OverlayScreen'
 local socket = require 'socket'
 local binser = require 'lib/binser'
-local serpent = require 'lib/serpent'
+local GameScreen = require 'screens/GameScreen'
 
 local address, port = "localhost", 12345
 
-local ClientScreen = class('ClientScreen')
+local ClientScreen = class('ClientScreen', GameScreen)
 local udp = socket.udp()
 
 function ClientScreen:initialize(upState)
+    GameScreen.initialize(self, upState)
     udp:settimeout(0)
     udp:setpeername(address, port)
-    self.id = uuid()
-    self.upState = upState
-    self.game = Game:new()
+    
     self.user = User:new()
     self.sendTime = 0
     self.once = true
@@ -55,24 +51,6 @@ function ClientScreen:recieveState()
         recieved = true
     end
     return recieved
-    -- self.game:unpackState(testState)
-    -- return true
-end
-
-function ClientScreen:mousepressed(x,y,number)
-    self.user:mousepressed(x,y,number)
-end
-
-function ClientScreen:keypressed(key, scancode, isrepeat )
-    if key == 'escape' then
-        self.upState.current = overlay:new(self.upState)
-    end
-    self.user:keypressed( key, scancode, isrepeat )
-end
-
-function ClientScreen:draw()
-    self.user:draw()
-    self.game:draw()
 end
 
 return ClientScreen

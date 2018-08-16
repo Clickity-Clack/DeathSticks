@@ -1,20 +1,15 @@
-local Game = require 'Game'
-local User = require 'screens/User'
-local overlay = require 'screens/menus/OverlayScreen'
 local socket = require 'socket'
 local binser = require 'lib/binser'
-local serpent = require 'lib/serpent'
-
-local HostScreen = class('HostScreen')
+local GameScreen = require 'screens/GameScreen'
+local User = require 'screens/User'
+local HostScreen = class('HostScreen', GameScreen)
 local udp = socket.udp()
 
 function HostScreen:initialize(upScreen)
+    GameScreen.initialize(self, upScreen)
     udp:settimeout(0)
     udp:setsockname('*', 12345)
-
-    self.id = uuid()
-    self.upScreen = upScreen
-    self.game = Game:new()
+    
     self.game:initBasic()
     self.clients = {}
     self.data = nil
@@ -27,10 +22,6 @@ function HostScreen:update(dt)
     self.game:update(dt, self.user:getCommands())
     self:recieve()
     self:send()
-end
-
-function HostScreen:draw()
-    self.game:draw()
 end
 
 function HostScreen:recieve()
@@ -95,17 +86,6 @@ end
 function HostScreen:removeClient(anIp)
     self.game:removePlayer(self.clients[anIp].player.id)
     self.clients[anIp] = nil
-end
-
-function HostScreen:mousepressed(x,y)
-    self.user:mousepressed(x,y)
-end
-
-function HostScreen:keypressed(key, scancode, isrepeat )
-    if key == 'escape' then
-        self.upScreen.current = overlay:new(self.upScreen)
-    end
-    self.user:keypressed( key, scancode, isrepeat )
 end
 
 return HostScreen
