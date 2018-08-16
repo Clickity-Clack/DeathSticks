@@ -8,10 +8,6 @@ function GameScreen:initialize(upScreen)
     self.game = Game:new()
 end
 
-function GameScreen:update(dt)
-    self.game:update( dt , self.user:getCommands() )
-end
-
 function GameScreen:mousepressed(x,y, number)
     self.user:mousepressed( x,y,number )
 end
