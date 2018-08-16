@@ -30,7 +30,6 @@ function Character:initialize(body, aPlayerId)
     self.body:setFixedRotation(true)
     self.body:setGravityScale(4)
     assert(self.collisions, 'No collisions table')
-    initCollisons(self.collisions)
 end
 
 function Character:getState()
@@ -72,10 +71,8 @@ function Character:fullReport()
     self.jetpack:fullReport()
 end
 
-function initCollisons(collisions)
-    collisions.Bottom = function(self, Bottom)
-        self.health:kill(Bottom)
-    end
+function Character:kill(killer)
+    self.health:kill(killer)
 end
 
 function Character:ouch(hurtyThing)

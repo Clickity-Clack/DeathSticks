@@ -4,7 +4,7 @@ local Health = require 'character/Health'
 
 function DestroyablePlatform:initialize( body, width, height )
     Platform.initialize(self, body, width, height)
-    self.health = Health:new(self.id, 300) --parentId,hp,capacity,armor
+    self.health = Health:new(self.id, 1000) --parentId,hp,capacity,armor
 end
 
 function DestroyablePlatform:ouch(hurtyThing)

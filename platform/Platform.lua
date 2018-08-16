@@ -63,7 +63,7 @@ end
 
 
 function Platform:draw()
-    love.graphics.setColor( self.rgba ) -- set the drawing color to green for the ground
+    love.graphics.setColor( self.rgba )
     love.graphics.polygon("fill", self.body:getWorldPoints(self.shape:getPoints()))
 end
 

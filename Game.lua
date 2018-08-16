@@ -3,6 +3,7 @@ BodiedPackable = require 'handlers/unpacking/BodiedPackable'
 DynamicBodiedPackable = require 'handlers/unpacking/DynamicBodiedPackable'
 local Platform = require 'platform/Platform'
 local DestroyablePlatform = require 'platform/DestroyablePlatform'
+local DeadlyPlatform = require 'platform/DeadlyPlatform'
 local Bottom = require 'platform/Bottom'
 local CharacterControllable = require 'character/CharacterControllable'
 local NullControllable = require 'character/NullControllable'
@@ -82,6 +83,8 @@ function Game:initBasic()
     x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y + 700, 'kinematic'), 50, 500)
     self.stems[x.id] = x
     x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y + 1050, 'kinematic'), 500, 50)
+    self.stems[x.id] = x
+    x = DeadlyPlatform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y + 1055, 'kinematic'), winWidth(), 50)
     self.stems[x.id] = x
     x = Bottom:new(love.physics.newBody(self.world, self.cWorld.w/2, winHeight()/2 + self.offCenter.y + 2500, 'kinematic'), self.cWorld.w)
     self.stems[x.id] = x
