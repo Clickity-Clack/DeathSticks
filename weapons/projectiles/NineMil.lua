@@ -5,7 +5,7 @@ function NineMil:initialize( barrelDeets, aPlayerId, world )
     self.speed = 2000
     self.image = love.graphics.newImage('res/bullet.png')
     self.shape = love.physics.newRectangleShape(1, 1)
-    self.damage = 15
+    self.damage = 10
     Bullet.initialize(self, barrelDeets, aPlayerId, world)
 end
 
