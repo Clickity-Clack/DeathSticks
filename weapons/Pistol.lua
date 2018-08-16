@@ -14,7 +14,7 @@ function Pistol:initialize(aPlayerId)
     self.barrelLen = 30
     self.ammo = 10
     self.capacity = 10
-    self.rof = 0.10
+    self.rof = 0.40
     self.reloadTime = 0.5
     self.sound = love.audio.newSource('sounds/pop3.wav', 'static')
     Weapon.initialize(self, aPlayerId)
