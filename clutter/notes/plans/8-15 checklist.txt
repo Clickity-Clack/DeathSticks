@@ -14,8 +14,8 @@ GAME MODE
     TIME CONSUMPTION PROJECTION: 4-5 hours
     ACTUAL TIME TAKEN: ___
 STATIC ELEMENTS
-    -Create killer platform [ ]
-    -Create destroyable pltform [ ]
+    -Create killer platform [X]
+    -Create destroyable pltform [X]
     DIFFICULTY PROJECTION: Quick, little planning, some debugging, little coding
     TIME CONSUMPTION PROJECTION: 2-3 hours
     ACTUAL TIME TAKEN: ___
