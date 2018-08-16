@@ -62,6 +62,7 @@ events.dead.ThirtyOdd = stemDead
 events.dead.Explosion = stemDead
 events.dead.Twelve = stemDead
 events.dead.NineMil = stemDead
+events.dead.DestroyablePlatform = stemDead
 
 explode = function(event, game)
     local obj = event.subject.replacement:new(love.physics.newBody(game.world, event.subject:getX(), event.subject:getY(), 'static'),event.subject.plyerId)

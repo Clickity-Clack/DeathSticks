@@ -2,6 +2,7 @@ Packable = require 'handlers/unpacking/Packable'
 BodiedPackable = require 'handlers/unpacking/BodiedPackable'
 DynamicBodiedPackable = require 'handlers/unpacking/DynamicBodiedPackable'
 local Platform = require 'platform/Platform'
+local DestroyablePlatform = require 'platform/DestroyablePlatform'
 local Bottom = require 'platform/Bottom'
 local CharacterControllable = require 'character/CharacterControllable'
 local NullControllable = require 'character/NullControllable'
@@ -28,7 +29,7 @@ local Bot = require 'player/Bot'
 
 local Game = class('Game')
 
-Game.static.stemTypes = {CharacterControllable = true, ThirtyOdd = true, NineMil = true, Twelve = true, Rocket = true, Grenade = true, Explosion = true, HealthPower = true, WeaponPower = true, ArmorPower = true, JetpackPower = true, FingerBullet = true, NullControllable = true, Platform = true, Bottom = true}
+Game.static.stemTypes = {CharacterControllable = true, ThirtyOdd = true, NineMil = true, Twelve = true, Rocket = true, Grenade = true, Explosion = true, HealthPower = true, WeaponPower = true, ArmorPower = true, JetpackPower = true, FingerBullet = true, NullControllable = true, Platform = true, DestroyablePlatform = true, Bottom = true}
 
 function Game:initialize()
     self.id = uuid()
@@ -56,7 +57,7 @@ function Game:initialize()
 end
 
 function Game:initBasic()
-    local x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y, 'kinematic'), winWidth(), 50)
+    local x = DestroyablePlatform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y, 'kinematic'), winWidth(), 50)
     self.stems[x.id] = x
     x = HealthPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'))
     self.stems[x.id] = x

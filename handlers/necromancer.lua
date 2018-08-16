@@ -1,4 +1,5 @@
 local Platform = require 'platform/Platform'
+local DestroyablePlatform = require 'platform/DestroyablePlatform'
 local Bottom = require 'platform/Bottom'
 local CharacterControllable = require 'character/CharacterControllable'
 local NullControllable = require 'character/NullControllable'
@@ -49,6 +50,10 @@ end
 
 unpackables.Platform = function(state, game)
     return Platform:new(makeBody(state, game, 'kinematic'), state.width, state.height)
+end
+
+unpackables.DestroyablePlatform = function(state, game)
+    return DestroyablePlatform:new(makeBody(state, game, 'kinematic'), state.width, state.height)
 end
 
 unpackables.Bottom = function (state, game)

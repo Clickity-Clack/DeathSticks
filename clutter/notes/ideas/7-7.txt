@@ -1,3 +1,4 @@
 Eraser object gives damage proportional to friction against player
 Spawn players above nothing but jetpacks, must fly to a place in the map
 Powerup that makes RL shoot multiple rockets
+Destroy platform to gain/remove access to location
