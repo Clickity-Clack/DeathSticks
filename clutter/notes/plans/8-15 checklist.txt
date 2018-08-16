@@ -1,12 +1,12 @@
 PLANNING
-    -Re-read email
-    -Assess goals in light of proposal
+    -Re-read email [X]
+    -Assess goals in light of proposal [ ]
 MAP
-    -Make a symmetrical map (two spawn points and a battleground) [ ]
-    -Design spawn point system [ ]
+    -Make a symmetrical map (two spawn points and a battleground) [\]
+    -Design spawn point system [-]
     DIFFICULTY PROJECTION: Time consuming, mindless, little debugging
     TIME CONSUMPTION PROJECTION: 3-4 hours
-    ACTUAL TIME TAKEN: ___
+    ACTUAL TIME TAKEN: 0.5 hours
 GAME MODE
     -Design requisite parts [ ]
     -Titan: team wins on block destruction [ ]
