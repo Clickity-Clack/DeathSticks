@@ -18,11 +18,11 @@ STATIC ELEMENTS
     -Create destroyable pltform [X]
     DIFFICULTY PROJECTION: Quick, little planning, some debugging, little coding
     TIME CONSUMPTION PROJECTION: 2-3 hours
-    ACTUAL TIME TAKEN: ___
+    ACTUAL TIME TAKEN: 0.75 hours
 WEAPONS
     -Necromance [X]
     TIME CONSUMPTION PROJECTION: 1-2.5 hours
-    ACTUAL TIME TAKEN: 2:45
+    ACTUAL TIME TAKEN: 2.75 hours
 ONLINE
     -Get working with multiple computers [ ]
     DIFFICULTY PROJECTION: moderate to extensive debugging, little planning, little coding
