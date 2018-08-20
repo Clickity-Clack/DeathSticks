@@ -26,7 +26,7 @@ local Player = require 'player/Player'
 local NullPlayer = require 'player/NullPlayer'
 local necromancer = require 'handlers/necromancer'
 local eventHandler = require 'handlers/eventHandler'
-local Victory = require 'handlers/victory/Victory'
+local FFAVictory = require 'handlers/victory/FFAVictory'
 local Bot = require 'player/Bot'
 
 local Game = class('Game')
@@ -52,7 +52,8 @@ function Game:initialize()
     self.removed = {}
     self.events = {}
 
-    self.victory = Victory:new()
+    self.victory = FFAVictory:new(12)
+    self.win = false
     self.user = NullPlayer:new()
     self.once = false
 
@@ -118,8 +119,12 @@ function Game:update(dt, input)
         self.stems[v]:update(dt, self.events)
     end
     if self.victory.win then 
-
+        self.win = true
     end
+end
+
+function Game:getScore()
+    return self.victory:getScore()
 end
 
 function Game:updateCamera()
