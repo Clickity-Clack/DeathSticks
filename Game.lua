@@ -120,6 +120,7 @@ function Game:update(dt, input)
     end
     if self.victory.win then 
         self.win = true
+        self.finalScore = self.victory:getScore()
     end
 end
 

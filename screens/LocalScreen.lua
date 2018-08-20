@@ -2,7 +2,7 @@ local Game = require 'Game'
 local GameScreen = require 'screens/GameScreen'
 local User = require 'screens/User'
 local LocalScreen = class('LocalScreen', GameScreen)
-
+local WinScreen = require 'screens/WinScreen'
 function LocalScreen:initialize(upScreen)
     GameScreen.initialize(self, upScreen)
     self.game:initBasic()
@@ -11,6 +11,9 @@ end
 
 function LocalScreen:update(dt)
     self.game:update( dt , self.user:getCommands() )
+    if self.game.win then
+        self.upScreen.current = WinScreen:new(self.upScreen, self.game.finalScore)
+    end
 end
 
 return LocalScreen
