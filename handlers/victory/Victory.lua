@@ -6,7 +6,7 @@ function Victory:initialize()
     self.score = {}
     self.contestantCount = 0
     self.events = {}
-    self:initEvents()
+    Victory.initEvents(self)
 end
 
 function Victory:assess(event)
@@ -36,6 +36,10 @@ function Victory:draw()
         love.graphics.setColor(0,0,0)
         love.graphics.print(self.score[i].contestant, 10, 500 + c*15 )
     end
+end
+
+function Victory:getScore()
+    return self.score
 end
 
 function Victory:getState()
