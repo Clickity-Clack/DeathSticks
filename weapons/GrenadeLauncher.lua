@@ -18,6 +18,6 @@ function GrenadeLauncher:initialize(aPlayerId)
     Weapon.initialize(self, aPlayerId)
 end
 
-GrenadeLauncher.image = love.graphics.newImage('res/launcher.png')
+GrenadeLauncher.image = love.graphics.newImage('res/Launcher.png')
 
 return GrenadeLauncher
