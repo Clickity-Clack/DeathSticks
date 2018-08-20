@@ -1,9 +1,5 @@
 local Menu = class('Menu')
 local OptionList = require 'screens/menus/OptionList'
-local PlainOption = require 'screens/menus/PlainOption'
-local LocalScreen = require 'screens/LocalScreen'
-local ClientScreen = require 'screens/ClientScreen'
-local HostScreen = require 'screens/HostScreen'
 
 function Menu:initialize(upScreen, options)
     self.id = uuid()
