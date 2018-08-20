@@ -26,7 +26,9 @@ local Player = require 'player/Player'
 local NullPlayer = require 'player/NullPlayer'
 local necromancer = require 'handlers/necromancer'
 local eventHandler = require 'handlers/eventHandler'
+local Victory = require 'handlers/victory/Victory'
 local FFAVictory = require 'handlers/victory/FFAVictory'
+local TeamVictory = require 'handlers/victory/TeamVictory'
 local Bot = require 'player/Bot'
 
 local Game = class('Game')
@@ -52,7 +54,7 @@ function Game:initialize()
     self.removed = {}
     self.events = {}
 
-    self.victory = FFAVictory:new(12)
+    self.victory = TeamVictory:new({'red', 'blue'})
     self.win = false
     self.user = NullPlayer:new()
     self.once = false
@@ -263,7 +265,8 @@ function Game:draw()
 end
 
 function Game:newPlayer(aControllable)
-    newPlayer = Player:new(aControllable)
+    local aTeam = self.victory:teamLeast()
+    local newPlayer = Player:new(aControllable, aTeam)
     self.players[newPlayer.id] = newPlayer
     self.victory:assess({type='join', subject = newPlayer})
     return newPlayer

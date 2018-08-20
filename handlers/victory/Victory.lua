@@ -42,6 +42,9 @@ function Victory:getScore()
     return self.score
 end
 
+function Victory:teamLeast()
+end
+
 function Victory:getState()
     if self.modified then
         local state = Packable.getState(self)

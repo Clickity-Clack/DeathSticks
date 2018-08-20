@@ -2,10 +2,11 @@ local Packable = require'handlers/unpacking/Packable'
 local NullControllable = require 'character/NullControllable'
 local Player = class('Player', Packable)
 
-function Player:initialize( controllable )
+function Player:initialize( controllable, team )
     Packable.initialize(self)
     self.commands = { direction = 'stopped', jump = false, r = 0, a = false, b = false, c = false, weaponSwitch = 'no' }
     self.controllable = controllable or NullControllable()
+    self.team = team
 end
 
 function Player:update()
