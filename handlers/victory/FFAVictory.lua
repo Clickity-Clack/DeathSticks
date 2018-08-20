@@ -32,6 +32,7 @@ function FFAVictory:draw()
         love.graphics.print(self.score[i].contestant .. ' ' .. self.score[i].points, 10, 500 + c*15 )
         if self.score[i].points >= self.winCount then
             self.win = true
+            self.modified = true
         end
     end
 end

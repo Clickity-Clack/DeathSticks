@@ -207,7 +207,7 @@ function Game:unpackRemoved(stateRemoved)
                 self.stems[i]:destroy()
                 self.stems[i] = nil
             elseif self.players[i] then
-                self.players[i]:destroy()
+                --self.players[i]:destroy()
             end
         end
     end
@@ -220,6 +220,10 @@ end
 
 function Game:unpackVictory(victoryState)
     self.victory:unpackState(victoryState)
+    if self.victory.win then
+        self.win = true
+        self.finalScore = self.victory.score
+    end
 end
 
 function Game:drawWorld(cl,ct,cw,ch)

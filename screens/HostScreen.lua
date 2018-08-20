@@ -3,6 +3,7 @@ local binser = require 'lib/binser'
 local GameScreen = require 'screens/GameScreen'
 local User = require 'screens/User'
 local HostScreen = class('HostScreen', GameScreen)
+local WinScreen = require 'screens/WinScreen'
 local udp = socket.udp()
 
 function HostScreen:initialize(upScreen)
@@ -22,6 +23,9 @@ function HostScreen:update(dt)
     self.game:update(dt, self.user:getCommands())
     self:recieve()
     self:send()
+    if self.game.win then
+        self.upScreen.current = WinScreen:new(self.upScreen, self.game.finalScore)
+    end
 end
 
 function HostScreen:recieve()

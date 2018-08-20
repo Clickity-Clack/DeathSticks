@@ -3,6 +3,7 @@ local User = require 'screens/User'
 local socket = require 'socket'
 local binser = require 'lib/binser'
 local GameScreen = require 'screens/GameScreen'
+local WinScreen = require 'screens/WinScreen'
 
 local address, port = "localhost", 12345
 
@@ -23,6 +24,9 @@ function ClientScreen:update(dt)
     local commands = self.user:getCommands()
     self:sendCommands(commands)
     self:recieveState()
+    if self.game.win then
+        self.upScreen.current = WinScreen:new(self.upScreen, self.game.finalScore)
+    end
 end
 
 function ClientScreen:sendCommands(commands)

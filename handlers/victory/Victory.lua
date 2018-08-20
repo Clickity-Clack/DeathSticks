@@ -25,7 +25,7 @@ function Victory:initEvents()
     self.events.Player.leave = function(event)
         self.contestantCount = self.contestantCount - 1
         self.score[event.subject.id] = nil
-        self.modified = false
+        self.modified = true
     end
 end
 
@@ -47,10 +47,11 @@ function Victory:getState()
         local state = Packable.getState(self)
         state.contestantCount = self.contestantCount
         state.score = self.score
+        return state
     end
 end
 
-function Victory:unpackState()
+function Victory:unpackState(state)
     if state then
         self.contestantCount = state.contestantCount
         self.score = state.score
