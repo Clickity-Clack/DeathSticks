@@ -5,31 +5,31 @@ local LocalScreen = require 'screens/LocalScreen'
 local ClientScreen = require 'screens/ClientScreen'
 local HostScreen = require 'screens/HostScreen'
 
-function MainMenu:initialize(upScren)
+function MainMenu:initialize(upScreen)
     self.id = uuid()
-    self.upScren = upScren
+    self.upScreen = upScreen
     self.switchSound = love.audio.newSource( 'sounds/pop1.wav', 'static' )
     love.graphics.setBackgroundColor(0,0,0)
     local dimensions = { width = love.graphics.getWidth() - (love.graphics.getWidth()/10)*2, height = love.graphics.getHeight()- (love.graphics.getHeight()/10)*2 }
     local position = { x = love.graphics.getWidth()/10, y = love.graphics.getHeight()/10}
     local options = {
         PlainOption:new('local game',function(self, aMainMenu)
-                newGame = LocalScreen:new(upScren)
-                aMainMenu.upScren.s[newGame.id] = newGame
-                aMainMenu.upScren.current = newGame
-                aMainMenu.upScren.s[aMainMenu.id] = nil
+                newGame = LocalScreen:new(upScreen)
+                aMainMenu.upScreen.s[newGame.id] = newGame
+                aMainMenu.upScreen.current = newGame
+                aMainMenu.upScreen.s[aMainMenu.id] = nil
             end),
         PlainOption:new('client game',function(self, aMainMenu)
-                newGame = ClientScreen:new(upScren)
-                aMainMenu.upScren.s[newGame.id] = newGame
-                aMainMenu.upScren.current = newGame
-                aMainMenu.upScren.s[aMainMenu.id] = nil
+                newGame = ClientScreen:new(upScreen)
+                aMainMenu.upScreen.s[newGame.id] = newGame
+                aMainMenu.upScreen.current = newGame
+                aMainMenu.upScreen.s[aMainMenu.id] = nil
             end),
         PlainOption:new('host game',function(self, aMainMenu)
-                newGame = HostScreen:new(upScren)
-                aMainMenu.upScren.s[newGame.id] = newGame
-                aMainMenu.upScren.current = newGame
-                aMainMenu.upScren.s[aMainMenu.id] = nil
+                newGame = HostScreen:new(upScreen)
+                aMainMenu.upScreen.s[newGame.id] = newGame
+                aMainMenu.upScreen.current = newGame
+                aMainMenu.upScreen.s[aMainMenu.id] = nil
                 end),
         PlainOption:new('quit game',function() love.event.quit() end)
     }
