@@ -17,9 +17,9 @@ function OverlayScreen:initialize(upScreen)
         -- PlainOption:new('nothing',function() end),
         PlainOption:new('quit',function(self, menu)
                 local aMainMenu = MainMenu:new(menu.upScreen)
-                menu.upScreen[aMainMenu.id] = aMainMenu
+                menu.upScreen.s[aMainMenu.id] = aMainMenu
                 menu.upScreen.current = aMainMenu
-                menu.upScreen[menu.beneath.id] = nil
+                menu.upScreen.s[menu.beneath.id] = nil
             end
         )        
     }
