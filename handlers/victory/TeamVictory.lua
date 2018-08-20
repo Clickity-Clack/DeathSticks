@@ -4,7 +4,7 @@ local TeamVictory = class('TeamVictory', Victory)
 function TeamVictory:initialize(teams)
     Victory.initialize(self)
     for i in pairs(teams) do
-        self.score[teams[i]] = {contestants = {}}
+        self.score[teams[i]] = {contestant = teams[i], contestants = {}}
     end
     TeamVictory.initEvents(self)
 end
@@ -22,6 +22,14 @@ function TeamVictory:initEvents()
     end
 end
 
+function TeamVictory:whichTeam(aPlayerId)
+    for i in pairs(self.score)do
+        for j in pairs(self.score[i].contestants) do
+            if j == aPlayerId then return i end
+        end
+    end
+end
+
 function TeamVictory:draw()
     local c = 0
     love.graphics.setColor(0,0,0)
@@ -36,11 +44,12 @@ function TeamVictory:draw()
 end
 
 function TeamVictory:teamLeast()
-    local leastCount = 0
+    local leastCount = -1
     local leastName = ''
     local currentCount = 0
     for i in pairs(self.score) do
         currentCount = helper.tableLength(self.score[i].contestants)
+        if leastCount == -1 then leastCount = currentCount end
         if currentCount <= leastCount then
             leastCount = currentCount
             leastName = i
