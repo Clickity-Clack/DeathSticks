@@ -46,6 +46,10 @@ function OverlayScreen:keypressed(key, scancode, isrepeat )
     end
 end
 
+function OverlayScreen:textinput(t)
+    
+end
+
 function OverlayScreen:keyreleased( key, scancode, isrepeat )
 
 end

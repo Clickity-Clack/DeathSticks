@@ -3,6 +3,7 @@ BodiedPackable = require 'handlers/unpacking/BodiedPackable'
 DynamicBodiedPackable = require 'handlers/unpacking/DynamicBodiedPackable'
 local Platform = require 'platform/Platform'
 local DestroyablePlatform = require 'platform/DestroyablePlatform'
+local TeamBase = require 'platform/TeamBase'
 local DeadlyPlatform = require 'platform/DeadlyPlatform'
 local Bottom = require 'platform/Bottom'
 local CharacterControllable = require 'character/CharacterControllable'
@@ -30,6 +31,7 @@ local Victory = require 'handlers/victory/Victory'
 local FFAVictory = require 'handlers/victory/FFAVictory'
 local TeamVictory = require 'handlers/victory/TeamVictory'
 local TeamDeathmatchVictory = require 'handlers/victory/TeamDeathmatchVictory'
+local TitanVictory = require 'handlers/victory/TitanVictory'
 local Bot = require 'player/Bot'
 
 local Game = class('Game')
@@ -55,7 +57,7 @@ function Game:initialize()
     self.removed = {}
     self.events = {}
 
-    self.victory = TeamDeathmatchVictory:new({'red','blue'},2)
+    self.victory = Victory:new({'red','blue'})
     self.win = false
     self.user = NullPlayer:new()
     self.once = false
@@ -65,6 +67,10 @@ end
 
 function Game:initBasic()
     local x = DestroyablePlatform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y, 'kinematic'), winWidth(), 50)
+    self.stems[x.id] = x
+    x = TeamBase:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x - 700 , winWidth()-55/2 + self.offCenter.y, 'kinematic'), 100, 100, 'red')
+    self.stems[x.id] = x
+    x = TeamBase:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 700 , winWidth()-55/2 + self.offCenter.y, 'kinematic'), 100, 100, 'blue')
     self.stems[x.id] = x
     x = HealthPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'))
     self.stems[x.id] = x
@@ -288,7 +294,7 @@ function Game:removePlayer(aPlayerId)
         end
     end
 
-    self.victory:assess({type='leave', subject = newPlayer})
+    self.victory:assess({type='leave', subject = thePlayer})
     self:remove(aPlayerId)
     self.players[aPlayerId] = nil
 end

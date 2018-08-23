@@ -27,6 +27,10 @@ function love.keypressed(key, scancode, isrepeat )
     screen.current:keypressed(key, scancode, isrepeat )    
 end
 
+-- function love.textinput(t)
+--     screen.current:textinput(t)
+-- end
+
 function love.draw()
     screen.current:draw()
 end

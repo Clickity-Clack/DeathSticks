@@ -8,7 +8,7 @@ MAP
     TIME CONSUMPTION PROJECTION: 3-4 hours
     ACTUAL TIME TAKEN: 0.5 hours
 GAME MODE
-    -Design requisite parts [ ]
+    -Design requisite parts [X]
     -Titan: team wins on block destruction [ ]
     DIFFICULTY PROJECTION: Lots of planning, extensive debugging, moderate coding
     TIME CONSUMPTION PROJECTION: 4-5 hours
@@ -24,7 +24,7 @@ WEAPONS
     TIME CONSUMPTION PROJECTION: 1-2.5 hours
     ACTUAL TIME TAKEN: 2.75 hours
 ONLINE
-    -Get working with multiple computers [ ]
+    -Get working with multiple computers [X]
     DIFFICULTY PROJECTION: moderate to extensive debugging, little planning, little coding
     TIME CONSUMPTION PROJECTION: 1-6 hours
-    ACTUAL TIME TAKEN: ___
+    ACTUAL TIME TAKEN: 1 hour

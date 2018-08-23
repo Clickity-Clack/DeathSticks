@@ -5,12 +5,12 @@ local binser = require 'lib/binser'
 local GameScreen = require 'screens/GameScreen'
 local WinScreen = require 'screens/WinScreen'
 
-local address, port = "localhost", 12345
+local port = 12345
 
 local ClientScreen = class('ClientScreen', GameScreen)
 local udp = socket.udp()
 
-function ClientScreen:initialize(upState)
+function ClientScreen:initialize(upState, address)
     GameScreen.initialize(self, upState)
     udp:settimeout(0)
     udp:setpeername(address, port)

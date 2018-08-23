@@ -15,6 +15,7 @@ function Bullet:initCollisions()
 
     self.collisions.Character = hurt
     self.collisions.DestroyablePlatform = hurt
+    self.collisions.TeamBase = hurt
 
     self.collisions.Platform = function(self, aPlatform)
         self:kill()

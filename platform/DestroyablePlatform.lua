@@ -20,8 +20,8 @@ function DestroyablePlatform:update(dt, events)
 end
 
 function DestroyablePlatform:draw()
-    self.health:draw(self.body:getX(),self.body:getY())
     Platform.draw(self)
+    self.health:draw(self.body:getX(),self.body:getY())
 end
 
 function DestroyablePlatform:destroy()

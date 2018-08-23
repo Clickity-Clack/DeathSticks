@@ -19,6 +19,10 @@ function GameScreen:keypressed(key, scancode, isrepeat )
     self.user:keypressed(key, scancode, isrepeat)
 end
 
+function GameScreen:textinput(t)
+    
+end
+
 function GameScreen:draw()
     self.game:draw()
 end

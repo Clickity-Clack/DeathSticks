@@ -35,6 +35,10 @@ function Menu:keypressed(key)
     end
 end
 
+-- function Menu:textinput(t)
+--     self.theList:textinput(t)
+-- end
+
 function Menu:keyreleased(key)
 
 end

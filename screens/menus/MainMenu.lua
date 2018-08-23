@@ -2,6 +2,7 @@ local Menu = require 'screens/menus/Menu'
 local MainMenu = class('MainMenu', Menu)
 local OptionList = require 'screens/menus/OptionList'
 local PlainOption = require 'screens/menus/PlainOption'
+local TextOption = require 'screens/menus/TextOption'
 local LocalScreen = require 'screens/LocalScreen'
 local ClientScreen = require 'screens/ClientScreen'
 local HostScreen = require 'screens/HostScreen'
@@ -15,7 +16,7 @@ function MainMenu:initialize(upScreen)
                 aMainMenu.upScreen.s[aMainMenu.id] = nil
             end),
         PlainOption:new('client game',function(self, aMainMenu)
-                newGame = ClientScreen:new(upScreen)
+                newGame = ClientScreen:new(upScreen, 'localhost')
                 aMainMenu.upScreen.s[newGame.id] = newGame
                 aMainMenu.upScreen.current = newGame
                 aMainMenu.upScreen.s[aMainMenu.id] = nil
@@ -26,6 +27,8 @@ function MainMenu:initialize(upScreen)
                 aMainMenu.upScreen.current = newGame
                 aMainMenu.upScreen.s[aMainMenu.id] = nil
                 end),
+        -- TextOption:new('text test', function()
+        --         end),
         PlainOption:new('quit game',function() love.event.quit() end)
     }
     Menu.initialize(self, upScreen, options)

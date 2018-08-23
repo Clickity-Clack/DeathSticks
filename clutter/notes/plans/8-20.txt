@@ -1,0 +1,10 @@
+Continuing development:
+Make a menu to choose the game mode, ip address to connect to
+make unique id for each client so many clients from the same IP address
+split-screen
+review points for possible places continue
+Center weapons
+center projectiles
+Make it possible for client to switch weapons
+add controller support
+stick figure w/gibbing

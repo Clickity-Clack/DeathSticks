@@ -69,4 +69,9 @@ function OptionList:draw()
     end
 end
 
+-- function OptionList:textinput(t)
+--     print(self.options[self.selection])
+--     self.options[self.selection]:textinput(t)
+-- end
+
 return OptionList

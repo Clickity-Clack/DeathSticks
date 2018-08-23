@@ -23,4 +23,10 @@ function PlainOption:draw()
     love.graphics.print(self.text, self.position.x - font:getWidth(self.text)/2, self.position.y - font:getHeight()/2)
 end
 
+function PlainOption:textinput(t)
+end
+
+function PlainOption:keyPressed(key)
+end
+
 return PlainOption
