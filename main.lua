@@ -6,6 +6,11 @@ helper = require 'helper'
 MainMenu = require 'screens/menus/MainMenu'
 
 function love.load()
+    local bigV = love.getVersion()
+    if bigV <= 11 then
+        love.window.showMessageBox("unsupported version", "Looks like you're using a version before 11.0, which this game can't support :( sorry", "error")
+        love.event.quit()
+    end
     font = love.graphics.newFont(14)
     screen = {}
     screen.s = {}
