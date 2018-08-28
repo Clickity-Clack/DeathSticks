@@ -1,0 +1,32 @@
+3152 lines 8/16
+
+What's the deal?
+I want to implement explosives
+How do you get there?
+Make a projectile that spawns an explosion on death
+How do you plan to implement it?
+I was thinking about making a subclass of projectile called explosiveProjectile, but I realized there isn't really anything about the projectile class that could be specialized specifically for projectiles that spawn things on death, which made me vaugely uncomfortable with the system I have in place. I don't know what to do with that feeling of vague discomfort, but perhaps it's time to implement a duct-tape solution and move on
+
+Should that information be consolidated into the object?
+What information is there?
+-thing to be spawned
+-where it needs to end up in the Game
+-whether it hurts the character
+
+Observations: we should move the contact method to the projectile, and have the projectile call the character's ouch method
+
+What could affect the chain of logic for a whether a projectile does damage to a character?
+-Perhaps enable friendly fire
+-affect the health past the armor
+-affect the health and armor in ratios
+*I feel like too significant an adjustment of the mechaincs should be a decision reserved for game design, but it could pay off to think about how we may want to implement such features in the future
+Too general an idea of what could be done requires that the objects have total access to eachother. that's bad design.
+Okay, I think this may be a sign that I need to try just moving forward
+
+
+Deadification:
+Object type?
+Spawn?
+Respawn?
+
+I can I will I must

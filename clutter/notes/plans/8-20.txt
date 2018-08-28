@@ -8,3 +8,5 @@ center projectiles
 Make it possible for client to switch weapons
 add controller support
 stick figure w/gibbing
+
+Priority: Make in-code developments usable via menus
