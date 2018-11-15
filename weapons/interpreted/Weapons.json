@@ -1,0 +1,32 @@
+{
+    "Pistol":{
+        "Ammo":9,
+        "Reload Time":0.5,
+        "Rate of Fire":0.25,
+        "Capacity":9,
+        "Projectile":"NineMil",
+        "Sound":"pop3.wav",
+        "Reload Sound":"chk.wav",
+        "Picture":"Pistol.png",
+        "Position":{
+            "Scale":0,
+            "X Offset":0,
+            "Y Offset":0,
+            "Barrel Length":0
+        }
+    },
+    "Shotgun":{
+        "Ammo":10,
+        "Rate of Fire":1,
+        "Capacity":30,
+        "Projectile":"Twelve",
+        "Sound":"reverbbang.wav",
+        "Picture":"res/shotgun.png",
+        "Position":{
+            "Scale":0,
+            "X Offset":0,
+            "Y Offset":0,
+            "Barrel Length":30
+        }
+    }
+}
