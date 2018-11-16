@@ -1,19 +1,17 @@
 {
     "Pistol":{
-        "Ammo":9,
-        "Reload Time":0.5,
-        "Rate of Fire":0.25,
-        "Capacity":9,
-        "Projectile":"NineMil",
-        "Sound":"pop3.wav",
-        "Reload Sound":"chk.wav",
-        "Picture":"Pistol.png",
-        "Position":{
-            "Scale":0,
-            "X Offset":0,
-            "Y Offset":0,
-            "Barrel Length":0
-        }
+        "ammo":9,
+        "reloadTime":0.5,
+        "rof":0.25,
+        "capacity":9,
+        "projectile":"NineMil",
+        "sound":"pop3.wav",
+        "reloadSound":"chk.wav",
+        "image":"Pistol.png",
+        "scale":0,
+        "ox":0,
+        "oy":0,
+        "barrelLen":0
     },
     "Shotgun":{
         "Ammo":10,
@@ -21,12 +19,10 @@
         "Capacity":30,
         "Projectile":"Twelve",
         "Sound":"reverbbang.wav",
-        "Picture":"res/shotgun.png",
-        "Position":{
-            "Scale":0,
-            "X Offset":0,
-            "Y Offset":0,
-            "Barrel Length":30
-        }
+        "Picture":"shotgun.png",
+        "Scale":0,
+        "X Offset":0,
+        "Y Offset":0,
+        "Barrel Length":30
     }
 }
