@@ -7,11 +7,13 @@ projectileTypes['Bullet'] = require 'weapons/projectiles/Bullet'
 projectileTypes['MultiShot'] = require 'weapons/projectiles/multishot/MultiShot'
 projectileTypes['Explosive'] = require 'weapons/projectiles/explosive/ExplosiveProjectile'
 
-function ProjectileInflater.getProjectileObjectList()
+function ProjectileInflater.getProjectileObjectTable(fileName)
     local objects = {}
-    local settingsDeets = json.decode( love.filesystem.read('weapons/interpreted/Projectiles.json') )
+    local settingsDeets = json.decode( love.filesystem.read(fileName) )
     for i, v in ipairs(settingsDeets) do
         local thing = class(i,projectileTypes[v['Type']]) -- This is probably the least readable piece of code I've ever written. 
+        thing.later = {}
+        thing.setAfterInitializing = setAfterInitializing
         for j in pairs(v) do
             propertySettingMethods[j](thing, j, v[j])
         end
@@ -22,14 +24,14 @@ end
 
 local propertySettingMethods = {}
 propertySettingMethods['speed'] = basicPropertySet
-propertySettingMethods['image'] = picturePropertySet
-propertySettingMethods['shape'] = shapePropertySet
 propertySettingMethods['scale'] = basicPropertySet
 propertySettingMethods['damage'] = basicPropertySet
-propertySettingMethods['collisions'] = collisionsSet
-propertySettingMethods['gravity'] = placeholder
-propertySettingMethods['restitution'] = placeholder
-propertySettingMethods['time'] = placeholder
+propertySettingMethods['time'] = basicPropertySet
+propertySettingMethods['image'] = picturePropertySet
+propertySettingMethods['shape'] = shapePropertySet
+propertySettingMethods['collisions'] = laterPropertySet
+propertySettingMethods['gravity'] = laterPropertySet
+propertySettingMethods['restitution'] = laterPropertySet
 
 function basicPropertySet(self, propertyName, setting)
     self[propertyName] = setting
@@ -40,22 +42,38 @@ function picturePropertySet(self, propertyName, setting)
 end
 
 local shapeTypes = {}
-shapeTypes['square']
+shapeTypes['square'] = function(size) return love.physics.newRectangleShape(size, size) end
+shapeTypes['circle'] = function(size) return love.physics.newCircleShape(size) end
 
 function shapePropertySet(self, propertyName, setting)
-    self[propertyName] = love.physics.newShape()
+    self[propertyName] = shapeTypes[setting.type](setting.size)
 end
 
 function instancePropertySet(self, propertyName, setting)
     self['initial' .. propertyName] = 
 end
 
+function laterPropertySet(self, propertyName, setting)
+    self.later[propertyName] = setting
+end
+
+local afterInitializingMethods = {}
+afterInitializingMethods['gravity'] = gravityPropertySet
+afterInitializingMethods['restitution'] = restitutionPropertySet
+afterInitializingMethods['collision'] = collisionsSet
+
+function setAfterInitializing(self)
+    for i, v in ipairs(self.later) do
+        afterInitializingMethods[i](self, i, v)
+    end
+end
+
 function gravityPropertySet(self, propertyName, setting)
-    
+    self.body:setGravityScale(setting)
 end
 
 function restitutionPropertySet(self, propertyName, setting)
-
+    self.body:setRestitution(setting)
 end
 
 local collisionMethods = {}
@@ -67,9 +85,8 @@ collisionMethods['die'] = function()
     self:kill()
 end
 function collisionsSet(self, propertyName, setting)
-    self.laterCollisions = {}
-    for i, v in ipairs() do
-        self.laterCollisions[i] = collisionMethods[v]
+    for i, v in ipairs(setting) do
+        self.collisions[i] = collisionMethods[v]
     end
 end
 

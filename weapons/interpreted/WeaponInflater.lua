@@ -1,6 +1,7 @@
 local WeaponInflater = {}
 local json = require 'lib/json'
-local InterpretedWeapon = require('weapon/interpreted/InterpretedWeapon')
+local ProjectileInflater = require('weapon/interpreted/ProjectileInflater')
+local projectiles = ProjectileInflater.getProjectileObjectTable('weapons/interpreted/Projectiles.json')
 
 function WeaponInflater.getWeaponObjectTable()
     local weaponObjectTable = {}
@@ -42,7 +43,7 @@ function audioPropertySet(self, propertyName, setting)
 end
 
 function projectilePropertySet(self, propertyName, setting)
-    -- self[propertyName] = 
+    self[propertyName] = projectiles[setting]
 end
 
 function instancePropertySet()
