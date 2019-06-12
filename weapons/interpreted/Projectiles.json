@@ -61,7 +61,10 @@
             "size":1
         },
         "time":3,
-        "gravity":0.0001
+        "gravity":0.0001,
+        "collisions":{
+            "platform":"die"
+        }
     },
     "Grenade":{
         "type":"Explosive",

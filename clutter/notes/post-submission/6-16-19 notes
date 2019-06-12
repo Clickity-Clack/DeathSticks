@@ -1,0 +1,5 @@
+Make multiplayer usable (make an interface for joining a specific server)
+Make packable, body, dynamic, and drawable components instead of inherited things
+Come up with better names for things
+Make map an interpreted JSON file or something
+Make weapons an interpreted JSON file, with comments that explain how to make new weapons
