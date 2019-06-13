@@ -3,3 +3,10 @@ Make packable, body, dynamic, and drawable components instead of inherited thing
 Come up with better names for things
 Make map an interpreted JSON file or something
 Make weapons an interpreted JSON file, with comments that explain how to make new weapons
+    -How shall I integrate a dynamic list of weapons rather than a set list of weapons?
+    -should I write tests for weapons? Yes. Do I want to? Definitely not. Will I have enough motivation to finish if I write tests? God, I hope so.
+Interpret maps
+Change name
+Switch weapons backwards
+Respawn platforms
+Full screen and windowed
