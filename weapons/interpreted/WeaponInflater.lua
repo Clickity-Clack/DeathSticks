@@ -1,19 +1,12 @@
 local WeaponInflater = {}
-local json = require 'lib/json'
+local Inflater = require('weapon/interpreted/Inflater')
 local ProjectileInflater = require('weapon/interpreted/ProjectileInflater')
 local projectiles = ProjectileInflater.getProjectileObjectTable('weapons/interpreted/Projectiles.json')
 
 function WeaponInflater.getWeaponObjectTable()
-    local weaponObjectTable = {}
-    local settingDeets = json.decode( love.filesystem.read('weapons/interpreted/Weapons.json') )
-    for i, v in ipairs(settingsDeets) do
-        local thing = class(i,Weapon)
-        for j in pairs(v) do
-            propertySettingMethods[j](thing, j, v[j])
-        end
-        weaponObjectTable[i] = thing
-    end
-    return weaponObjectTable
+    local instantiator = Inflater.newObjectsOfSingleTypeInstantiator(Weapon)
+    local populator = Inflater.newPopulator(propertySettingMethods)
+    return Inflater.Inflate(instantiator, populator, 'weapons/interpreted/Weapons.json')
 end
 
 local propertySettingMethods = {}

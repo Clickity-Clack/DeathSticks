@@ -1,6 +1,5 @@
 local ProjectileInflater = {}
-local json = require 'lib/json'
-local json = require 'lib/json'
+local Inflater = require('weapon/interpreted/Inflater')
 
 local projectileTypes = {}
 projectileTypes['Bullet'] = require 'weapons/projectiles/Bullet'
@@ -8,18 +7,9 @@ projectileTypes['MultiShot'] = require 'weapons/projectiles/multishot/MultiShot'
 projectileTypes['Explosive'] = require 'weapons/projectiles/explosive/ExplosiveProjectile'
 
 function ProjectileInflater.getProjectileObjectTable(fileName)
-    local objects = {}
-    local settingsDeets = json.decode( love.filesystem.read(fileName) )
-    for i, v in ipairs(settingsDeets) do
-        local thing = class(i,projectileTypes[v['Type']]) -- This is probably the least readable piece of code I've ever written. 
-        thing.later = {}
-        thing.setAfterInitializing = setAfterInitializing
-        for j in pairs(v) do
-            propertySettingMethods[j](thing, j, v[j])
-        end
-        weaponObjectTable[i] = thing
-    end
-    return weaponObjectTable
+    local instantiator = Inflater.newObjectsOfManyTypesInstantiator(projectileTypes)
+    local populator = Inflater.newPopulator(propertySettingMethods)
+    return Inflater.Inflate(instantiator, populator, 'weapons/interpreted/Weapons.json')
 end
 
 local propertySettingMethods = {}

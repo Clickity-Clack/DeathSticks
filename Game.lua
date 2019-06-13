@@ -44,7 +44,8 @@ function Game:initialize()
     self.offCenter = { x = self.cWorld.w/2 - winWidth()/2, y = self.cWorld.h/2 - winHeight()/2 }
     self.cam = gamera.new( 0, 0, self.cWorld.w, self.cWorld.h )
     self.cam:setWindow( 10, 10, 780, 580 )
-    self.cam:setPosition( self.offCenter.x + winWidth()/2, self.offCenter.y + winHeight()/2 )
+    self.cam:setScale(0.9)
+    --self.cam:setPosition( self.offCenter.x + winWidth()/2, self.offCenter.y + winHeight()/2 )
 
     love.physics.setMeter(64) --the height of a meter our worlds will be 64px
     self.world = love.physics.newWorld(0, 9.81*64, true) --create a world for the bodies to exist in with horizontal gravity of 0 and vertical gravity of 9.81
