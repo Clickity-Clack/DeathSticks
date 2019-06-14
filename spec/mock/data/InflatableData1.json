@@ -1,0 +1,17 @@
+{
+    "Nine":{
+        "Charvalue":9,
+        "IsPrime": false,
+        "IsEven": false
+    },
+    "Seven":{
+        "Charvalue":7,
+        "IsPrime": true,
+        "IsEven": false
+    },
+    "Zero":{
+        "Charvalue":0,
+        "IsPrime":null,
+        "IsEven":null
+    }
+}
