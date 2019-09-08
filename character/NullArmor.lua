@@ -1,14 +1,20 @@
-local NullArmor = class('NullArmor', Packable)
+local NullArmor = class('NullArmor')
+NullArmor:include(Serializeable)
 
 function NullArmor:initialize()
+    Serializeable.initializeMixin(self)
     self.isNull = true
+    self.dead = false
+end
+
+function NullArmor:update()
 end
 
 function NullArmor:ouch(hurtyThing)
-    assert(false, 'Tried to call NullArmor ouch')
+    return hurtyThing.damage
 end
 
-function NullArmor:zoop(healPoints)
+function NullArmor:damageModifier(hurtyThing)
 end
 
 function NullArmor:draw(x,y)

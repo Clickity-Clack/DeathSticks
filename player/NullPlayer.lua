@@ -1,8 +1,9 @@
 local NullControllable = require 'character/NullControllable'
-local NullPlayer = class('NullPlayer', Packable)
+local NullPlayer = class('NullPlayer')
+NullPlayer:include(Serializeable)
 
 function NullPlayer:initialize( controllable )
-    Packable.initialize(self)
+    Serializeable.initializeMixin(self)
     self.controllable = NullControllable:new()
 end
 

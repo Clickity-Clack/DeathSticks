@@ -1,8 +1,9 @@
-local NullJetpack = class ('NullJetpack', Packable)
+local NullJetpack = class ('NullJetpack')
+NullJetpack:include(Serializeable)
 
 function NullJetpack:initialize()
     self.isNull = true
-    Packable.initialize(self)
+    Serializeable.initializeMixin(self)
 end
 
 function NullJetpack:update()

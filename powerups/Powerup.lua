@@ -1,10 +1,12 @@
-local BodiedPackable = require('handlers/unpacking/BodiedPackable')
-local Powerup = class ('Powerup', BodiedPackable)
+local Powerup = class ('Powerup')
+Powerup:include(Serializeable)
+Powerup:include(Collideable)
 
 function Powerup:initialize( body, image )
     self.image = image
     self.shape = love.physics.newRectangleShape(self.image:getHeight(), self.image:getWidth())
-    BodiedPackable.initialize(self,body)
+    Serializeable.initializeMixin(self)
+    Collideable.initializeMixin(self,body)
     self.fixture:setSensor(true)
     self.visible = true
     Powerup.initCollisions(self)
@@ -46,7 +48,8 @@ end
 
 function Powerup:getState()
     if self.modified then
-        local state = BodiedPackable.getState(self)
+        local state = Serializeable.getState(self)
+        Collideable.getState(self,state)
         state.visible = self.visible
         return state
     end
@@ -54,7 +57,8 @@ end
 
 function Powerup:unpackState(state)
     self.visible = state.visible
-    BodiedPackable.unpackState(self,state)
+    Serializeable.unpackState(self,state)
+    Collideable.unpackState(self,state)
 end
 
 function Powerup:destroy()

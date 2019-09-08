@@ -1,5 +1,9 @@
 local DeadJetpack = require 'weapons/projectiles/explosive/DeadJetpack'
-local Jetpack = class ('Jetpack', Packable)
+local Jetpack = class ('Jetpack')
+Jetpack:include(Serializeable)
+local Meter = require'character/Meter'
+local hudBackColor = {0.01,0.01,0.1}
+local hudFillColor = {0.2,0.2,0.8}
 
 function Jetpack:initialize(aPlayerId)
     self.fuel = 100
@@ -11,7 +15,7 @@ function Jetpack:initialize(aPlayerId)
     self.blastSound = love.audio.newSource('sounds/whhh.wav', 'static')
     self.soundTime = 0.00005
     self.soundLastPlayed = 0
-    Packable.initialize(self)
+    Serializeable.initializeMixin(self)
 end
 
 function Jetpack:update(dt, events)
@@ -27,7 +31,7 @@ end
 
 function Jetpack:getState()
     if self.modified then
-        local state = Packable.getState(self)
+        local state = Serializeable.getState(self)
         state.fuel = self.fuel
         state.dead = self.dead
         state.playerId = self.playerId
@@ -39,7 +43,7 @@ function Jetpack:unpackState(state,game)
     if state then
         self.fuel = state.fuel
         self.dead = state.dead
-        Packable.unpackState(self)
+        Serializeable.unpackState(self)
     end
 end
 
@@ -71,14 +75,8 @@ function Jetpack:getBarrelDeets()
     return{x = self.x, y = self.y, r = 0}
 end
 
-function Jetpack:drawHud(x,y)
-    local x, y = 10, 70
-    love.graphics.setColor(0.01,0.01,0.1)
-    love.graphics.rectangle('fill', x, y, 100, 20)
-    love.graphics.setColor(0.2,0.2,0.8)
-    love.graphics.rectangle('fill', x, y, self.fuel/self.capacity * 100, 20)
-    love.graphics.setColor(1,1,1)
-    love.graphics.print(self.fuel, x + width/2 - font:getWidth(self.fuel)/2, y + height/2 - font:getHeight()/2)
+function Jetpack:drawHud()
+    Meter.draw(10,70,self.capacity,self.fuel,hudBackColor,hudFillColor,100,20)
 end
 
 return Jetpack

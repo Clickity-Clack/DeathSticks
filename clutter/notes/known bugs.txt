@@ -3,3 +3,5 @@
 -clients can't switch weapons
 -bullets contact characters twice, dealing double damage??
 -there's no way to remove a player from the game
+-can get past killer bottom
+sumething is weird with the shouldTextBeBlack calculations in Meter

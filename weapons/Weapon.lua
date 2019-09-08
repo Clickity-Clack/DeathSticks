@@ -1,5 +1,5 @@
-local Packable = require ('handlers/unpacking/Packable')
-local Weapon = class('Weapon', Packable)
+local Weapon = class('Weapon')
+Weapon:include(Serializeable)
 
 function Weapon:initialize(aPlayerId)
     assert(self.image)
@@ -16,13 +16,14 @@ function Weapon:initialize(aPlayerId)
     assert(self.projectile)
     assert(self.sound)
     self.playerId = aPlayerId
-    Packable.initialize(self)
+    Serializeable.initializeMixin(self)
     self.firing = false
     self.delay = 0
 end
 
 
 function Weapon:draw()
+    love.graphics.setColor(1,1,1)
     love.graphics.draw(self.image, self.x, self.y, self.r, self.scale, self.scale, self.ox, self.oy)
 end
 
@@ -73,7 +74,7 @@ end
 
 function Weapon:getState()
     if self.modified then
-        local state = Packable.getState(self)
+        local state = Serializeable.getState(self)
         state.r = self.r
         state.x = self.x
         state.y = self.y
@@ -91,7 +92,7 @@ function Weapon:unpackState(state)
     self.ammo = state.ammo
     self.delay = state.delay
     self.playerId = state.playerId
-    Packable.unpackState(self, state)
+    Serializeable.unpackState(self, state)
 end
 
 return Weapon

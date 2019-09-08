@@ -1,11 +1,13 @@
-local BodiedPackable = require 'handlers/unpacking/BodiedPackable'
-local Platform = class("Platform", BodiedPackable)
+local Platform = class("Platform")
+Platform:include(Serializeable)
+Platform:include(Collideable)
 
 function Platform:initialize( body, width, height )
     self.width = width or 50
     self.height = height or 10
     self.shape = love.physics.newRectangleShape(self.width, self.height)
-    BodiedPackable.initialize(self, body)
+    Serializeable.initializeMixin(self)
+    Collideable.initializeMixin(self, body)
     self.rgba = { 0.32, 0.63, 0.05 }
 end
 
@@ -48,7 +50,8 @@ end
 
 function Platform:getState()
     if self.modified then
-        local state = BodiedPackable.getState(self) 
+        local state = Serializeable.getState(self)
+        Collideable.getState(self, state)
         state.height = self.height
         state.width = self.width
         return state
@@ -58,7 +61,8 @@ end
 function Platform:unpackState(state)
     self.height = state.height
     self.width = state.width
-    BodiedPackable.unpackState(self, state)
+    Serializeable.unpackState(self, state)
+    Collideable.unpackState(self, state)
 end
 
 

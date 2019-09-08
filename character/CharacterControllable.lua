@@ -1,10 +1,11 @@
 local Character = require 'character/Character'
-local Packable = require('handlers/unpacking/Packable')
-local CharacterControllable = class('CharacterControllable', Packable)
+local CharacterControllable = class('CharacterControllable')
 local spawnSound = love.audio.newSource('sounds/weow.wav', 'static')
 
+CharacterControllable:include(Serializeable)
+
 function CharacterControllable:initialize(body, aPlayerId)
-    Packable.initialize(self)
+    Serializeable.initializeMixin(self)
     self.playerId = aPlayerId
     self.character = Character:new(body,self.playerId)
     self.isNull = false
@@ -13,7 +14,7 @@ end
 
 function CharacterControllable:getState()
     if self.modified then
-        local state = Packable.getState(self)
+        local state = Serializeable.getState(self)
         state.playerId = self.playerId
         state.character = self.character:getState()
         return state
@@ -21,26 +22,26 @@ function CharacterControllable:getState()
 end
 
 function CharacterControllable:reId(state)
-    Packable.reId(self,state)
+    Serializeable.reId(self,state)
     self.character:reId(state.character)
 end
 
 function CharacterControllable:unpackState(state, game)
-    Packable.unpackState(self, state)
+    Serializeable.unpackState(self, state)
     self.playerId = state.playerId
     self.character:unpackState(state.character, game)
 end
 
 function CharacterControllable:fullReport()
-    Packable.fullReport(self)
+    Serializeable.fullReport(self)
     self.character:fullReport()
 end
 
 function CharacterControllable:update(dt, events)
     self.character:update(dt, events)
-    if self.character.health.dead then
-        table.insert(events, { type = 'dead', subject = self, killer = self.character.health.killer })
-        self.character.health.dead = false
+    if self.character.dead then
+        table.insert(events, { type = 'dead', subject = self, killer = self.character.killer })
+        self.character.dead = false
     end
     self.modified = self.modified or self.character.modified
 end

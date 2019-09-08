@@ -1,11 +1,15 @@
-local DynamicBodiedPackable = require('handlers/unpacking/DynamicBodiedPackable')
-local Projectile = class('Projectile', DynamicBodiedPackable)
+local Projectile = class('Projectile')
+Projectile:include(Serializeable)
+Projectile:include(Collideable)
+Projectile:include(DynamicCollideable)
 
 function Projectile:initialize(barrelDeets, aPlayerId, world)
     assert (self.speed)
     assert (self.shape)
     assert (self.image)
-    DynamicBodiedPackable.initialize(self, love.physics.newBody(world, barrelDeets.x, barrelDeets.y, 'dynamic'))
+    Serializeable.initializeMixin(self)
+    Collideable.initializeMixin(self, love.physics.newBody(world, barrelDeets.x, barrelDeets.y, 'dynamic'))
+    DynamicCollideable.initializeMixin(self)
     self.body:setAngle(barrelDeets.r)
     self.body:isBullet(true)
     self.body:setLinearVelocity(self.speed * math.cos(self.body:getAngle()), self.speed * math.sin(self.body:getAngle()))
@@ -18,7 +22,7 @@ function Projectile:initialize(barrelDeets, aPlayerId, world)
 end
 
 function Projectile:update(dt, events)
-    DynamicBodiedPackable.update(self)
+    DynamicCollideable.update(self)
     if self.dead then
         table.insert(events, {type = 'dead', subject = self})
         self.dead = false
@@ -26,7 +30,9 @@ function Projectile:update(dt, events)
 end
 
 function Projectile:getState()
-    local state = DynamicBodiedPackable.getState(self)
+    local state = Serializeable.getState(self)
+    Collideable.getState(self, state)
+    DynamicCollideable.getState(self, state)
     state.bodyDeets.angle = self.body:getAngle()
     state.playerId = self.playerId
     return state
@@ -35,7 +41,9 @@ end
 function Projectile:unpackState(state)
     self.body:setAngle(state.bodyDeets.angle)
     self.playerId = state.playerId
-    DynamicBodiedPackable.unpackState(self, state)
+    Serializeable.unpackState(self)
+    Collideable.unpackState(self, state)
+    DynamicCollideable.unpackState(self, state)
 end
 
 function Projectile:initCollisions()

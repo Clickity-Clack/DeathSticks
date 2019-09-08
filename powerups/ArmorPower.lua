@@ -9,13 +9,7 @@ function ArmorPower:initialize( body )
 end
 
 function ArmorPower:zoop(aCharacter)
-    local aHealth = aCharacter.health
-    if aHealth.armor.isNull then
-        aHealth:setArmor(Armor:new(50, 100))
-        love.audio.play(ArmorPower.zoopSound)
-    else
-        if aHealth:refillArmor(50) then love.audio.play(ArmorPower.zoopSound) end
-    end
+    aCharacter:refillArmor(50)
 end
 
 return ArmorPower

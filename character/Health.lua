@@ -1,21 +1,24 @@
 local NullArmor = require('character/NullArmor')
-local Health = class('Health', Packable)
+local Health = class('Health')
+Health:include(Serializeable)
+local Meter = require 'character/Meter'
+local hudBackColor = {0,0,0}
+local hudFillColor = {1,0.2,0.4}
 
-function Health:initialize(parentId,hp,capacity,armor)
+function Health:initialize(parentId,hp,capacity)
     self.hp = hp
     self.capacity = capacity or hp
-    self.armor = armor or NullArmor:new()
     self.parentId = parentId
-    Packable.initialize(self)
+    self.damageModifiers = {}
+    Serializeable.initializeMixin(self)
 end
 
 function Health:getState()
     if self.modified then
-        local state = Packable.getState(self)
+        local state = Serializeable.getState(self)
         state.parentId = parentId
         state.hp = self.hp
         state.capacity = self.capacity
-        state.armor = self.armor:getState()
         return state
     end
 end
@@ -26,11 +29,6 @@ function Health:unpackState(state, game)
         self.parentId = state.parentId
         self.hp = state.hp
         self.capacity = state.capacity
-        if(state.armor and self.armor.id ~= state.armor.id) then
-            self.armor = game:unpackObject(state.armor)
-        else
-            self.armor:unpackState(state.armor)
-        end
     end
 end
 
@@ -39,21 +37,17 @@ function Health:setParentId(anId)
 end
 
 function Health:ouch(hurtyThing)
-    --print(self.parentId) print(hurtyThing.playerId)
-    if hurtyThing.playerId == self.parentId and hurtyThing.class.name ~= 'Explosion' then return end
-    if(self.armor.isNull) then
-        self.hp = self.hp - math.ceil(hurtyThing.damage)
-    else
-        self.hp = self.hp - math.ceil(self.armor:ouch(hurtyThing))
-        if (self.armor.dead) then
-            self.armor = NullArmor:new()
-        end
+    for i = 1, #self.damageModifiers, 1 do
+        self.damageModifiers[i].func(self.damageModifiers[i].ref, hurtyThing)
     end
+    self.hp = self.hp - math.ceil(hurtyThing.damage)
     if(self.hp <= 0) then
         self.hp = 0
         self:kill(hurtyThing)
+        return 0 - self.hp
     end
     self.modified = true
+    return 0
 end
 
 function Health:heal(healPoints)
@@ -68,48 +62,43 @@ function Health:heal(healPoints)
     return false
 end
 
-function Health:setArmor(anArmor)
-    self.armor = anArmor
-    self.modified = true
-end
-
-function Health:refillArmor(amount)
-    self.modified = true
-    return self.armor:refill(amount)
-end
-
 function Health:kill(killer)
-    self.hp = 0
     if not self.dead then
+        self.hp = 0
         self.dead = true
         self.killer = killer
     end
 end
 
+function Health:addDamageModifier(modifier)
+    self.damageModifiers[#self.damageModifiers + 1] = modifier
+end
+
+function Health:removeDamageModifier(type)
+    local tempModifierStack = {}
+    local initialCount = #self.damageModifiers
+    for i = 1, initialCount, 1 do
+        tempModifierStack[i] = self.damageModifiers[initialCount - (i - 1)]
+        self.damageModifiers[initialCount - (i - 1)] = nil
+        if tempModifierStack[i].type == type then
+            tempModifierStack[i] = nil
+            self:removeDamageModifier(type)
+            break
+        end
+    end
+    for i = #tempModifierStack, 1, -1 do
+        self.damageModifiers[initialCount - (i + 1)] = tempModifierStack[i]
+        tempModifierStack[i] = nil
+    end
+end
+
 function Health:draw(x,y)
     y = y - 10
-    width = 70
-    height = 10
-    love.graphics.setColor(0,0,0)
-    love.graphics.rectangle('fill', x - width / 2, y - 30, width, height)
-    love.graphics.setColor(1,0.2,0.4)
-    love.graphics.rectangle('fill', x - width / 2, y - 30, self.hp/self.capacity *  width, height)
-    love.graphics.setColor(1,1,1)
-    love.graphics.print(self.hp, x - font:getWidth(self.hp)/2, y + height/2 - font:getHeight()/2 - 29)
-    self.armor:draw(x,y)
+    Meter.draw(x,y,self.capacity,self.hp,hudBackColor,hudFillColor,70,10)
 end
 
 function Health:drawHud()
-    x,y = 10,10
-    width = 100
-    height = 20
-    love.graphics.setColor(0,0,0)
-    love.graphics.rectangle('fill', x, y, width, height)
-    love.graphics.setColor(1,0.2,0.4)
-    love.graphics.rectangle('fill', x, y, self.hp/self.capacity * width, height)
-    love.graphics.setColor(1,1,1)
-    love.graphics.print(self.hp, x + width/2 - font:getWidth(self.hp)/2, y + height/2 - font:getHeight()/2)
-    self.armor:drawHud()
+    Meter.draw(10,10,self.capacity,self.hp,hudBackColor,hudFillColor,100,20)
 end
 
 return Health

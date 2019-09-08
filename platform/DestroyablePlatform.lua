@@ -1,27 +1,24 @@
 local Platform = require 'platform/Platform'
 local DestroyablePlatform = class('DestroyablePlatform', Platform)
-local Health = require 'character/Health'
+local HasHealth = require 'character/HasHealth'
+DestroyablePlatform:include(HasHealth)
 
 function DestroyablePlatform:initialize( body, width, height )
     Platform.initialize(self, body, width, height)
-    self.health = Health:new(self.id, 1000) --parentId,hp,capacity,armor
-end
-
-function DestroyablePlatform:ouch(hurtyThing)
-    self.health:ouch(hurtyThing)
+    HasHealth.initializeMixin(self, 1000)--self.health = Health:new(self.id, 1000) --parentId,hp,capacity,armor
 end
 
 function DestroyablePlatform:update(dt, events)
-    if self.health.dead then
+    HasHealth.update(self, dt, events)
+    if self.dead then
         table.insert(events, { type = 'dead', subject = self })
-        self.health.dead = false
+        self.dead = false
     end
-    self.modified = self.modified or self.health.modified
 end
 
 function DestroyablePlatform:draw()
     Platform.draw(self)
-    self.health:draw(self.body:getX(),self.body:getY())
+    HasHealth.draw(self,self.body:getX(),self.body:getY()) --part of implementation
 end
 
 function DestroyablePlatform:destroy()
@@ -29,16 +26,16 @@ function DestroyablePlatform:destroy()
 end
 
 function DestroyablePlatform:getState()
-    if self.modified then
+    if self.modified then --move to hashealth
         local state = Platform.getState(self)
-        state.health = self.health:getState()
+        HasHealth.getState(self, state)
         return state
     end
 end
 
 function DestroyablePlatform:unpackState(state, game)
     if state then
-        self.health:unpackState(state.health, game)
+        HasHealth.unpackState(self, state, game) --Include method in HasHealth
         Platform.unpackState(self, state)
     end
 end

@@ -4,7 +4,7 @@ local TeamBase = class('TeamBase', DestroyablePlatform)
 function TeamBase:initialize( body, width, height, team )
     self.team = team
     DestroyablePlatform.initialize(self, body, width, height )
-    self.rgba = teamColor or { 0.3,0.3,0.3 }
+    self.rgba = teamColor or { 0.7,0.3,0.3 }
 end 
 
 function TeamBase:getState()

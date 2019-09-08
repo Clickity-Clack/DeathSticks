@@ -1,8 +1,11 @@
-local Packable = require('handlers/unpacking/Packable')
-local WeaponCollection = class('WeaponCollection', Packable)
+local WeaponCollection = class('WeaponCollection')
+WeaponCollection:include(Serializeable)
+local Meter = require 'character/Meter'
+local hudBackColor = {0.01,0.1,0.01}
+local hudFillColor = {0.2,0.8,0.2}
 
 function WeaponCollection:initialize(aPlayerId, aWeapon)
-    Packable.initialize(self)
+    Serializeable.initializeMixin(self)
     self.playerId = aPlayerId
     self.weapons = {}
     if aWeapon then 
@@ -19,8 +22,8 @@ end
 
 function WeaponCollection:getState()
     if self.modified then
-        local state = Packable.getState(self)
-        state.weapons = Packable.getTableState(self.weapons)
+        local state = Serializeable.getState(self)
+        state.weapons = Serializeable.getTableState(self.weapons)
         state.currentId = self.current.class.name
         state.playerId = self.playerId
         return state
@@ -29,21 +32,21 @@ end
 
 function WeaponCollection:unpackState(state, game)
     if (state) then
-        Packable.unpackTableState(self.weapons, state.weapons, game)
+        Serializeable.unpackTableState(self.weapons, state.weapons, game)
         self.current = self.weapons[state.currentId]
         self.playerId = state.playerId
     end
 end
 
 function WeaponCollection:reId(state)
-    Packable.reId(self, state)
+    Serializeable.reId(self, state)
     for i in pairs(self.weapons) do
         self.weapons[i]:reId(state.weapons[i])
     end
 end
 
 function WeaponCollection:fullReport()
-    Packable.fullReport(self)
+    Serializeable.fullReport(self)
     for i in pairs(self.weapons) do
         self.weapons[i]:fullReport()
     end
@@ -95,13 +98,7 @@ function WeaponCollection:drawHud()
         x = x + imgSize + xBuffer
     end
     
-    love.graphics.setColor(0.01,0.1,0.01)
-    x,y = 10,30
-    love.graphics.rectangle('fill', x, y, 100, 20)
-    love.graphics.setColor(0.2,0.8,0.2)
-    love.graphics.rectangle('fill', x, y, self.current.ammo/self.current.capacity * 100, 20)
-    love.graphics.setColor(1,1,1)
-    love.graphics.print(self.current.ammo, x + width/2 - font:getWidth(self.current.ammo)/2, y + height/2 - font:getHeight()/2)
+    Meter.draw(10,30,self.current.capacity,self.current.ammo,hudBackColor,hudFillColor,100,20)
 end
 
 return WeaponCollection

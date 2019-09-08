@@ -1,6 +1,6 @@
-Packable = require 'handlers/unpacking/Packable'
-BodiedPackable = require 'handlers/unpacking/BodiedPackable'
-DynamicBodiedPackable = require 'handlers/unpacking/DynamicBodiedPackable'
+Serializeable = require('handlers/unpacking/Serializeable')
+Collideable = require('handlers/unpacking/Collideable')
+DynamicCollideable = require('handlers/unpacking/DynamicCollideable')
 local Platform = require 'platform/Platform'
 local DestroyablePlatform = require 'platform/DestroyablePlatform'
 local TeamBase = require 'platform/TeamBase'

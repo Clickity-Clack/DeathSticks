@@ -1,4 +1,6 @@
-local Explosion = class('Explosion', BodiedPackable)
+local Explosion = class('Explosion')
+Explosion:include(Serializeable)
+Explosion:include(Collideable)
 
 function Explosion:initialize(body, aPlayerId)
     self.playerId = aPlayerId
@@ -9,7 +11,8 @@ function Explosion:initialize(body, aPlayerId)
     self.image = love.graphics.newImage("res/flame.png")
     self.scale = 6
     self.r = 0
-    BodiedPackable.initialize(self, body)
+    Serializeable.initializeMixin(self)
+    Collideable.initializeMixin(self, body)
     self.fixture:setSensor(true)
     Explosion.initCollisions(self)
     love.audio.play(love.audio.newSource('sounds/kaPff.wav', 'static'))
@@ -52,7 +55,8 @@ end
 
 function Explosion:getState()
     if self.modified then
-        local state = BodiedPackable.getState(self)
+        local state = Serializeable.getState(self)
+        Collideable.getState(self, state)
         state.r = self.r
         state.duration = self.duration
         state.playerId = self.playerId
@@ -62,7 +66,8 @@ end
 
 function Explosion:unpackState(state, game)
     if state then
-        BodiedPackable.unpackState(self, state)
+        Serializeable.unpackState(self)
+        Collideable.unpackState(self, state)
         self.r = state.r
         self.duration = state.duration
         self.playerId = state.playerId

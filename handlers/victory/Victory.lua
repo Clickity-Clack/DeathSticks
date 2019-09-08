@@ -1,7 +1,8 @@
-local Victory = class('Victory', Packable)
+local Victory = class('Victory')
+Victory:include(Serializeable)
 
 function Victory:initialize()
-    Packable.initialize(self)
+    Serializeable.initializeMixin(self)
     self.win = false
     self.score = {}
     self.contestantCount = 0
@@ -47,7 +48,7 @@ end
 
 function Victory:getState()
     if self.modified then
-        local state = Packable.getState(self)
+        local state = Serializeable.getState(self)
         state.contestantCount = self.contestantCount
         state.score = self.score
         return state
@@ -58,7 +59,7 @@ function Victory:unpackState(state)
     if state then
         self.contestantCount = state.contestantCount
         self.score = state.score
-        Packable.unpackState(self)
+        Serializeable.unpackState(self)
     end
 end
 

@@ -1,9 +1,9 @@
-local Packable = require'handlers/unpacking/Packable'
 local NullControllable = require 'character/NullControllable'
-local Player = class('Player', Packable)
+local Player = class('Player')
+Player:include(Serializeable)
 
 function Player:initialize( controllable, team )
-    Packable.initialize(self)
+    Serializeable.initializeMixin(self)
     self.commands = { direction = 'stopped', jump = false, r = 0, a = false, b = false, c = false, weaponSwitch = 'no' }
     self.controllable = controllable or NullControllable()
     self.team = team
@@ -15,7 +15,7 @@ end
 
 function Player:getState()
     if self.modified then
-        local state = Packable.getState(self)
+        local state = Serializeable.getState(self)
         state.controllableId = self.controllable.id
         return state
     end
@@ -23,7 +23,7 @@ end
 
 function Player:unpackState(state, game)
     self.controllable = game.stems[state.controllableId]
-    Packable.unpackState(self,state)
+    Serializeable.unpackState(self,state)
 end
 
 function Player:getCenter()

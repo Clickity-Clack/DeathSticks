@@ -1,7 +1,8 @@
-local NullControllable = class('NullControllable', Packable)
+local NullControllable = class('NullControllable')
+NullControllable:include(Serializeable)
 
 function NullControllable:initialize(body)
-    Packable.initialize(self)
+    Serializeable.initializeMixin(self)
     self.playerId = nil
     self.isNull = true
 end

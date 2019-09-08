@@ -1,11 +1,16 @@
 local Pistol = require 'weapons/Pistol'
-local Health = require 'character/Health'
+local HasHealth = require 'character/HasHealth'
+local HasArmor = require 'character/HasArmor'
 local NullJetpack = require 'character/NullJetpack'
 local Animation = require 'character/Animation'
 local WeaponCollection = require 'weapons/WeaponCollection'
-local DynamicBodiedPackable = require('handlers/unpacking/DynamicBodiedPackable')
 
-local Character = class('Character', DynamicBodiedPackable)
+local Character = class('Character')
+Character:include(Serializeable)
+Character:include(Collideable)
+Character:include(DynamicCollideable)
+Character:include(HasHealth)
+Character:include(HasArmor)
 
 function Character:initialize(body, aPlayerId)
     self.playerId = aPlayerId
@@ -15,16 +20,20 @@ function Character:initialize(body, aPlayerId)
     self.isFiring = true
     self.isBlasting = true
     self.anim = {}
-    self.anim['walk'] = Animation:new(love.graphics.newImage('res/oldHeroWalk.png'), 16, 18, self.size, 1, 8, 20) --duration of 1 means the Animation will play through each quad once per second
-    self.anim['swim'] = Animation:new(love.graphics.newImage('res/oldHeroSwim.png'), 18, 17, self.size, 1, 9, 20)
-    self.currentAnim = 'swim'
+    self.anim['walk'] = Animation:new(love.graphics.newImage('res/oldHeroWalk.png'), 16, 18, self.size, 0.5, 8, 20) --duration of 1 means the Animation will play through each quad once per second
+    self.anim['swim'] = Animation:new(love.graphics.newImage('res/oldHeroSwim.png'), 18, 17, self.size, 0.5, 9, 20)
+    self.currentAnim = 'walk'
     self.dead = false
     self.weapons = WeaponCollection:new(self.playerId,Pistol:new(self.playerId))
-    self.health = Health:new(self.playerId, 100)
     self.jetpack = NullJetpack:new()
 
     self.shape = love.physics.newRectangleShape(self.size * 16, self.size * 16)
-    DynamicBodiedPackable.initialize(self, body)
+    Serializeable.initializeMixin(self)
+    Collideable.initializeMixin(self, body)
+    DynamicCollideable.initializeMixin(self)
+    HasHealth.initializeMixin(self, 100)
+    HasHealth.addDamageModifier(self, {type = 'CharacterDamageModifier', func = CharacterDamageModifier, ref = self})
+    HasArmor.initializeMixin(self, 100)
     assert(self.collide, "WHat?! No collide method?!")
     self.fixture:setGroupIndex(-12)
     self.body:setFixedRotation(true)
@@ -34,7 +43,9 @@ end
 
 function Character:getState()
     if self.modified then
-        local state = DynamicBodiedPackable.getState(self)
+        local state = Serializeable.getState(self)
+        Collideable.getState(self, state)
+        DynamicCollideable.getState(self, state)
         state.direction = self.direction
         state.currentAnim = self.currentAnim
         state.weapons = self.weapons:getState()
@@ -54,33 +65,37 @@ function Character:unpackState(state, game)
     else
         self.jetpack:unpackState(state.jetpack)
     end
-    DynamicBodiedPackable.unpackState(self, state)
+    Serializeable.unpackState(self)
+    Collideable.unpackState(self, state)
+    DynamicCollideable.unpackState(self, state)
 end
 
 function Character:reId(state)
-    DynamicBodiedPackable.reId(self,state)
+    Serializeable.reId(self,state)
     self.weapons:reId(state.weapons)
     self.health:reId(state.health)
     self.jetpack:reId(state.jetpack)
 end
 
 function Character:fullReport()
-    DynamicBodiedPackable.fullReport(self)
+    Serializeable.fullReport(self)
     self.health:fullReport()
     self.weapons:fullReport()
     self.jetpack:fullReport()
+end
+
+function CharacterDamageModifier(self, hurtyThing)
+    if hurtyThing.playerId == self.playerId and hurtyThing.class.name ~= 'Explosion' then hurtyThing.damage = 0 end
 end
 
 function Character:kill(killer)
     self.health:kill(killer)
 end
 
-function Character:ouch(hurtyThing)
-    self.health:ouch(hurtyThing)
-end
-
 function Character:update(dt, events)
-    DynamicBodiedPackable.update(self)
+    DynamicCollideable.update(self)
+    HasHealth.update(self, dt, events)
+    HasArmor.update(self, dt, events)
     self.weapons.current:update(dt, self:getCenter())
     if self.isFiring and self.weapons.current.delay <= 0  then
         table.insert(events, { type = 'fire', subject = self })
@@ -101,13 +116,15 @@ function Character:draw(cam)
     love.graphics.setColor(1,1,1,1)
     love.graphics.rectangle('line', self.body:getX() - (self.size * 8), self.body:getY() - (self.size * 8), self.size * 16, self.size * 16)
     self.anim[self.currentAnim]:draw(self.body:getX(), self.body:getY(), 0, self.direction)
-    self.health:draw(self:getX(), self:getY())
+    HasHealth.draw(self,self:getX(), self:getY())
+    HasArmor.draw(self,self:getX(), self:getY())
     self.weapons:draw()
     self.jetpack:draw(self:getX(), self:getY())
 end
 
 function Character:drawHud()
-    self.health:drawHud()
+    HasHealth.drawHud(self)
+    HasArmor.drawHud(self)
     self.weapons:drawHud()
     self.jetpack:drawHud()
 end
