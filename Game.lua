@@ -236,7 +236,7 @@ function Game:unpackVictory(victoryState)
     end
 end
 
-function Game:drawWorld(cl,ct,cw,ch)
+function Game:drawBackdrop(cl,ct,cw,ch)
     local w = self.cWorld.w / self.cWorld.columns
     local h = self.cWorld.h / self.cWorld.rows
 
@@ -260,7 +260,7 @@ end
 function Game:draw()
     self.cam:draw(
         function(l,t,w,h)
-            self:drawWorld(l,t,w,h)
+            self:drawBackdrop(l,t,w,h)
             for v in pairs(self.stems) do
                 self.stems[v]:draw(self.cam, self.user)
             end
