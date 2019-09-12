@@ -6,7 +6,7 @@ local hudFillColor = {0.5,0.5,0.5,1}
 
 function Armor:initialize(hp,capacity)
     self.isNull = false
-    Health.initialize(self, hp, capacity)
+    Health.initialize(self, self, hp, capacity)
 end
 
 function Armor:draw(x,y)
