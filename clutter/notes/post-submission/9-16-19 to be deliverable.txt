@@ -1,0 +1,33 @@
+-!Polished weapon balance
+-!Decent maps
+-!Fullscreen capability
+-!Wide field of view when windowed
+-!Polished movement
+-!Choose which server to connect to
+- Polished artwork(platform, lava, weapons, backdrop)
+-!Bullets visible
+-!Player name visible
+- Polished Character model(stick figure, animated, weapon rotates properly, blood?, Character bits break apart?)
+-!Can Choose game mode when starting server/local
+-!Victory screen
+- WeaponCollection indicates selected weapon when drawing
+-!Functional client
+
+Stretch goals:
+-!Bots
+-Interactable single-player elements (explosive barrels, trampolines, switches + trap doors, beach balls, keys, locked doors, shattering walls)
+-Destructable platforms show visible damage
+-!Explosion particles
+-Moving elements that  can damage players (indiana jones boulder, pendulumn, smoosher thing, pirahnas, lasers)
+-!Heads pop off and on
+-Character Customization
+-!Shell casings
+-Spectator mode
+-Map maker
+-!Make it possible to change what weapons/health people spawn with
+-!Melee weapons
+-Water(variable gravity, o2 levels)
+-Party mode(streamers and balloons instead of blood)
+
+Refactoring:
+-Complete interpreting for maps and weapons
