@@ -69,6 +69,16 @@ function OptionList:draw()
     end
 end
 
+function OptionList:resize(dimensions, position)
+    self.dimensions = dimensions
+    if position then self.position = position end
+    local height = self.position.y
+    for i,v in ipairs(self.options) do
+        v:setPosition({x = self.position.x + self.dimensions.width/2, y = height})
+        height = height + v.dimensions.height + self.margin
+    end
+end
+
 -- function OptionList:textinput(t)
 --     print(self.options[self.selection])
 --     self.options[self.selection]:textinput(t)

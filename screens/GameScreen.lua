@@ -8,6 +8,10 @@ function GameScreen:initialize(upScreen)
     self.game = Game:new()
 end
 
+function GameScreen:resize(x, y)
+    self.game:resize(x, y)
+end
+
 function GameScreen:mousepressed(x, y, number)
     self.user:mousepressed(x, y, number)
 end

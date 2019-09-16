@@ -1,8 +1,9 @@
 local Game = require 'Game'
 local GameScreen = require 'screens/GameScreen'
+local WinScreen = require 'screens/WinScreen'
 local User = require 'screens/User'
 local LocalScreen = class('LocalScreen', GameScreen)
-local WinScreen = require 'screens/WinScreen'
+
 function LocalScreen:initialize(upScreen)
     GameScreen.initialize(self, upScreen)
     self.game:initBasic()

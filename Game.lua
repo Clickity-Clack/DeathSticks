@@ -43,7 +43,7 @@ function Game:initialize()
     self.cWorld = { w = 5000, h = 3000, columns = 24, rows = 22 }
     self.offCenter = { x = self.cWorld.w/2 - winWidth()/2, y = self.cWorld.h/2 - winHeight()/2 }
     self.cam = gamera.new( 0, 0, self.cWorld.w, self.cWorld.h )
-    self.cam:setWindow( 10, 10, 780, 580 )
+    self.cam:setWindow( 0, 0, winWidth(), winHeight() )
     self.cam:setScale(0.9)
     --self.cam:setPosition( self.offCenter.x + winWidth()/2, self.offCenter.y + winHeight()/2 )
 
@@ -63,50 +63,56 @@ function Game:initialize()
     self.user = NullPlayer:new()
     self.once = false
 
-    self.cam:setPosition( self.offCenter.x + winWidth()/2, self.offCenter.y + winHeight()/2 + 175 )
+    self.cam:setPosition( self.offCenter.x + 800/2, self.offCenter.y + 600/2 + 175 )
 end
 
 function Game:initBasic()
-    local x = DestroyablePlatform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y, 'kinematic'), winWidth(), 50)
+    print('width: ', 800)
+    print('Height: ', 600)
+    local x = DestroyablePlatform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 800-55/2 + self.offCenter.y, 'kinematic'), 800, 50)
     self.stems[x.id] = x
-    x = TeamBase:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x - 700 , winWidth()-55/2 + self.offCenter.y, 'kinematic'), 100, 100, 'red')
+    x = TeamBase:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x - 700 , 800-55/2 + self.offCenter.y, 'kinematic'), 100, 100, 'red')
     self.stems[x.id] = x
-    x = TeamBase:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 700 , winWidth()-55/2 + self.offCenter.y, 'kinematic'), 100, 100, 'blue')
+    x = TeamBase:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x + 700 , 800-55/2 + self.offCenter.y, 'kinematic'), 100, 100, 'blue')
     self.stems[x.id] = x
-    x = HealthPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'))
+    x = HealthPower:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 800-55/2 + self.offCenter.y - 40, 'kinematic'))
     self.stems[x.id] = x
-    x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winWidth()/2 + self.offCenter.y - 140, 'kinematic'), Sniper)
+    x = WeaponPower:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 800/2 + self.offCenter.y - 140, 'kinematic'), Sniper)
     self.stems[x.id] = x
-    x = ArmorPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x - 500, winWidth()/2 + self.offCenter.y + 600, 'kinematic'))
+    x = ArmorPower:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x - 500, 800/2 + self.offCenter.y + 600, 'kinematic'))
     self.stems[x.id] = x
-    x = JetpackPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 500, winWidth()/2 + self.offCenter.y + 600, 'kinematic'))
+    x = JetpackPower:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x + 500, 800/2 + self.offCenter.y + 600, 'kinematic'))
     self.stems[x.id] = x
-    x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 180, winWidth()/2 + self.offCenter.y + 600, 'kinematic'), RocketLauncher)
+    x = WeaponPower:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x + 180, 800/2 + self.offCenter.y + 600, 'kinematic'), RocketLauncher)
     self.stems[x.id] = x
-    x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 220, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'), Shotgun)
+    x = WeaponPower:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x + 220, 800-55/2 + self.offCenter.y - 40, 'kinematic'), Shotgun)
     self.stems[x.id] = x
-    x = WeaponPower:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 260, winWidth()-55/2 + self.offCenter.y - 40, 'kinematic'), GrenadeLauncher)
+    x = WeaponPower:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x + 260, 800-55/2 + self.offCenter.y - 40, 'kinematic'), GrenadeLauncher)
     self.stems[x.id] = x
-    x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y, 'kinematic'))
+    x = Platform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 600/2 + self.offCenter.y, 'kinematic'))
     self.stems[x.id] = x
-    x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x - 500, winHeight()/2 + self.offCenter.y + 750, 'kinematic'), winWidth(), 50)
+    x = Platform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x - 500, 600/2 + self.offCenter.y + 750, 'kinematic'), 800, 50)
     self.stems[x.id] = x
-    x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x + 500, winHeight()/2 + self.offCenter.y + 750, 'kinematic'), winWidth(), 50)
+    x = Platform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x + 500, 600/2 + self.offCenter.y + 750, 'kinematic'), 800, 50)
     self.stems[x.id] = x
-    x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y + 700, 'kinematic'), 50, 500)
+    x = Platform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 600/2 + self.offCenter.y + 700, 'kinematic'), 50, 500)
     self.stems[x.id] = x
-    x = DeadlyPlatform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y + 1055, 'kinematic'), winWidth(), 50)
+    x = DeadlyPlatform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 600/2 + self.offCenter.y + 1055, 'kinematic'), 800, 50)
     self.stems[x.id] = x
-    x = Platform:new(love.physics.newBody(self.world, winWidth()/2 + self.offCenter.x, winHeight()/2 + self.offCenter.y + 1024, 'kinematic'), 500, 30)
+    x = Platform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 600/2 + self.offCenter.y + 1024, 'kinematic'), 500, 30)
     self.stems[x.id] = x
-    x = Bottom:new(love.physics.newBody(self.world, self.cWorld.w/2, winHeight()/2 + self.offCenter.y + 2500, 'kinematic'), self.cWorld.w)
+    x = Bottom:new(love.physics.newBody(self.world, self.cWorld.w/2, 600/2 + self.offCenter.y + 2500, 'kinematic'), self.cWorld.w)
     self.stems[x.id] = x
-    self.spawnPoint = { x = winWidth()/2 + self.offCenter.x, y = winHeight()/2 + self.offCenter.y + 25}
+    self.spawnPoint = { x = 800/2 + self.offCenter.x, y = 600/2 + self.offCenter.y + 25}
     x = Bot:new(self:newPlayer())
     x.player:switchControllable(self:newCharacterControllable(x.player.id))
     self.ai[x.id] = x
     self.user = self:newPlayer()
     self.user:switchControllable(self:newCharacterControllable(self.user.id))
+end
+
+function Game:resize(x,y)
+    self.cam:setWindow( 0, 0, winWidth(), winHeight() )
 end
 
 function Game:update(dt, input)
@@ -236,7 +242,7 @@ function Game:unpackVictory(victoryState)
     end
 end
 
-function Game:drawWorld(cl,ct,cw,ch)
+function Game:drawBackdrop(cl,ct,cw,ch)
     local w = self.cWorld.w / self.cWorld.columns
     local h = self.cWorld.h / self.cWorld.rows
 
@@ -260,7 +266,7 @@ end
 function Game:draw()
     self.cam:draw(
         function(l,t,w,h)
-            self:drawWorld(l,t,w,h)
+            self:drawBackdrop(l,t,w,h)
             for v in pairs(self.stems) do
                 self.stems[v]:draw(self.cam, self.user)
             end

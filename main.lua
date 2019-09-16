@@ -20,6 +20,10 @@ function love.load()
     --screen.current = overlay:new(screen)
 end
 
+function love.resize(x, y)
+    screen.current:resize()
+end
+
 function love.update(dt)
     screen.current:update(dt)
 end

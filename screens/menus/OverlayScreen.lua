@@ -23,11 +23,18 @@ function OverlayScreen:initialize(upScreen)
             end
         )        
     }
-    self.theList = OptionList(options, position, dimensions)
+    self.optionList = OptionList(options, position, dimensions)
 end
 
 function OverlayScreen:update(dt)
     self.beneath:update(dt)
+end
+
+function OverlayScreen:resize(x,y)
+    local dimensions = { width = love.graphics.getWidth()/5, height = love.graphics.getHeight()/5 }
+    local position = { x = love.graphics.getWidth()/2.5, y = love.graphics.getHeight()/3 }
+    self.optionList:resize(dimensions, position)
+    self.beneath:resize(x,y)
 end
 
 function OverlayScreen:mousepressed(x,y)
@@ -36,11 +43,11 @@ end
 
 function OverlayScreen:keypressed(key, scancode, isrepeat )
     if key == 'w' or key == 'up' then
-        self.theList:selectPrevious()
+        self.optionList:selectPrevious()
     elseif key == 's' or key == 'down' then
-        self.theList:selectNext()
+        self.optionList:selectNext()
     elseif key == 'return' then
-        self.theList:boopCurrent(self)
+        self.optionList:boopCurrent(self)
     elseif key == 'escape' then
         self.upScreen.current = self.beneath
     end
@@ -60,7 +67,7 @@ function OverlayScreen:draw()
     y = love.graphics.getHeight()/4
     love.graphics.setColor(0,0,0,0.7)
     love.graphics.rectangle('fill', x, y, love.graphics.getWidth()/2, love.graphics.getHeight()/2)
-    self.theList:draw()
+    self.optionList:draw()
 end
 
 return OverlayScreen

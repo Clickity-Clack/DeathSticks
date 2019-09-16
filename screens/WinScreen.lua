@@ -19,6 +19,11 @@ function WinScreen:update(dt)
     end
 end
 
+function WinScreen:resize(newX, newY)
+    x = love.graphics.getWidth() /2
+    y = love.graphics.getHeight() /2
+end
+
 function WinScreen:draw()
     local count = 0
     local text = ''
