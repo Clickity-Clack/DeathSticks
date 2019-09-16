@@ -67,8 +67,6 @@ function Game:initialize()
 end
 
 function Game:initBasic()
-    print('width: ', 800)
-    print('Height: ', 600)
     local x = DestroyablePlatform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 800-55/2 + self.offCenter.y, 'kinematic'), 800, 50)
     self.stems[x.id] = x
     x = TeamBase:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x - 700 , 800-55/2 + self.offCenter.y, 'kinematic'), 100, 100, 'red')
