@@ -1,0 +1,9 @@
+refactoring necromancer- How do we want to deserialize info?
+-Users should not need to modify it to add modded maps, weapons, weapon skins, character skins, sounds, victory
+-Should be secure, such that it's impossible to mess with the end user's machine, or execute arbitrary code
+-Protocol for adding new in-game objects?(e.g. )
+-mark object as dead to confirm dead to prevent event spamming? [also, how to prevent event spamming?]
+
+Actually, it looks like Necromancer should work just fine... Nice!
+
+Next steps: make weapons + map interpreted- We're pretty mucn halfway there!
