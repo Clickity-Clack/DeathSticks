@@ -88,13 +88,24 @@ function WeaponCollection:draw()
 end
 
 function WeaponCollection:drawHud()
-    local imgSize, xBuffer, y = 30, 10, 10
+    local imgSize, xBuffer, y = 30, 5, 5
     local winWidth = love.graphics.getWidth()
     local count = helper.tableLength(self.weapons)
-    local x = winWidth/2 - ((imgSize * count)/2 + (xBuffer * (count - 1))/2)
-    love.graphics.setColor(0,0,0)
+    local scale = 2
+    local x = winWidth/2 - ((imgSize * count)/2 + (xBuffer * (count))/2)
+    love.graphics.setColor(0.5,0.5,0.5)
     for i in pairs(self.weapons)do
-        love.graphics.draw(self.weapons[i].image, x, y, 0, 2 )
+        if self.current.id == self.weapons[i].id then
+            x = x + xBuffer
+            scale = 4
+            love.graphics.setColor(1,1,1)
+            love.graphics.draw(self.weapons[i].image, x, y, 1.85*(math.pi), scale, scale, (self.weapons[i].ox * scale * 1/2), 0 - (self.weapons[i].oy / scale) )
+            love.graphics.setColor(0.5,0.5,0.5)
+            scale = 2
+            x = x + xBuffer
+        else
+            love.graphics.draw(self.weapons[i].image, x, y, 0, scale, scale)
+        end
         x = x + imgSize + xBuffer
     end
     

@@ -6,7 +6,7 @@ function Shotgun:initialize(aPlayerId)
     self.projectile = Twelve
     self.x = 0
     self.y = 0
-    self.ox = 8
+    self.ox = 4
     self.oy = 10
     self.r = 0
     self.scale = 2

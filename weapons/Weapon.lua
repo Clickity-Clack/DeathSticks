@@ -23,8 +23,13 @@ end
 
 
 function Weapon:draw()
+    love.graphics.setColor(0,0,0)
+    local yscale = self.scale
+    if self.r < (-1.5) then
+        yscale = 0 - self.scale
+    end
     love.graphics.setColor(1,1,1)
-    love.graphics.draw(self.image, self.x, self.y, self.r, self.scale, self.scale, self.ox, self.oy)
+    love.graphics.draw(self.image, self.x, self.y, self.r, self.scale, yscale, self.ox, self.oy)
 end
 
 function Weapon:fire(world)

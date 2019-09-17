@@ -7,8 +7,8 @@ function Pistol:initialize(aPlayerId)
     self.projectile = NineMil
     self.x = 0
     self.y = 0
-    self.ox = 8
-    self.oy = 10
+    self.ox = 6
+    self.oy = 8
     self.r = 0
     self.scale = 2
     self.barrelLen = 30
