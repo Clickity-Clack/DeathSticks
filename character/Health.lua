@@ -42,7 +42,6 @@ function Health:ouch(hurtyThing)
     end
     self.hp = self.hp - math.ceil(hurtyThing.damage)
     if(self.hp <= 0) then
-        self.hp = 0
         self:kill(hurtyThing)
         return 0 - self.hp
     end
@@ -64,7 +63,6 @@ end
 
 function Health:kill(killer)
     if not self.dead then
-        self.hp = 0
         self.dead = true
         self.killer = killer
     end

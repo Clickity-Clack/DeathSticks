@@ -31,3 +31,6 @@ Stretch goals:
 
 Refactoring:
 -Complete interpreting for maps and weapons
+
+Ideas:
+-Collections of objects, placed in relation to one-another?
