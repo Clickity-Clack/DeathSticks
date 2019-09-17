@@ -10,7 +10,9 @@ function Armor:initialize(hp,capacity)
 end
 
 function Armor:draw(x,y)
-    Meter.draw(x,y,self.capacity,self.hp,hudBackColor,hudFillColor,70,10)
+    local height = 10
+    local width = 70
+    Meter.draw(x - width/2,y - height/2,self.capacity,self.hp,hudBackColor,hudFillColor,width,height)
 end
 
 function Armor:drawHud()
