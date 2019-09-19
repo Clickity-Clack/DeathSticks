@@ -12,7 +12,7 @@ function Powerup:initialize( body, image )
     Powerup.initCollisions(self)
 end
 
-function Powerup:update()
+function Powerup:update(dt)
     if not self.visible then
         self.delay = self.delay - dt
         if self.delay <= 0 then
@@ -32,9 +32,10 @@ function Powerup:draw()
     end
 end
 
-function Powerup:used()
+function Powerup:hide()
     self.body:isActive(false)
-    self.delay = 10
+    self.delay = 5
+    self.visible = false
 end
 
 function Powerup:initCollisions()
@@ -42,7 +43,9 @@ function Powerup:initCollisions()
         -- assert(self, "no self!")
         -- assert(self.class, "no class!")
         -- assert(self.zoop, self.class.name .. " doesn't have a zoop!\r\n" .. serpent.block(self.collisions))
-        self:zoop(aCharacter)
+        if self.visible then
+            self:zoop(aCharacter)  
+        end
     end
 end
 

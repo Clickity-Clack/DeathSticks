@@ -10,6 +10,8 @@ end
 
 function ArmorPower:zoop(aCharacter)
     aCharacter:refillArmor(50)
+    love.audio.play(ArmorPower.zoopSound)
+    self:hide()
 end
 
 return ArmorPower

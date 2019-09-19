@@ -12,8 +12,10 @@ end
 function JetpackPower:zoop(aCharacter)
     if aCharacter.jetpack.isNull then
         aCharacter:switchJetpack(Jetpack:new(aCharacter.playerId))
+        self:hide()
     else
         self.used = aCharacter.jetpack:refill(self.value)
+        self:hide()
     end
 end
 
