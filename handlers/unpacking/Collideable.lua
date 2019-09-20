@@ -6,6 +6,7 @@ function Collideable:initializeMixin(body) -- would this work with the initializ
     self.fixture = love.physics.newFixture(self.body, self.shape)
     self.fixture:setUserData(self)
     self.collisions = {}
+    self.separations = {}
 end
 
 function Collideable:getState(state)
@@ -27,6 +28,18 @@ function Collideable:collide(b)
         collisionMeth = b.collisions[self.class.name]
         if collisionMeth then
             collisionMeth(b,self)
+        end
+    end
+end
+
+function Collideable:separate(b)
+    local separationMeth = self.separations[b.class.name]
+    if separationMeth then
+        separationMeth(self, b)
+    else
+        separationMeth = b.separations[self.class.name]
+        if separationMeth then
+            separationMeth(b,self)
         end
     end
 end

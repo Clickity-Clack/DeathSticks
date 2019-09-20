@@ -5,6 +5,7 @@ local Platform = require 'platform/Platform'
 local DestroyablePlatform = require 'platform/DestroyablePlatform'
 local TeamBase = require 'platform/TeamBase'
 local DeadlyPlatform = require 'platform/DeadlyPlatform'
+local Water = require 'platform/Water'
 local Bottom = require 'platform/Bottom'
 local CharacterControllable = require 'character/CharacterControllable'
 local NullControllable = require 'character/NullControllable'
@@ -96,6 +97,8 @@ function Game:initBasic()
     x = Platform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 600/2 + self.offCenter.y + 700, 'kinematic'), 50, 500)
     self.stems[x.id] = x
     x = DeadlyPlatform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 600/2 + self.offCenter.y + 1055, 'kinematic'), 800, 50)
+    self.stems[x.id] = x
+    x = Water:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 600/2 + self.offCenter.y + 1040, 'kinematic'), 800, 80)
     self.stems[x.id] = x
     x = Platform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 600/2 + self.offCenter.y + 1024, 'kinematic'), 500, 30)
     self.stems[x.id] = x
@@ -317,7 +320,9 @@ function beginContact(a, b, coll)
 end
 
 function endContact(a, b, coll)
-    
+    local aThing, bThing = a:getUserData(), b:getUserData()
+    assert(aThing.separate, aThing.class.name .. " has no separate method!")
+    aThing:separate(bThing)
 end
 
 return Game
