@@ -10,7 +10,10 @@ end
 
 function HealthPower:zoop(aCharacter)
     self.used = aCharacter.health:heal(self.value)
-    if self.used then love.audio.play(HealthPower.zoopSound) end
+    if self.used then
+        love.audio.play(HealthPower.zoopSound)
+        self:hide()
+    end
 end
 
 return HealthPower

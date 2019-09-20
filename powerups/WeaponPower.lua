@@ -11,10 +11,14 @@ function WeaponPower:zoop(aCharacter)
     local aWeaponCollection = aCharacter.weapons
     local weapon = aWeaponCollection:contains(self.weapon)
     if weapon then
-        if weapon:refill() then love.audio.play(WeaponPower.zoopSound) end
+        if weapon:refill() then 
+            love.audio.play(WeaponPower.zoopSound)
+            self:hide()
+        end
     else
         aWeaponCollection:addWeapon(self.weapon:new(aCharacter.playerId))
-        love.audio.play(WeaponPower.zoopSound) 
+        love.audio.play(WeaponPower.zoopSound)
+        self:hide()
     end
 end
 
