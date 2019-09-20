@@ -1,0 +1,11 @@
+-Fix Jetpack speed
+-Screen shake on explosion
+-options menu
+-Custom cursor
+-develop a color scheme
+-Implement recoil(use a recoil potentioal, modify recoil position on update)
+-Have a separate offset for the trigger vs. the center of mass
+-Put an indicator (like a circle) around powerups?
+-Refactor collision to use physics stuff so as not to collide with teammates or self
+-Make a pointless weapon (vuvuzela?)
+-Add a meter for individual weapons on WeaponCollection HUD
