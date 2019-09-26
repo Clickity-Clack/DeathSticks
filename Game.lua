@@ -98,7 +98,7 @@ function Game:initBasic()
     self.stems[x.id] = x
     x = DeadlyPlatform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 600/2 + self.offCenter.y + 1055, 'kinematic'), 800, 50)
     self.stems[x.id] = x
-    x = Water:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 600/2 + self.offCenter.y + 1040, 'kinematic'), 800, 80)
+    x = Water:new(love.physics.newBody(self.world, self.offCenter.x - 40, self.offCenter.y + 1000, 'kinematic'), 800, 800)
     self.stems[x.id] = x
     x = Platform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 600/2 + self.offCenter.y + 1024, 'kinematic'), 500, 30)
     self.stems[x.id] = x

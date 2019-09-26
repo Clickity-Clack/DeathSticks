@@ -16,13 +16,37 @@ function Character:initialize(body, aPlayerId)
     self.playerId = aPlayerId
     self.size = 2
     self.direction = 1
-    self.walking = false
+    self.moving = false
     self.isFiring = true
     self.isBlasting = true
+    self.jumptimer = 0
     self.anim = {}
-    self.anim['walk'] = Animation:new(love.graphics.newImage('res/oldHeroWalk.png'), 16, 18, self.size, 0.5, 8, 20) --duration of 1 means the Animation will play through each quad once per second
-    self.anim['swim'] = Animation:new(love.graphics.newImage('res/oldHeroSwim.png'), 18, 17, self.size, 0.5, 9, 20)
-    self.currentAnim = 'walk'
+    self.movementTypes = {
+        walk = {
+            animation = Animation:new(love.graphics.newImage('res/oldHeroWalk.png'), 16, 18, self.size, 0.5, 8, 20),
+            speed = 200,
+            jump = function(self)
+                x, y = self.body:getLinearVelocity()
+                if y == 0 then
+                    self.jumping = true
+                    self.body:setLinearVelocity( x, y - 1600 )
+                end
+            end
+        },
+        swim = {
+            animation = Animation:new(love.graphics.newImage('res/oldHeroSwim.png'), 18, 17, self.size, 0.5, 9, 20),
+            speed = 150,
+            jump = function(self)
+                if self.jumptimer <= 0 then
+                    x, y = self.body:getLinearVelocity()
+                    self.jumptimer = 0.5
+                    self.jumping = true
+                    self.body:setLinearVelocity( x, - 400 )
+                end
+            end
+        }
+    }
+    self.currentMovementType = 'walk'
     self.dead = false
     self.weapons = WeaponCollection:new(self.playerId,Pistol:new(self.playerId))
     self.jetpack = NullJetpack:new()
@@ -39,6 +63,22 @@ function Character:initialize(body, aPlayerId)
     self.body:setFixedRotation(true)
     self.body:setGravityScale(4)
     assert(self.collisions, 'No collisions table')
+    self:initCollisions()
+    self:initSeparations()
+end
+
+function Character:initCollisions()
+    self.collisions.Water = function(self, aWater)
+        self:pushGravity(0.03)
+        self.currentMovementType = 'swim'
+    end
+end
+
+function Character:initSeparations()
+    self.separations.Water = function(self, aWater)
+        self:popGravity()
+        self.currentMovementType = 'walk'
+    end
 end
 
 function Character:getState()
@@ -47,7 +87,7 @@ function Character:getState()
         Collideable.getState(self, state)
         DynamicCollideable.getState(self, state)
         state.direction = self.direction
-        state.currentAnim = self.currentAnim
+        state.currentMovementType = self.currentMovementType
         state.weapons = self.weapons:getState()
         state.health = self.health:getState()
         state.jetpack = self.jetpack:getState()
@@ -57,7 +97,7 @@ end
 
 function Character:unpackState(state, game)
     self.direction = state.direction
-    self.currentAnim = state.currentAnim
+    self.currentMovementType = state.currentMovementType
     self.health:unpackState(state.health, game)
     self.weapons:unpackState(state.weapons, game)
     if(state.jetpack and self.jetpack.id ~= state.jetpack.id) then
@@ -100,8 +140,11 @@ function Character:update(dt, events)
     if self.isFiring and self.weapons.current.delay <= 0  then
         table.insert(events, { type = 'fire', subject = self })
     end
-    if self.walking then
-        self:walk(dt)
+    if self.jumptimer >= 0 then
+        self.jumptimer = self.jumptimer - dt
+    end
+    if self.moving then
+        self:move(dt)
     end
     if self.isBlasting then
         self.jetpack:blast(dt, self.body)
@@ -115,7 +158,7 @@ function Character:draw(cam)
     love.graphics.setColorMask()
     love.graphics.setColor(1,1,1,1)
     love.graphics.rectangle('line', self.body:getX() - (self.size * 8), self.body:getY() - (self.size * 8), self.size * 16, self.size * 16)
-    self.anim[self.currentAnim]:draw(self.body:getX(), self.body:getY(), 0, self.direction)
+    self.movementTypes[self.currentMovementType].animation:draw(self.body:getX(), self.body:getY(), 0, self.direction)
     HasHealth.draw(self,self:getX(), self:getY() - 35)
     HasArmor.draw(self,self:getX(), self:getY() - 25)
     self.weapons:draw()
@@ -133,41 +176,36 @@ function Character:setFiring(firing)
     self.isFiring = firing
 end
 
-function Character:walkRight()
+function Character:moveRight()
     self.direction = 1
-    self.walking = true
+    self.moving = true
 end
 
-function Character:walkLeft()
+function Character:moveLeft()
     self.direction = -1
-    self.walking = true
+    self.moving = true
 end
 
-function Character:stopWalking()
+function Character:stopMoving()
     x, y = self.body:getLinearVelocity()
     self.body:setLinearVelocity(0,y)
-    self.walking = false
+    self.moving = false
 end
 
-function Character:walk(dt)
-    self.anim[self.currentAnim]:update(dt)
+function Character:move(dt)
+    self.movementTypes[self.currentMovementType].animation:update(dt)
+    local movementSpeed = self.movementTypes[self.currentMovementType].speed
 
     x, y = self.body:getLinearVelocity()
-    if self.direction == 1 then
-        if x < 400 then
-            self.body:setLinearVelocity( x + 200, y )
-        end
-    elseif x > -400 then
-        self.body:setLinearVelocity( x - 200, y )
+    if self.direction == 1 and x < movementSpeed * 2 then
+        self.body:setLinearVelocity( x + movementSpeed, y )
+    elseif x > 0 - movementSpeed * 2 then
+        self.body:setLinearVelocity( x - movementSpeed, y )
     end
 end
 
 function Character:jump()
-    x, y = self.body:getLinearVelocity()
-    if y == 0 then
-        self.jumping = true
-        self.body:setLinearVelocity( x, y - 1600 )
-    end
+    self.movementTypes[self.currentMovementType].jump(self)
 end
 
 function Character:fire(game)
@@ -181,14 +219,6 @@ end
 function Character:switchJetpack(aJetpack)
     self.jetpack = aJetpack
     self.modified = true
-end
-
-function Character:toggleAnim()
-    if self.currentAnim == 'walk' then
-        self.currentAnim = 'swim'
-    else
-        self.currentAnim = 'walk'
-    end
 end
 
 function Character:destroy()

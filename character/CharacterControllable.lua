@@ -56,11 +56,11 @@ end
 
 function CharacterControllable:acceptCommands(commands)
     if commands.direction == 'left' then
-        self.character:walkLeft()
+        self.character:moveLeft()
     elseif commands.direction == 'right' then
-        self.character:walkRight()
+        self.character:moveRight()
     else
-        self.character:stopWalking()
+        self.character:stopMoving()
     end
 
     if commands.jump then
