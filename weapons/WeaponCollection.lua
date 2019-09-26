@@ -87,7 +87,7 @@ function WeaponCollection:draw()
     self.current:draw()
 end
 
-function WeaponCollection:drawHud()
+function WeaponCollection:drawHud(order )
     local imgSize, xBuffer, y = 30, 5, 5
     local winWidth = love.graphics.getWidth()
     local count = helper.tableLength(self.weapons)
@@ -109,7 +109,8 @@ function WeaponCollection:drawHud()
         x = x + imgSize + xBuffer
     end
     
-    Meter.draw(10,30,self.current.capacity,self.current.ammo,hudBackColor,hudFillColor,100,20)
+    Meter.draw(10,10 + 20*(order or 0),self.current.capacity,self.current.ammo,hudBackColor,hudFillColor,100,20)
+    return 1
 end
 
 return WeaponCollection

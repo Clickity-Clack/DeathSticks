@@ -26,8 +26,8 @@ function HasArmor:draw(x,y)
     self.armor:draw(x,y)
 end
 
-function HasArmor:drawHud()
-    self.armor:drawHud()
+function HasArmor:drawHud(order)
+    return self.armor:drawHud(order)
 end
 
 function HasArmor:refillArmor(hitPoints)

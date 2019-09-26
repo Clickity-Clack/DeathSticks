@@ -96,8 +96,9 @@ function Health:draw(x,y)
     Meter.draw(x - width/2,y - height/2,self.capacity,self.hp,hudBackColor,hudFillColor,width,height)
 end
 
-function Health:drawHud()
-    Meter.draw(10,10,self.capacity,self.hp,hudBackColor,hudFillColor,100,20)
+function Health:drawHud(order)
+    Meter.draw(10,10 + 20 * (order or 0),self.capacity,self.hp,hudBackColor,hudFillColor,100,20)
+    return 1
 end
 
 return Health

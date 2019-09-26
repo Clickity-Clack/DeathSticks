@@ -21,6 +21,7 @@ function NullArmor:draw(x,y)
 end
 
 function NullArmor:drawHud()
+    return 0
 end
 
 return NullArmor

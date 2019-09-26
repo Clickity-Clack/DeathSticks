@@ -75,8 +75,9 @@ function Jetpack:getBarrelDeets()
     return{x = self.x, y = self.y, r = 0}
 end
 
-function Jetpack:drawHud()
-    Meter.draw(10,70,self.capacity,self.fuel,hudBackColor,hudFillColor,100,20)
+function Jetpack:drawHud(order)
+    Meter.draw(10,10 + 20 * (order or 0),self.capacity,self.fuel,hudBackColor,hudFillColor,100,20)
+    return 1
 end
 
 return Jetpack

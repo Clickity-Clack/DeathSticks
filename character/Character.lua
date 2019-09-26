@@ -166,10 +166,11 @@ function Character:draw(cam)
 end
 
 function Character:drawHud()
-    HasHealth.drawHud(self)
-    HasArmor.drawHud(self)
-    self.weapons:drawHud()
-    self.jetpack:drawHud()
+    local meterCount = 0
+    meterCount = meterCount + HasHealth.drawHud(self, meterCount)
+    meterCount = meterCount + self.weapons:drawHud(meterCount)
+    meterCount = meterCount + HasArmor.drawHud(self, meterCount)
+    meterCount = meterCount + self.jetpack:drawHud(meterCount)
 end
 
 function Character:setFiring(firing)

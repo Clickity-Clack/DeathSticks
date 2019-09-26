@@ -22,8 +22,8 @@ function HasHealth:draw(x,y)
     self.health:draw(x,y)
 end
 
-function HasHealth:drawHud()
-    self.health:drawHud()
+function HasHealth:drawHud(order)
+    return self.health:drawHud(order)
 end
 
 function HasHealth:getState(state)
