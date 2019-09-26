@@ -2,14 +2,14 @@ local NullArmor = require('character/NullArmor')
 local Health = class('Health')
 Health:include(Serializeable)
 local Meter = require 'character/Meter'
-local hudBackColor = {0,0,0}
-local hudFillColor = {1,0.2,0.4}
 
 function Health:initialize(parentId,hp,capacity)
     self.hp = hp
     self.capacity = capacity or hp
     self.parentId = parentId
     self.damageModifiers = {}
+    self.hudBackColor = {0,0,0}
+    self.hudFillColor = {1,0.2,0.4}
     Serializeable.initializeMixin(self)
 end
 
@@ -93,11 +93,11 @@ end
 function Health:draw(x,y)
     local height = 10
     local width = 70
-    Meter.draw(x - width/2,y - height/2,self.capacity,self.hp,hudBackColor,hudFillColor,width,height)
+    Meter.draw(x - width/2,y - height/2,self.capacity,self.hp,self.hudBackColor,self.hudFillColor,width,height)
 end
 
 function Health:drawHud(order)
-    Meter.draw(10,10 + 20 * (order or 0),self.capacity,self.hp,hudBackColor,hudFillColor,100,20)
+    Meter.draw(10,10 + 20 * (order or 0),self.capacity,self.hp,self.hudBackColor,self.hudFillColor,100,20)
     return 1
 end
 

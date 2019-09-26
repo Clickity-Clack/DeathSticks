@@ -20,6 +20,7 @@ function NullJetpack:draw()
 end
 
 function NullJetpack:drawHud()
+    return 0
 end
 
 return NullJetpack
