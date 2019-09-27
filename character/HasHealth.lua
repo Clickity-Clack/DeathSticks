@@ -6,6 +6,7 @@ function HasHealth:initializeMixin(hp, capacity)
 end
 
 function HasHealth:update(dt, events)
+    self.health:update(dt, events)
     if self.health.dead then
         self.health.dead = false
         self.dead = true

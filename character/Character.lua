@@ -1,6 +1,7 @@
 local Pistol = require 'weapons/Pistol'
 local HasHealth = require 'character/HasHealth'
 local HasArmor = require 'character/HasArmor'
+local Breathes = require 'character/Breathes'
 local NullJetpack = require 'character/NullJetpack'
 local Animation = require 'character/Animation'
 local WeaponCollection = require 'weapons/WeaponCollection'
@@ -11,6 +12,7 @@ Character:include(Collideable)
 Character:include(DynamicCollideable)
 Character:include(HasHealth)
 Character:include(HasArmor)
+Character:include(Breathes)
 
 function Character:initialize(body, aPlayerId)
     self.playerId = aPlayerId
@@ -58,6 +60,7 @@ function Character:initialize(body, aPlayerId)
     HasHealth.initializeMixin(self, 100)
     HasHealth.addDamageModifier(self, {type = 'CharacterDamageModifier', func = CharacterDamageModifier, ref = self})
     HasArmor.initializeMixin(self, 100)
+    Breathes.initializeMixin(self, 100)
     assert(self.collide, "WHat?! No collide method?!")
     self.fixture:setGroupIndex(-12)
     self.body:setFixedRotation(true)
@@ -65,6 +68,8 @@ function Character:initialize(body, aPlayerId)
     assert(self.collisions, 'No collisions table')
     self:initCollisions()
     self:initSeparations()
+    Breathes.initCollisions(self)
+    Breathes.initSeparations(self)
 end
 
 function Character:initCollisions()
@@ -136,6 +141,7 @@ function Character:update(dt, events)
     DynamicCollideable.update(self)
     HasHealth.update(self, dt, events)
     HasArmor.update(self, dt, events)
+    Breathes.update(self, dt, events)
     self.weapons.current:update(dt, self:getCenter())
     if self.isFiring and self.weapons.current.delay <= 0  then
         table.insert(events, { type = 'fire', subject = self })
@@ -161,6 +167,7 @@ function Character:draw(cam)
     self.movementTypes[self.currentMovementType].animation:draw(self.body:getX(), self.body:getY(), 0, self.direction)
     HasHealth.draw(self,self:getX(), self:getY() - 35)
     HasArmor.draw(self,self:getX(), self:getY() - 25)
+    Breathes.draw(self,self:getX(), self:getY() - 45)
     self.weapons:draw()
     self.jetpack:draw(self:getX(), self:getY())
 end
@@ -171,6 +178,7 @@ function Character:drawHud()
     meterCount = meterCount + self.weapons:drawHud(meterCount)
     meterCount = meterCount + HasArmor.drawHud(self, meterCount)
     meterCount = meterCount + self.jetpack:drawHud(meterCount)
+    meterCount = meterCount + Breathes.drawHud(self, meterCount)
 end
 
 function Character:setFiring(firing)

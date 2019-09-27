@@ -12,4 +12,23 @@ methods.printProperty = function(aTable, prop)
     print(aTable[i][prop])
   end
 end
+
+methods.removeFromTableByType = function(aTable, type)
+  local tempStack = {}
+  local initialCount = #aTable
+  for i = 1, initialCount, 1 do
+      tempStack[i] = aTable[initialCount - (i - 1)]
+      aTable[initialCount - (i - 1)] = nil
+      if tempStack[i].type == type then
+          tempStack[i] = nil
+          methods.removeFromTableByType(aTable, type)
+          break
+      end
+  end
+  for i = #tempStack, 1, -1 do
+      aTable[initialCount - (i + 1)] = tempStack[i]
+      tempStack[i] = nil
+  end
+end
+
 return methods

@@ -8,6 +8,7 @@ function Health:initialize(parentId,hp,capacity)
     self.capacity = capacity or hp
     self.parentId = parentId
     self.damageModifiers = {}
+    self.timeReleaseDamages = {}
     self.hudBackColor = {0,0,0}
     self.hudFillColor = {1,0.2,0.4}
     Serializeable.initializeMixin(self)
@@ -29,6 +30,22 @@ function Health:unpackState(state, game)
         self.parentId = state.parentId
         self.hp = state.hp
         self.capacity = state.capacity
+    end
+end
+
+function Health:update(dt, events)
+    local damageAmount, damageType
+    for i in pairs(self.timeReleaseDamages) do
+        damageAmount = self.timeReleaseDamages[i].damageFunc(self, dt)
+        damageType = self.timeReleaseDamages[i].type
+        self:ouch({
+                damage = damageAmount,
+                class = {
+                    name = damageType
+                },
+                playerId = 0
+            }
+        )
     end
 end
 
@@ -73,21 +90,15 @@ function Health:addDamageModifier(modifier)
 end
 
 function Health:removeDamageModifier(type)
-    local tempModifierStack = {}
-    local initialCount = #self.damageModifiers
-    for i = 1, initialCount, 1 do
-        tempModifierStack[i] = self.damageModifiers[initialCount - (i - 1)]
-        self.damageModifiers[initialCount - (i - 1)] = nil
-        if tempModifierStack[i].type == type then
-            tempModifierStack[i] = nil
-            self:removeDamageModifier(type)
-            break
-        end
-    end
-    for i = #tempModifierStack, 1, -1 do
-        self.damageModifiers[initialCount - (i + 1)] = tempModifierStack[i]
-        tempModifierStack[i] = nil
-    end
+    helper.removeFromTableByType(self.damageModifiers, type)
+end
+
+function Health:addTimeReleaseDamage(timeReleaseDamage)
+    self.timeReleaseDamages[#self.timeReleaseDamages + 1] = timeReleaseDamage
+end
+
+function Health:removeTimeReleaseDamage(type)
+    helper.removeFromTableByType(self.timeReleaseDamages, type)
 end
 
 function Health:draw(x,y)

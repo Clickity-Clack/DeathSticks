@@ -10,7 +10,9 @@ function Armor:initialize(hp,capacity)
 end
 
 function Armor:damageModifier(hurtyThing)
-    hurtyThing.damage = self:ouch(hurtyThing)
+    if hurtyThing.class.name ~= 'Suffocation' then
+        hurtyThing.damage = self:ouch(hurtyThing)
+    end
 end
 
 return Armor
