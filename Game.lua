@@ -179,12 +179,12 @@ end
 function Game:unpackObject(objectState)
     local object = self.stems[objectState.id]
     if not object then
-        -- print(serpent.block(objectState))
-        -- print()
         object = necromancer(objectState, self)
         if Game.stemTypes[objectState.type] then self.stems[object.id] = object end
     end
-    object:unpackState(objectState, self)
+    if object then
+        object:unpackState(objectState, self)
+    end
     return object
 end
 

@@ -1,5 +1,6 @@
 local Platform = require 'platform/Platform'
 local DestroyablePlatform = require 'platform/DestroyablePlatform'
+local Water = require 'platform/Water'
 local TeamBase = require 'platform/TeamBase'
 local DeadlyPlatform = require 'platform/DeadlyPlatform'
 local Bottom = require 'platform/Bottom'
@@ -56,6 +57,10 @@ end
 
 unpackables.DestroyablePlatform = function(state, game)
     return DestroyablePlatform:new(makeBody(state, game, 'kinematic'), state.width, state.height)
+end
+
+unpackables.Water = function(state, game)
+    return Water:new(makeBody(state, game, 'kinematic'), state.width, state.height)
 end
 
 unpackables.TeamBase = function(state, game)
