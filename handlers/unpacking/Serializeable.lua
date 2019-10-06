@@ -1,24 +1,24 @@
-local Packable = class ('Packable')
+local Serializeable = {}
 
-function Packable:initialize()
+function Serializeable:initializeMixin()
     self.id = uuid()
     self.modified = true
 end
 
-function Packable:fullReport()
+function Serializeable:fullReport()
     self.modified = true
 end
 
-function Packable:getState()
+function Serializeable:getState()
     self.modified = false
     return { id = self.id, type = self.class.name }
 end
 
-function Packable:reId(state)
+function Serializeable:reId(state)
     self.id = state.id
 end
 
-function Packable.static.getTableState(aTable)
+function Serializeable.getTableState(aTable)
     local state = {}
     for i in pairs(aTable) do
         state[i] = aTable[i]:getState()
@@ -26,7 +26,7 @@ function Packable.static.getTableState(aTable)
     return state
 end
 
-function Packable.static.unpackTableState(aTable, state, game)
+function Serializeable.unpackTableState(aTable, state, game)
     local thing
     for i in pairs(state) do
         thing = aTable[i]
@@ -44,6 +44,6 @@ function Packable.static.unpackTableState(aTable, state, game)
     end
 end
 
-function Packable:unpackState(state) end
+function Serializeable:unpackState(state) end
 
-return Packable
+return Serializeable
