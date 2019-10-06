@@ -39,7 +39,7 @@ function Breathes:stopBreathing()
     self.health:addTimeReleaseDamage({
         type = 'Suffocation',
         damageFunc = function(aHealth, dt)
-            local oneTenthPerSecond = (aHealth.capacity * dt)/10
+            local oneTenthPerSecond = (aHealth.capacity / 10) * dt
             return oneTenthPerSecond
         end
     })
@@ -49,13 +49,5 @@ function Breathes:startBreathing()
     self.oxygen:fill()
     self.health:removeTimeReleaseDamage('Suffocation')
 end
-
-local suffocation = {
-    type = 'Suffocation',
-    damageFunc = function(aHealth, dt)
-        local oneTenthPerSecond = aHealth.capacity/10 * dt
-        return oneTenthPerSecond
-    end
-}
 
 return Breathes

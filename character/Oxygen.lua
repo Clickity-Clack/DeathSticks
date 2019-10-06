@@ -23,7 +23,7 @@ function Oxygen:drawHud(order)
 end
 
 function Oxygen:damageModifier(hurtyThing)
-    if hurtyThing.class.name == 'Suffocation' then
+    if hurtyThing.class.name == 'Suffocation' and self.hp > 0 then
         hurtyThing.damage = self:ouch(hurtyThing)
     end
 end
