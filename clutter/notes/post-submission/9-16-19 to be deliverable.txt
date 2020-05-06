@@ -1,4 +1,4 @@
--!Polished weapon balance
+-!Polished weapon balance (Make grenades more visible)
 -!Decent maps
 -!Fullscreen capability
 -!Wide field of view when windowed
