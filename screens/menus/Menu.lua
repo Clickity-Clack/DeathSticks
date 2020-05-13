@@ -38,6 +38,8 @@ function Menu:keypressed(key)
         self.optionList:selectNext()
     elseif key == 'return' then
         self.optionList:boopCurrent(self)
+    else
+        self.optionList:keypressed(key)
     end
 end
 

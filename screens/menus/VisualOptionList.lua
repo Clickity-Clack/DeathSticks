@@ -20,9 +20,9 @@ function VisualOptionList:boopCurrent(MainMenu)
     self.optionList:boopCurrent(MainMenu)
 end
 
--- function VisualOptionList:textinput(t)
---     self.OptionList:textinput(t)
--- end
+function VisualOptionList:keypressed(k)
+    self.optionList:keypressed(k)
+end
 
 function VisualOptionList:draw()
     if self.optionList == nil or self.optionList.options == nil then

@@ -26,7 +26,7 @@ end
 function PlainOption:textinput(t)
 end
 
-function PlainOption:keyPressed(key)
+function PlainOption:keypressed(key)
 end
 
 return PlainOption

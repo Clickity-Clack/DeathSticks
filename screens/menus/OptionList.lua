@@ -6,13 +6,10 @@ function OptionList:initialize(options)
 end
 
 function OptionList:initOptions()
-    local firstIndex = nil
-    for i in pairs(self.options) do
-        firstIndex = i
-        break
+    if self.options[1] ~= nil then
+        self.options[1]:selected(true)
+        self.selected = 1
     end
-    self.options[firstIndex]:selected(true)
-    self.selected = firstIndex
 end
 
 function OptionList:selectNext()
@@ -43,9 +40,9 @@ function OptionList:boopCurrent(MainMenu)
     self.options[self.selected]:boop(MainMenu)
 end
 
--- function OptionList:textinput(t)
---     print(self.options[self.selection])
---     self.options[self.selection]:textinput(t)
--- end
+function OptionList:keypressed(k)
+    -- print(self.options[self.selected])
+    self.options[self.selected]:keypressed(k)
+end
 
 return OptionList
