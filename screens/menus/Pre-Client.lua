@@ -1,6 +1,5 @@
 local Menu = require 'screens/menus/Menu'
 local PreClient = class('PreClient', Menu)
-local OptionList = require 'screens/menus/OptionList'
 local PlainOption = require 'screens/menus/PlainOption'
 local LocalScreen = require 'screens/LocalScreen'
 local ClientScreen = require 'screens/ClientScreen'

@@ -1,5 +1,5 @@
 local OverlayScreen = class("OverlayScreen")
-local OptionList = require 'screens/menus/OptionList'
+local VisualOptionList = require 'screens/menus/VisualOptionList'
 local PlainOption = require  'screens/menus/PlainOption'
 
 function OverlayScreen:initialize(upScreen)
@@ -23,7 +23,7 @@ function OverlayScreen:initialize(upScreen)
             end
         )        
     }
-    self.optionList = OptionList(options, position, dimensions)
+    self.optionList = VisualOptionList(options, position, dimensions)
 end
 
 function OverlayScreen:update(dt)

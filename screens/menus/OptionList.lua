@@ -1,42 +1,27 @@
 local OptionList = class 'OptionList'
 
-function OptionList:initialize(options, position, dimensions)
+function OptionList:initialize(options)
     self.options = options
-    self.margin = 10
-    self.position = position
-    self.dimensions = dimensions
-
-    if self.options == nil then 
-        return
-    end
-    self.selected = initOptions(self.options, self.position, self.dimensions, self.margin)
+    self:initOptions(options)
 end
 
-function initOptions(options, position, dimensions, margin)
-    local prevOption = { dimensions = { height = 0 } }
+function OptionList:initOptions()
     local firstIndex = nil
-    local height = position.y
-    for i in pairs(options) do
-        if not firstIndex then
-            firstIndex = i
-        end
-        height = height + prevOption.dimensions.height + margin
-        options[i]:setPosition({x = position.x + dimensions.width/2, y = height})
-        prevOption = options[i]
+    for i in pairs(self.options) do
+        firstIndex = i
+        break
     end
-    options[firstIndex]:selected(true)
-    return firstIndex
+    self.options[firstIndex]:selected(true)
+    self.selected = firstIndex
 end
 
 function OptionList:selectNext()
-    if self.options == nil then 
-        return
+    if self.options ~= nil then 
+        self.options[self.selected]:selected(false)
+        self.selected = next(self.options, self.selected)
+        if not self.selected then self.selected = next(self.options, 0) end
+        self.options[self.selected]:selected(true)
     end
-
-    self.options[self.selected]:selected(false)
-    self.selected = next(self.options, self.selected)
-    if not self.selected then self.selected = next(self.options, 0) end
-    self.options[self.selected]:selected(true)
 end
 
 function OptionList:selectPrevious()
@@ -56,27 +41,6 @@ end
 
 function OptionList:boopCurrent(MainMenu)
     self.options[self.selected]:boop(MainMenu)
-end
-
-function OptionList:draw()
-    if self.options == nil then
-        love.graphics.print('no options', self.dimensions.width/2, self.dimensions.height/2)
-        return
-    end
-
-    for i,v in ipairs(self.options) do
-        v:draw()
-    end
-end
-
-function OptionList:resize(dimensions, position)
-    self.dimensions = dimensions
-    if position then self.position = position end
-    local height = self.position.y
-    for i,v in ipairs(self.options) do
-        v:setPosition({x = self.position.x + self.dimensions.width/2, y = height})
-        height = height + v.dimensions.height + self.margin
-    end
 end
 
 -- function OptionList:textinput(t)

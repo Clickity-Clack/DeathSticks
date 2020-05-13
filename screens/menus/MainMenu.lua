@@ -1,6 +1,5 @@
 local Menu = require 'screens/menus/Menu'
 local MainMenu = class('MainMenu', Menu)
-local OptionList = require 'screens/menus/OptionList'
 local PlainOption = require 'screens/menus/PlainOption'
 local TextOption = require 'screens/menus/TextOption'
 local LocalScreen = require 'screens/LocalScreen'

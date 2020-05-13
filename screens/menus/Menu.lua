@@ -1,5 +1,5 @@
 local Menu = class('Menu')
-local OptionList = require 'screens/menus/OptionList'
+local VisualOptionList = require 'screens/menus/VisualOptionList'
 
 function Menu:initialize(upScreen, options)
     self.id = uuid()
@@ -7,8 +7,8 @@ function Menu:initialize(upScreen, options)
     self.switchSound = love.audio.newSource( 'sounds/pop1.wav', 'static' )
     love.graphics.setBackgroundColor(0,0,0)
     local dimensions = { width = love.graphics.getWidth() - (love.graphics.getWidth()/10)*2, height = love.graphics.getHeight()- (love.graphics.getHeight()/10)*2 }
-    local position = { x = love.graphics.getWidth()/10, y = love.graphics.getHeight()/10}
-    self.optionList = OptionList(options, position, dimensions)
+    local position = {auto = true, bounds = {0, love.graphics.getWidth(), 0, love.graphics.getHeight()}}
+    self.optionList = VisualOptionList(options, position, dimensions)
 end
 
 function Menu:update()
@@ -17,7 +17,7 @@ end
 
 function Menu:resize(x,y)
     local dimensions = { width = love.graphics.getWidth() - (love.graphics.getWidth()/10)*2, height = love.graphics.getHeight()- (love.graphics.getHeight()/10)*2 }
-    local position = { x = love.graphics.getWidth()/10, y = love.graphics.getHeight()/10}
+    local position = {auto = true, bounds = {0, love.graphics.getWidth(), 0, love.graphics.getHeight()}}
     self.optionList:resize(dimensions, position)
 end
 
