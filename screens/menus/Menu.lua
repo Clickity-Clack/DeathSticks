@@ -15,9 +15,10 @@ function Menu:update()
 
 end
 
-function Menu:resize(x,y)
+function Menu:resize(newBounds)
+    newBounds = newBounds or {0, love.graphics.getWidth(), 0, love.graphics.getHeight()}
     local dimensions = { width = love.graphics.getWidth() - (love.graphics.getWidth()/10)*2, height = love.graphics.getHeight()- (love.graphics.getHeight()/10)*2 }
-    local position = {auto = true, bounds = {0, love.graphics.getWidth(), 0, love.graphics.getHeight()}}
+    local position = {auto = true, bounds = newBounds}
     self.optionList:resize(dimensions, position)
 end
 

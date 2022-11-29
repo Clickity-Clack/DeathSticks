@@ -49,7 +49,7 @@ function VisualOptionList:resize(dimensions, position)
 end
 
 function VisualOptionList:AutoPosition(bounds)
-    print('auto')
+    --print('auto')
     local centerX = bounds[1] + (bounds[2] - bounds[1])/2
     local centerY = bounds[3] + (bounds[4] - bounds[3])/2
     self.position = {x = centerX - self:getWidth()/2, y = centerY - self:getHeight()/2, auto}

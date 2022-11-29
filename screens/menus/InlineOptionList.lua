@@ -2,7 +2,7 @@ local InlineOptionList = class 'InlineOptionList'
 local OptionList = require 'screens/menus/OptionList'
 
 function InlineOptionList:initialize(options, position)
-    print(options)
+    --print(options)
     self.optionList = OptionList(options)
     self.optionWidth = 150
     local dimensions = { width = 500, height  = 75 }
@@ -65,18 +65,19 @@ function InlineOptionList:resize(dimensions, position)
 end
 
 function InlineOptionList:repositionOptions()
-    local xPos = self.centerX - self.optionList.selected * self.optionWidth
+    local selectedXOffset = (self.optionList.selected - 1) * self.optionWidth
+    local startingXPos = self.centerX - selectedXOffset
     for i,v in ipairs(self.optionList.options) do
-        v:setPosition({x = xPos, y = self.position.y + self:getHeight()/2})
-        xPos = xPos + self.optionWidth
+        v:setPosition({x = startingXPos, y = self.position.y})
+        startingXPos = startingXPos + self.optionWidth
     end
 end
 
 function InlineOptionList:AutoPosition(bounds)
-    print('auto')
+    --print('inline auto')
     self.centerX = bounds[1] + (bounds[2] - bounds[1])/2
     self.centerY = bounds[3] + (bounds[4] - bounds[3])/2
-    self.position = {x = self.centerX - self:getWidth()/2, y = self.centerY - self:getHeight()/2, auto}
+    self.position = {x = self.centerX, y = self.centerY, auto}
 end
 
 function InlineOptionList:getWidth()

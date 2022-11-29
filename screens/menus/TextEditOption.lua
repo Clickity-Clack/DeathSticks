@@ -1,6 +1,6 @@
-local PlainOption = class 'PlainOption'
+local TextEditOption = class 'TextEditOption'
 
-function PlainOption:initialize(title, boop)
+function TextEditOption:initialize(title, boop)
     self.boop = boop
     self.title = title
     self.text = ''
@@ -8,25 +8,25 @@ function PlainOption:initialize(title, boop)
     self.dimensions = { width = 500, height  = 75 }
 end
 
-function PlainOption:selected(isSelected)
+function TextEditOption:selected(isSelected)
     self.isSelected = isSelected
 end
 
-function PlainOption:setPosition(position)
+function TextEditOption:setPosition(position)
     self.position = position
 end
 
-function PlainOption:keypressed(key)
+function TextEditOption:keypressed(key)
     if key == 'backspace' then
         self.text = string.sub(self.text, 1, -1)
     end
 end
 
-function PlainOption:textinput(t)
+function TextEditOption:textinput(t)
     self.text = self.text .. t
 end
 
-function PlainOption:draw()
+function TextEditOption:draw()
     love.graphics.setColor(1,1,1)
     if self.isSelected then
         love.graphics.rectangle('line', self.position.x - self.dimensions.width/2, self.position.y - self.dimensions.height/2, self.dimensions.width, self.dimensions.height)
@@ -35,4 +35,4 @@ function PlainOption:draw()
     love.graphics.print(self.text, self.position.x - font:getWidth(self.text)/2, self.position.y - font:getHeight()*1.5)
 end
 
-return PlainOption
+return TextEditOption

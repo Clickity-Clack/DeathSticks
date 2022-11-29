@@ -1,7 +1,7 @@
 local Menu = require 'screens/menus/Menu'
 local MainMenu = class('MainMenu', Menu)
 local PlainOption = require 'screens/menus/PlainOption'
-local TextOption = require 'screens/menus/TextOption'
+local TextEditOption = require 'screens/menus/TextEditOption'
 local InlineOptionList = require 'screens/menus/InlineOptionList'
 local LocalScreen = require 'screens/LocalScreen'
 local ClientScreen = require 'screens/ClientScreen'
@@ -34,7 +34,7 @@ function MainMenu:initialize(upScreen)
                 aMainMenu.upScreen.s[aMainMenu.id] = nil
             end),
         InlineOptionList:new(inlineOptions,{auto = true, bounds = {0, love.graphics.getWidth(), 0, love.graphics.getHeight()}}),
-        -- TextOption:new('text test', function()
+        -- TextEditOption:new('text test', function()
         --         end),
         PlainOption:new('quit game',function() love.event.quit() end)
     }
