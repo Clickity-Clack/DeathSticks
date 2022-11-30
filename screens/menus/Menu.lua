@@ -31,22 +31,31 @@ function Menu:mousepressed()
 end
 
 function Menu:keypressed(key)
-    if key == 'w' or key == 'up' then
-        love.audio.play(self.switchSound)
-        self.optionList:selectPrevious()
-    elseif key == 's' or key == 'down' then
-        love.audio.play(self.switchSound)
-        self.optionList:selectNext()
-    elseif key == 'return' then
+    if key == 'return' then
         self.optionList:boopCurrent(self)
-    else
+    end
+
+    if self.optionList:currentIsEditing() then
         self.optionList:keypressed(key)
+    else
+        if key == 'w' or key == 'up' then
+            love.audio.play(self.switchSound)
+            self.optionList:selectPrevious()
+        elseif key == 's' or key == 'down' then
+            love.audio.play(self.switchSound)
+            self.optionList:selectNext()
+        else
+            self.optionList:keypressed(key)
+        end
     end
 end
 
--- function Menu:textinput(t)
---     self.optionList:textinput(t)
--- end
+function Menu:textinput(t)
+    if self.optionList:currentIsEditing() then
+        print('textinput')
+        self.optionList:textinput(t)
+    end
+end
 
 function Menu:keyreleased(key)
 

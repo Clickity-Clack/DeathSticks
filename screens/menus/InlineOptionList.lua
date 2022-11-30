@@ -40,7 +40,7 @@ function InlineOptionList:keypressed(k)
     elseif k == 'right' or k == 'd' then
         self:selectNext()
     else
-        self.OptionList:keypressed(k)
+        self.optionList:keypressed(k)
     end
 end
 

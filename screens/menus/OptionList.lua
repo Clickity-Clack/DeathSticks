@@ -36,13 +36,22 @@ function OptionList:selectPrevious()
 
 end
 
+function OptionList:currentIsEditing()
+    return self.options[self.selected].isEditing
+end
+
 function OptionList:boopCurrent(MainMenu)
     self.options[self.selected]:boop(MainMenu)
 end
 
 function OptionList:keypressed(k)
-    -- print(self.options[self.selected])
     self.options[self.selected]:keypressed(k)
+end
+
+function OptionList:textinput(k)
+    if self.options[self.selected].textinput then
+        self.options[self.selected]:textinput(k)
+    end
 end
 
 return OptionList

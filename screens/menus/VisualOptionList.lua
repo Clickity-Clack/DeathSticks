@@ -24,6 +24,14 @@ function VisualOptionList:keypressed(k)
     self.optionList:keypressed(k)
 end
 
+function VisualOptionList:textinput(k)
+    self.optionList:textinput(k)
+end
+
+function VisualOptionList:currentIsEditing()
+    return self.optionList:currentIsEditing()
+end
+
 function VisualOptionList:draw()
     if self.optionList == nil or self.optionList.options == nil then
         love.graphics.print('no options', self.dimensions.width/2, self.dimensions.height/2)

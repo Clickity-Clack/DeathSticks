@@ -34,8 +34,8 @@ function MainMenu:initialize(upScreen)
                 aMainMenu.upScreen.s[aMainMenu.id] = nil
             end),
         InlineOptionList:new(inlineOptions,{auto = true, bounds = {0, love.graphics.getWidth(), 0, love.graphics.getHeight()}}),
-        -- TextEditOption:new('text test', function()
-        --         end),
+        TextEditOption:new('text test', function()
+                end),
         PlainOption:new('quit game',function() love.event.quit() end)
     }
     Menu.initialize(self, upScreen, options)
