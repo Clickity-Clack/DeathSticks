@@ -23,7 +23,6 @@ end
 
 function TextEditOption:keypressed(key)
     if key == 'backspace' then
-        print('backspace')
         self.text = string.sub(self.text, 1, -2)
     end
 end

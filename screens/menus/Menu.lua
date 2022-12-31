@@ -52,7 +52,6 @@ end
 
 function Menu:textinput(t)
     if self.optionList:currentIsEditing() then
-        print('textinput')
         self.optionList:textinput(t)
     end
 end

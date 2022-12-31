@@ -72,7 +72,7 @@
         "image":"grenade.png",
         "scale":2,
         "shape":{
-            "type":"circle",
+            "type":"rectangle",
             "size":5
         },
         "time":1.5,
