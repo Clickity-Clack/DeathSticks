@@ -2,8 +2,8 @@ local Projectile = require 'weapons/projectiles/Projectile'
 local Explosion = require 'weapons/explosions/Explosion'
 local ExplosiveProjectile = class('ExplosiveProjectile', Projectile)
 
-function ExplosiveProjectile:initialize(barrelDeets, aPlayerId, world)
-    Projectile.initialize(self, barrelDeets, aPlayerId, world)
+function ExplosiveProjectile:initialize(iPosition, aPlayerId)
+    Projectile.initialize(self, iPosition, aPlayerId)
     self.replacement = Explosion
 end
 

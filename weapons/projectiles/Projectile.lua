@@ -3,14 +3,14 @@ Projectile:include(Serializeable)
 Projectile:include(Collideable)
 Projectile:include(DynamicCollideable)
 
-function Projectile:initialize(barrelDeets, aPlayerId, world)
+function Projectile:initialize(iPosition, aPlayerId)
     assert (self.speed)
     assert (self.shape)
     assert (self.image)
     Serializeable.initializeMixin(self)
-    Collideable.initializeMixin(self, love.physics.newBody(world, barrelDeets.x, barrelDeets.y, 'dynamic'))
+    Collideable.initializeMixin(self, iPosition, 'dynamic')
     DynamicCollideable.initializeMixin(self)
-    self.body:setAngle(barrelDeets.r)
+    self.body:setAngle(iPosition.rotation)
     self.body:isBullet(true)
     self.body:setLinearVelocity(self.speed * math.cos(self.body:getAngle()), self.speed * math.sin(self.body:getAngle()))
     self.fixture = love.physics.newFixture(self.body, self.shape, 1)
@@ -33,13 +33,13 @@ function Projectile:getState()
     local state = Serializeable.getState(self)
     Collideable.getState(self, state)
     DynamicCollideable.getState(self, state)
-    state.bodyDeets.angle = self.body:getAngle()
+    state.position.angle = self.body:getAngle()
     state.playerId = self.playerId
     return state
 end
 
 function Projectile:unpackState(state)
-    self.body:setAngle(state.bodyDeets.angle)
+    self.body:setAngle(state.position.angle)
     self.playerId = state.playerId
     Serializeable.unpackState(self)
     Collideable.unpackState(self, state)

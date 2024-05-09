@@ -49,8 +49,8 @@ function Game:initialize()
     --self.cam:setPosition( self.offCenter.x + winWidth()/2, self.offCenter.y + winHeight()/2 )
 
     love.physics.setMeter(64) --the height of a meter our worlds will be 64px
-    self.world = love.physics.newWorld(0, 9.81*64, true) --create a world for the bodies to exist in with horizontal gravity of 0 and vertical gravity of 9.81
-    self.world:setCallbacks(beginContact, endContact)
+    self.physicsWorld = love.physics.newWorld(0, 9.81*64, true) --create a world for the bodies to exist in with horizontal gravity of 0 and vertical gravity of 9.81
+    self.physicsWorld:setCallbacks(beginContact, endContact)
     love.graphics.setBackgroundColor( 1, 1, 1 )
 
     self.stems = {}
@@ -68,41 +68,41 @@ function Game:initialize()
 end
 
 function Game:initBasic()
-    local x = DestroyablePlatform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 800-55/2 + self.offCenter.y, 'kinematic'), 800, 50)
+    local x = DestroyablePlatform:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x, 800-55/2 + self.offCenter.y}, {width = 800, height = 50})
     self.stems[x.id] = x
-    x = TeamBase:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x - 700 , 800-55/2 + self.offCenter.y, 'kinematic'), 100, 100, 'red')
+    x = TeamBase:new({physicsWorld = self.physicsWorld, x = (800/2 + self.offCenter.x - 700) , y = (800-55/2 + self.offCenter.y)}, 'red')
     self.stems[x.id] = x
-    x = TeamBase:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x + 700 , 800-55/2 + self.offCenter.y, 'kinematic'), 100, 100, 'blue')
+    x = TeamBase:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x + 700 , y = 800-55/2 + self.offCenter.y}, 'blue')
     self.stems[x.id] = x
-    x = HealthPower:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 800-55/2 + self.offCenter.y - 40, 'kinematic'))
+    x = HealthPower:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x, y = 800-55/2 + self.offCenter.y - 40})
     self.stems[x.id] = x
-    x = WeaponPower:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 800/2 + self.offCenter.y - 140, 'kinematic'), Sniper)
+    x = WeaponPower:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x, y = 800/2 + self.offCenter.y - 140}, Sniper)
     self.stems[x.id] = x
-    x = ArmorPower:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x - 500, 800/2 + self.offCenter.y + 600, 'kinematic'))
+    x = ArmorPower:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x - 500, y = 800/2 + self.offCenter.y + 600})
     self.stems[x.id] = x
-    x = JetpackPower:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x + 500, 800/2 + self.offCenter.y + 600, 'kinematic'))
+    x = JetpackPower:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x + 500, y = 800/2 + self.offCenter.y + 600})
     self.stems[x.id] = x
-    x = WeaponPower:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x + 180, 800/2 + self.offCenter.y + 600, 'kinematic'), RocketLauncher)
+    x = WeaponPower:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x + 180, y = 800/2 + self.offCenter.y + 600}, RocketLauncher)
     self.stems[x.id] = x
-    x = WeaponPower:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x + 220, 800-55/2 + self.offCenter.y - 40, 'kinematic'), Shotgun)
+    x = WeaponPower:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x + 220, y = 800-55/2 + self.offCenter.y - 40}, Shotgun)
     self.stems[x.id] = x
-    x = WeaponPower:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x + 260, 800-55/2 + self.offCenter.y - 40, 'kinematic'), GrenadeLauncher)
+    x = WeaponPower:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x + 260, y = 800-55/2 + self.offCenter.y - 40}, GrenadeLauncher)
     self.stems[x.id] = x
-    x = Platform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 600/2 + self.offCenter.y, 'kinematic'))
+    x = Platform:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x, y = 600/2 + self.offCenter.y})
     self.stems[x.id] = x
-    x = Platform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x - 500, 600/2 + self.offCenter.y + 750, 'kinematic'), 800, 50)
+    x = Platform:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x - 500, y = 600/2 + self.offCenter.y + 750}, {width = 800, height = 50})
     self.stems[x.id] = x
-    x = Platform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x + 500, 600/2 + self.offCenter.y + 750, 'kinematic'), 800, 50)
+    x = Platform:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x + 500, y = 600/2 + self.offCenter.y + 750}, {width = 800, height = 50})
     self.stems[x.id] = x
-    x = Platform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 600/2 + self.offCenter.y + 700, 'kinematic'), 50, 500)
+    x = Platform:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x, y = 600/2 + self.offCenter.y + 700}, {width = 50, height = 500})
     self.stems[x.id] = x
-    x = DeadlyPlatform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 600/2 + self.offCenter.y + 1055, 'kinematic'), 800, 50)
+    x = DeadlyPlatform:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x, y = 600/2 + self.offCenter.y + 1055}, {width = 800, height = 50})
     self.stems[x.id] = x
-    x = Water:new(love.physics.newBody(self.world, self.offCenter.x - 40, self.offCenter.y + 1000, 'kinematic'), 800, 800)
+    x = Water:new({physicsWorld = self.physicsWorld, x = self.offCenter.x - 40, y = self.offCenter.y + 1000}, {width = 800, height = 800})
     self.stems[x.id] = x
-    x = Platform:new(love.physics.newBody(self.world, 800/2 + self.offCenter.x, 600/2 + self.offCenter.y + 1024, 'kinematic'), 500, 30)
+    x = Platform:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x, y = 600/2 + self.offCenter.y + 1024}, {width = 500, height = 30})
     self.stems[x.id] = x
-    x = Bottom:new(love.physics.newBody(self.world, self.cWorld.w/2, 600/2 + self.offCenter.y + 2500, 'kinematic'), self.cWorld.w)
+    x = Bottom:new({physicsWorld = self.physicsWorld, x = self.cWorld.w/2, y = 600/2 + self.offCenter.y + 2500}, self.cWorld.w)
     self.stems[x.id] = x
     self.spawnPoint = { x = 800/2 + self.offCenter.x, y = 600/2 + self.offCenter.y + 25}
     x = Bot:new(self:newPlayer())
@@ -119,7 +119,7 @@ end
 function Game:update(dt, input)
     self.user.commands = input
 
-    self.world:update(dt)
+    self.physicsWorld:update(dt)
 
     eventHandler( dt, self )
 
@@ -308,7 +308,7 @@ function Game:removePlayer(aPlayerId)
 end
 
 function Game:newCharacterControllable(aPlayerId)
-    local newCharacterControllable = CharacterControllable:new(love.physics.newBody(self.world, self.spawnPoint.x, self.spawnPoint.y, 'dynamic'), aPlayerId)
+    local newCharacterControllable = CharacterControllable:new({physicsWorld = self.physicsWorld, x = self.spawnPoint.x, y = self.spawnPoint.y}, aPlayerId)
     self.stems[newCharacterControllable.id] = newCharacterControllable
     return newCharacterControllable
 end

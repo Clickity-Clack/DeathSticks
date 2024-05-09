@@ -20,7 +20,7 @@ function process( dt, game )
 end
 
 events.fire.Character = function (event, game)
-    local obj = event.subject:fire(game.world)
+    local obj = event.subject:fire(game.physicsWorld)
     if obj then
         game.stems[obj.id] = obj
     end
@@ -28,7 +28,7 @@ end
 
 events.dead.Jetpack = function (event, game)
     game.players[event.subject.playerId].controllable.character:switchJetpack(NullJetpack:new(event.subject.playerId))
-    local obj = event.subject.replacement:new(event.subject:getBarrelDeets(), event.subject.playerId, game.world)
+    local obj = event.subject.replacement:new(event.subject:getReplacementIPosition(game.physicsWorld), event.subject.playerId)
     if obj then
         game.stems[obj.id] = obj
     end
@@ -71,7 +71,7 @@ events.dead.TeamBase = function(event, game)
 end
 
 explode = function(event, game)
-    local obj = event.subject.replacement:new(love.physics.newBody(game.world, event.subject:getX(), event.subject:getY(), 'static'),event.subject.playerId)
+    local obj = event.subject.replacement:new({physicsWorld = game.physicsWorld, x = event.subject:getX(), y = event.subject:getY()},event.subject.playerId)
     if obj then
         game.stems[obj.id] = obj
     end

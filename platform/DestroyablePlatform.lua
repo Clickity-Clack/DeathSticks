@@ -3,8 +3,8 @@ local DestroyablePlatform = class('DestroyablePlatform', Platform)
 local HasHealth = require 'character/HasHealth'
 DestroyablePlatform:include(HasHealth)
 
-function DestroyablePlatform:initialize( body, width, height )
-    Platform.initialize(self, body, width, height)
+function DestroyablePlatform:initialize( iPosition, dimensions )
+    Platform.initialize(self, iPosition, dimensions)
     HasHealth.initializeMixin(self, 1000)--self.health = Health:new(self.id, 1000) --parentId,hp,capacity,armor
 end
 

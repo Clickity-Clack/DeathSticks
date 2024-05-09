@@ -2,8 +2,8 @@ local Powerup = require 'powerups/Powerup'
 local WeaponPower = class ('WeaponPower', Powerup)
 WeaponPower.zoopSound = love.audio.newSource('sounds/zoop2.wav', 'static')
 
-function WeaponPower:initialize( body, weapon )
-    Powerup.initialize(self, body, weapon.image)
+function WeaponPower:initialize( iPosition, weapon )
+    Powerup.initialize(self, iPosition, weapon.image)
     self.weapon = weapon
 end
 

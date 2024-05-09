@@ -16,8 +16,8 @@ end
 
 function DynamicCollideable:getState(state)
     local x, y = self.body:getLinearVelocity()
-    state.bodyDeets.xSpeed = x
-    state.bodyDeets.ySpeed = y
+    state.position.xSpeed = x
+    state.position.ySpeed = y
     return state
 end
 
@@ -39,7 +39,7 @@ function DynamicCollideable:popGravity()
 end
 
 function DynamicCollideable:unpackState(state)
-    self.body:setLinearVelocity(state.bodyDeets.xSpeed, state.bodyDeets.ySpeed)
+    self.body:setLinearVelocity(state.position.xSpeed, state.position.ySpeed)
 end
 
 return DynamicCollideable

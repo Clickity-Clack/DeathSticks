@@ -1,7 +1,7 @@
 local NullControllable = class('NullControllable')
 NullControllable:include(Serializeable)
 
-function NullControllable:initialize(body)
+function NullControllable:initialize()
     Serializeable.initializeMixin(self)
     self.playerId = nil
     self.isNull = true

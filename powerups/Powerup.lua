@@ -2,11 +2,11 @@ local Powerup = class ('Powerup')
 Powerup:include(Serializeable)
 Powerup:include(Collideable)
 
-function Powerup:initialize( body, image )
+function Powerup:initialize( iPosition, image )
     self.image = image
     self.shape = love.physics.newRectangleShape(self.image:getHeight(), self.image:getWidth())
     Serializeable.initializeMixin(self)
-    Collideable.initializeMixin(self,body)
+    Collideable.initializeMixin(self,iPosition,'static')
     self.fixture:setSensor(true)
     self.visible = true
     Powerup.initCollisions(self)

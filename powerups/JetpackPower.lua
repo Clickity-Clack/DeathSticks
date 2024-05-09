@@ -2,9 +2,9 @@ local Powerup = require 'powerups/Powerup'
 local Jetpack = require 'character/Jetpack'
 local JetpackPower = class('JetpackPower', Powerup)
 
-function JetpackPower:initialize( body )
+function JetpackPower:initialize( iPosition )
     local image = love.graphics.newImage('res/jetpack.png')
-    Powerup.initialize(self, body, image)
+    Powerup.initialize(self, iPosition, image)
     self.value = 50
     self.scale = 1
 end

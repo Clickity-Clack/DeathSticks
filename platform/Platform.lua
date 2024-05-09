@@ -2,12 +2,13 @@ local Platform = class("Platform")
 Platform:include(Serializeable)
 Platform:include(Collideable)
 
-function Platform:initialize( body, width, height )
-    self.width = width or 50
-    self.height = height or 10
+function Platform:initialize( iPosition, dimensions )
+    dimensions = dimensions or {}
+    self.width = dimensions.width or 50
+    self.height = dimensions.height or 10
     self.shape = love.physics.newRectangleShape(self.width, self.height)
     Serializeable.initializeMixin(self)
-    Collideable.initializeMixin(self, body)
+    Collideable.initializeMixin(self, iPosition, 'static')
     self.rgba = { 0.32, 0.63, 0.05 }
 end
 

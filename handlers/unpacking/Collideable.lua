@@ -1,8 +1,8 @@
 local Collideable = {}
 
-function Collideable:initializeMixin(body) -- would this work with the initialize method??? Yes. Just initalize on top of existing object
+function Collideable:initializeMixin(iPosition, bodyType) -- would this work with the initialize method??? Yes. Just initalize on top of existing object
     assert(self.shape, "this " .. self.class.name .. " has no shape!")
-    self.body = body
+    self.body = love.physics.newBody(iPosition.physicsWorld, iPosition.x, iPosition.y, bodyType)
     self.fixture = love.physics.newFixture(self.body, self.shape)
     self.fixture:setUserData(self)
     self.collisions = {}
@@ -11,13 +11,13 @@ end
 
 function Collideable:getState(state)
     --local state = Packable.getState(self) --make sure to re-integrate serializeable functionality
-    state.bodyDeets = { x = self.body:getX(), y = self.body:getY() }
+    state.position = { x = self.body:getX(), y = self.body:getY() }
     return state
 end
 
 function Collideable:unpackState(state)
-    self.body:setX(state.bodyDeets.x)
-    self.body:setY(state.bodyDeets.y)
+    self.body:setX(state.position.x)
+    self.body:setY(state.position.y)
 end
 
 function Collideable:collide(b)

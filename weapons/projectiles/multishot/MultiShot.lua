@@ -1,16 +1,16 @@
 local MultiShot = class('MultiShot')
 MultiShot:include(Serializeable)
 
-function MultiShot:initialize(barrelDeets, aPlayerId, world)
+function MultiShot:initialize(iPosition, aPlayerId)
     assert(self.shot)
     assert(self.shotCount)
     self.shots = {}
     self.time = 5
     self.blastRadius = 2
-    originalRotation = barrelDeets.r
+    originalRotation = iPosition.rotation
     for i = 1, self.shotCount do
-        barrelDeets.r = originalRotation + (math.random() - 0.5)
-        self.shots[i] = self.shot:new(barrelDeets, aPlayerId, world)
+        iPosition.r = originalRotation + (math.random() - 0.5)
+        self.shots[i] = self.shot:new(iPosition, aPlayerId)
     end
     Serializeable.initializeMixin(self)
 end

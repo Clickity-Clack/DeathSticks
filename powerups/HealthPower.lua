@@ -2,9 +2,9 @@ local Powerup = require 'powerups/Powerup'
 local HealthPower = class('HealthPower', Powerup)
 HealthPower.zoopSound = love.audio.newSource('sounds/zoop1.wav', 'static')
 
-function HealthPower:initialize( body )
+function HealthPower:initialize( iPosition )
     local image = love.graphics.newImage('res/healthPowerup.png')
-    Powerup.initialize(self, body, image)
+    Powerup.initialize(self, iPosition, image)
     self.value = 50
 end
 

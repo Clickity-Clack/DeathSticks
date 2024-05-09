@@ -71,8 +71,8 @@ function Jetpack:draw(x,y)
     self.y = y
 end
 
-function Jetpack:getBarrelDeets()
-    return{x = self.x, y = self.y, r = 0}
+function Jetpack:getReplacementIPosition(physicsWorld)
+    return{ physicsWorld = physicsWorld, x = self.x, y = self.y, rotation = 0}
 end
 
 function Jetpack:drawHud(order)

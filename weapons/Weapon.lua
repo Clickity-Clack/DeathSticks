@@ -35,18 +35,18 @@ end
 function Weapon:fire(world)
     if self.ammo > 0 and self.delay <= 0 then
         love.audio.play(self.sound)
-        local obj = self.projectile:new(self:getBarrelDeets(), self.playerId, world)
+        local obj = self.projectile:new(self:getProjectileIPosition(world), self.playerId)
         self.ammo = self.ammo - 1
         self.delay = self.rof
         return obj
     end
 end
 
-function Weapon:getBarrelDeets()
+function Weapon:getProjectileIPosition(world)
     local anx, ay, anr = self.x, self.y, self.r
     anx = anx + self.barrelLen * math.cos(anr)
     ay = ay + self.barrelLen * math.sin(anr)
-    return { x = anx, y = ay, r = anr }
+    return { physicsWorld = world, x = anx, y = ay, rotation = anr }
 end
 
 function Weapon:update(dt, x, y)

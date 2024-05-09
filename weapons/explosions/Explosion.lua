@@ -2,7 +2,7 @@ local Explosion = class('Explosion')
 Explosion:include(Serializeable)
 Explosion:include(Collideable)
 
-function Explosion:initialize(body, aPlayerId)
+function Explosion:initialize(iPosition, aPlayerId)
     self.playerId = aPlayerId
     self.radius = 250
     self.potentialDamage = 175
@@ -12,7 +12,7 @@ function Explosion:initialize(body, aPlayerId)
     self.scale = 6
     self.r = 0
     Serializeable.initializeMixin(self)
-    Collideable.initializeMixin(self, body)
+    Collideable.initializeMixin(self, iPosition, 'static')
     self.fixture:setSensor(true)
     Explosion.initCollisions(self)
     love.audio.play(love.audio.newSource('sounds/kaPff.wav', 'static'))

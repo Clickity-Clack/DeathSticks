@@ -83,7 +83,7 @@ describe('Weapon', function()
         end)
 
         describe('reId', function()
-            local weaponState = { id = 'fluffernutter', type = 'BodiedPackable', bodyDeets = { x = 12, y = 12} }
+            local weaponState = { id = 'fluffernutter', type = 'BodiedPackable', position = { x = 12, y = 12} }
             it('should set the id', function()
                 dummyWeaponObj:reId(weaponState)
                 assert.same(dummyWeaponObj.id, weaponState.id)

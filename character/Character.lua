@@ -14,7 +14,7 @@ Character:include(HasHealth)
 Character:include(HasArmor)
 Character:include(Breathes)
 
-function Character:initialize(body, aPlayerId)
+function Character:initialize(iPosition, aPlayerId)
     self.playerId = aPlayerId
     self.size = 2
     self.direction = 1
@@ -55,7 +55,7 @@ function Character:initialize(body, aPlayerId)
 
     self.shape = love.physics.newRectangleShape(self.size * 16, self.size * 16)
     Serializeable.initializeMixin(self)
-    Collideable.initializeMixin(self, body)
+    Collideable.initializeMixin(self, iPosition, 'dynamic')
     DynamicCollideable.initializeMixin(self)
     HasHealth.initializeMixin(self, 100)
     HasHealth.addDamageModifier(self, {type = 'CharacterDamageModifier', func = CharacterDamageModifier, ref = self})

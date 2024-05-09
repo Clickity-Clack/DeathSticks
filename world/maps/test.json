@@ -1,0 +1,14 @@
+{
+    "objects":[
+        {
+            "type":"TeamBase",
+            "body":{
+                "position":{
+                    "x":3,
+                    "y":4
+                }
+            },
+            "team":"red"
+        }
+    ]
+}

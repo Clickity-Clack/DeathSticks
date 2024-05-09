@@ -4,10 +4,10 @@ local spawnSound = love.audio.newSource('sounds/weow.wav', 'static')
 
 CharacterControllable:include(Serializeable)
 
-function CharacterControllable:initialize(body, aPlayerId)
+function CharacterControllable:initialize(iPosition, aPlayerId)
     Serializeable.initializeMixin(self)
     self.playerId = aPlayerId
-    self.character = Character:new(body,self.playerId)
+    self.character = Character:new(iPosition,self.playerId)
     self.isNull = false
     love.audio.play(spawnSound)
 end

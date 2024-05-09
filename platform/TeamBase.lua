@@ -1,9 +1,10 @@
 local DestroyablePlatform = require 'platform/DestroyablePlatform'
 local TeamBase = class('TeamBase', DestroyablePlatform)
 
-function TeamBase:initialize( body, width, height, team )
+function TeamBase:initialize( iPosition, team )
     self.team = team
-    DestroyablePlatform.initialize(self, body, width, height )
+    local dimensions = {height = 100, width = 100}
+    DestroyablePlatform.initialize(self, iPosition, dimensions )
     self.rgba = teamColor or { 0.7,0.3,0.3 }
 end 
 
