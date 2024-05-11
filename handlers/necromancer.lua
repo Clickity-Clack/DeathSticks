@@ -88,7 +88,7 @@ serializeables.Explosion = function(state, game)
 end
 
 unpackBullet = function(type, state, game)
-    return type:new(dummyBarrelDeets(state), state.playerId, game.physicsWorld)
+    return type:new(makeProjectileIPosition(state, game), state.playerId)
 end
 
 serializeables.FingerBullet = function (state, game)
@@ -120,11 +120,13 @@ serializeables.DeadJetpack = function (state, game)
 end
 
 serializeables.Twelve = function (state, game)
-    return Twelve:new({x = 0, y = 0, r = 0}, state.playerId, game.physicsWorld)
+    return Twelve:new(makeProjectileIPosition(state, game), state.playerId)
 end
 
-function dummyBarrelDeets(state)
-    return { x = state.position.x, y = state.position.y, r = state.position.angle }
+function makeProjectileIPosition(state, game)
+    local iPos = makeIPosition(state, game)
+    iPos.rotation = state.position.angle
+    return iPos
 end
 
 serializeables.Pointer = function (state, game)
@@ -153,7 +155,7 @@ end
 
 serializeables.Character = function (state, game)
     if not state.health then print(serpent.block(state)) end
-    return Character:new(makeIPosition(state, game, 'dynamic'))
+    return Character:new(makeIPosition(state, game))
 end
 
 serializeables.HealthPower = function (state, game)

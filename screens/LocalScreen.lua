@@ -4,9 +4,8 @@ local WinScreen = require 'screens/WinScreen'
 local User = require 'screens/User'
 local LocalScreen = class('LocalScreen', GameScreen)
 
-function LocalScreen:initialize(upScreen)
-    GameScreen.initialize(self, upScreen)
-    self.game:initBasic()
+function LocalScreen:initialize(upScreen, gameSettings)
+    GameScreen.initialize(self, upScreen, gameSettings)
     self.user = User:new(self.game.user)
 end
 

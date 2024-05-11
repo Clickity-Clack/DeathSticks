@@ -6,12 +6,11 @@ local HostScreen = class('HostScreen', GameScreen)
 local WinScreen = require 'screens/WinScreen'
 local udp = socket.udp()
 
-function HostScreen:initialize(upScreen)
-    GameScreen.initialize(self, upScreen)
+function HostScreen:initialize(upScreen, gameSettings)
+    GameScreen.initialize(self, upScreen, gameSettings)
     udp:settimeout(0)
     udp:setsockname('*', 12345)
     
-    self.game:initBasic()
     self.clients = {}
     self.data = nil
     self.packet = nil
@@ -82,7 +81,7 @@ end
 
 function HostScreen:addClient(anIp, aPort)
     local playerObj = self.game:newPlayer()
-    playerObj:switchControllable(self.game:newCharacterControllable(playerObj.id))
+    playerObj:switchControllable(self.game:newControllable(playerObj.id))
     self.clients[anIp] = { ip = anIp, port = aPort, player = playerObj, timeout = 0 }
     self:firstPacket(anIp)
 end

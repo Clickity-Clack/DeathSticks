@@ -217,8 +217,8 @@ function Character:jump()
     self.movementTypes[self.currentMovementType].jump(self)
 end
 
-function Character:fire(game)
-    return self.weapons.current:fire(game)
+function Character:fire()
+    return self.weapons.current:fire(self.body:getWorld())
 end
 
 function Character:setBlasting(tf)

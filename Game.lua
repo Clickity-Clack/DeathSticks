@@ -1,26 +1,8 @@
 Serializeable = require('handlers/unpacking/Serializeable')
 Collideable = require('handlers/unpacking/Collideable')
 DynamicCollideable = require('handlers/unpacking/DynamicCollideable')
-local Platform = require 'platform/Platform'
-local DestroyablePlatform = require 'platform/DestroyablePlatform'
-local TeamBase = require 'platform/TeamBase'
-local DeadlyPlatform = require 'platform/DeadlyPlatform'
-local Water = require 'platform/Water'
-local Bottom = require 'platform/Bottom'
 local CharacterControllable = require 'character/CharacterControllable'
 local NullControllable = require 'character/NullControllable'
-local FingerBullet = require 'weapons/projectiles/FingerBullet'
-local ThirtyOdd = require 'weapons/projectiles/ThirtyOdd'
-local Pointer = require 'weapons/Pointer'
-local Sniper = require 'weapons/Sniper'
-local Shotgun = require 'weapons/Shotgun'
-local RocketLauncher = require 'weapons/RocketLauncher'
-local GrenadeLauncher = require 'weapons/GrenadeLauncher'
-local Character = require 'character/Character'
-local HealthPower = require 'powerups/HealthPower'
-local WeaponPower = require 'powerups/WeaponPower'
-local ArmorPower = require 'powerups/ArmorPower'
-local JetpackPower = require 'powerups/JetpackPower'
 local gamera = require 'lib/gamera'
 local winWidth = love.graphics.getWidth
 local winHeight = love.graphics.getHeight
@@ -34,12 +16,14 @@ local TeamVictory = require 'handlers/victory/TeamVictory'
 local TeamDeathmatchVictory = require 'handlers/victory/TeamDeathmatchVictory'
 local TitanVictory = require 'handlers/victory/TitanVictory'
 local Bot = require 'player/Bot'
+local World = require 'world/World'
+local WorldFactory = require 'world/WorldFactory'
 
 local Game = class('Game')
 
 Game.static.stemTypes = {CharacterControllable = true, ThirtyOdd = true, NineMil = true, Twelve = true, Rocket = true, Grenade = true, Explosion = true, HealthPower = true, WeaponPower = true, ArmorPower = true, JetpackPower = true, FingerBullet = true, NullControllable = true, Platform = true, DestroyablePlatform = true, DeadlyPlatform = true, Bottom = true}
 
-function Game:initialize()
+function Game:initialize(gameSettings)
     self.id = uuid()
     self.cWorld = { w = 5000, h = 3000, columns = 24, rows = 22 }
     self.offCenter = { x = self.cWorld.w/2 - winWidth()/2, y = self.cWorld.h/2 - winHeight()/2 }
@@ -47,69 +31,37 @@ function Game:initialize()
     self.cam:setWindow( 0, 0, winWidth(), winHeight() )
     self.cam:setScale(0.9)
     --self.cam:setPosition( self.offCenter.x + winWidth()/2, self.offCenter.y + winHeight()/2 )
+    self.cam:setPosition( self.offCenter.x + 800/2, self.offCenter.y + 600/2 + 175 )
 
     love.physics.setMeter(64) --the height of a meter our worlds will be 64px
     self.physicsWorld = love.physics.newWorld(0, 9.81*64, true) --create a world for the bodies to exist in with horizontal gravity of 0 and vertical gravity of 9.81
     self.physicsWorld:setCallbacks(beginContact, endContact)
     love.graphics.setBackgroundColor( 1, 1, 1 )
 
-    self.stems = {}
     self.players = {}
     self.ai = {}
     self.removed = {}
     self.events = {}
+    self.world = World:new()
 
     self.victory = Victory:new({'red','blue'})
     self.win = false
     self.user = NullPlayer:new()
     self.once = false
-
-    self.cam:setPosition( self.offCenter.x + 800/2, self.offCenter.y + 600/2 + 175 )
+    
+    --loadMap(self, mapName)
+    WorldFactory:PopulateWorld(self.world, gameSettings.mapName)
+    spawnPlayers(self, gameSettings.botNum)
 end
 
-function Game:initBasic()
-    local x = DestroyablePlatform:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x, 800-55/2 + self.offCenter.y}, {width = 800, height = 50})
-    self.stems[x.id] = x
-    x = TeamBase:new({physicsWorld = self.physicsWorld, x = (800/2 + self.offCenter.x - 700) , y = (800-55/2 + self.offCenter.y)}, 'red')
-    self.stems[x.id] = x
-    x = TeamBase:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x + 700 , y = 800-55/2 + self.offCenter.y}, 'blue')
-    self.stems[x.id] = x
-    x = HealthPower:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x, y = 800-55/2 + self.offCenter.y - 40})
-    self.stems[x.id] = x
-    x = WeaponPower:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x, y = 800/2 + self.offCenter.y - 140}, Sniper)
-    self.stems[x.id] = x
-    x = ArmorPower:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x - 500, y = 800/2 + self.offCenter.y + 600})
-    self.stems[x.id] = x
-    x = JetpackPower:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x + 500, y = 800/2 + self.offCenter.y + 600})
-    self.stems[x.id] = x
-    x = WeaponPower:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x + 180, y = 800/2 + self.offCenter.y + 600}, RocketLauncher)
-    self.stems[x.id] = x
-    x = WeaponPower:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x + 220, y = 800-55/2 + self.offCenter.y - 40}, Shotgun)
-    self.stems[x.id] = x
-    x = WeaponPower:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x + 260, y = 800-55/2 + self.offCenter.y - 40}, GrenadeLauncher)
-    self.stems[x.id] = x
-    x = Platform:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x, y = 600/2 + self.offCenter.y})
-    self.stems[x.id] = x
-    x = Platform:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x - 500, y = 600/2 + self.offCenter.y + 750}, {width = 800, height = 50})
-    self.stems[x.id] = x
-    x = Platform:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x + 500, y = 600/2 + self.offCenter.y + 750}, {width = 800, height = 50})
-    self.stems[x.id] = x
-    x = Platform:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x, y = 600/2 + self.offCenter.y + 700}, {width = 50, height = 500})
-    self.stems[x.id] = x
-    x = DeadlyPlatform:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x, y = 600/2 + self.offCenter.y + 1055}, {width = 800, height = 50})
-    self.stems[x.id] = x
-    x = Water:new({physicsWorld = self.physicsWorld, x = self.offCenter.x - 40, y = self.offCenter.y + 1000}, {width = 800, height = 800})
-    self.stems[x.id] = x
-    x = Platform:new({physicsWorld = self.physicsWorld, x = 800/2 + self.offCenter.x, y = 600/2 + self.offCenter.y + 1024}, {width = 500, height = 30})
-    self.stems[x.id] = x
-    x = Bottom:new({physicsWorld = self.physicsWorld, x = self.cWorld.w/2, y = 600/2 + self.offCenter.y + 2500}, self.cWorld.w)
-    self.stems[x.id] = x
-    self.spawnPoint = { x = 800/2 + self.offCenter.x, y = 600/2 + self.offCenter.y + 25}
-    x = Bot:new(self:newPlayer())
-    x.player:switchControllable(self:newCharacterControllable(x.player.id))
-    self.ai[x.id] = x
+function spawnPlayers(self, botNum)
+    for i=0,botNum do
+        local x = Bot:new(self:newPlayer())
+        x.player:switchControllable(self.world:spawnControllable(x.player.id))
+        self.ai[x.id] = x
+    end
     self.user = self:newPlayer()
-    self.user:switchControllable(self:newCharacterControllable(self.user.id))
+    self.user:switchControllable(self.world:spawnControllable(self.user.id))
 end
 
 function Game:resize(x,y)
@@ -118,10 +70,10 @@ end
 
 function Game:update(dt, input)
     self.user.commands = input
-
-    self.physicsWorld:update(dt)
-
+    
     eventHandler( dt, self )
+
+    self.world:update(dt, self.events)
 
     for i in pairs(self.players) do
         self.players[i]:update()
@@ -131,10 +83,6 @@ function Game:update(dt, input)
     end
 
     self:updateCamera()
-
-    for v in pairs(self.stems) do
-        self.stems[v]:update(dt, self.events)
-    end
     if self.victory.win then 
         self.win = true
         self.finalScore = self.victory:getScore()
@@ -155,37 +103,16 @@ function Game:getState()
         playerState[v] = self.players[v]:getState()
     end
 
-    local objectState = {}
-    for i in pairs(self.stems) do
-        objectState[self.stems[i].id] = self.stems[i]:getState()
-    end
+    local worldState = self.world:getState()
     
-    return { players = playerState, stems = objectState, removed = self.removed, victory = self.victory:getState()}
+    return { players = playerState, world = worldState, victory = self.victory:getState()}
 end
 
 function Game:unpackState(state)
-    self:unpackObjects(state.stems)
+    self.world:unpackState(state.world)
     self:unpackPlayers(state.players)
     self:unpackRemoved(state.removed)
     self:unpackVictory(state.victory)
-end
-
-function Game:unpackObjects(stateObjects)
-    for i in pairs(stateObjects) do
-        self:unpackObject(stateObjects[i])
-    end
-end
-
-function Game:unpackObject(objectState)
-    local object = self.stems[objectState.id]
-    if not object then
-        object = necromancer(objectState, self)
-        if Game.stemTypes[objectState.type] then self.stems[object.id] = object end
-    end
-    if object then
-        object:unpackState(objectState, self)
-    end
-    return object
 end
 
 function Game:unpackPlayers(statePlayers)
@@ -211,19 +138,16 @@ function Game:fullReport()
         self.players[i]:fullReport()
     end
 
-    for i in pairs(self.stems) do
-        self.stems[i]:fullReport()
-    end
+    self.world:fullReport()
+
     self.removedChanged = true
 end
 
 function Game:unpackRemoved(stateRemoved)
     if(stateRemoved) then
+        self.world:unpackRemoved(stateRemoved)
         for i in pairs(stateRemoved)do
-            if self.stems[i] then
-                self.stems[i]:destroy()
-                self.stems[i] = nil
-            elseif self.players[i] then
+            if self.players[i] then
                 --self.players[i]:destroy()
             end
         end
@@ -243,34 +167,10 @@ function Game:unpackVictory(victoryState)
     end
 end
 
-function Game:drawBackdrop(cl,ct,cw,ch)
-    local w = self.cWorld.w / self.cWorld.columns
-    local h = self.cWorld.h / self.cWorld.rows
-
-    local minX = math.max(math.floor(cl/w), 0)
-    local maxX = math.min(math.floor((cl+cw)/w), self.cWorld.columns-1)
-    local minY = math.max(math.floor(ct/h), 0)
-    local maxY = math.min(math.floor((ct+ch)/h), self.cWorld.rows-1)
-
-    for y=minY, maxY do
-        for x=minX, maxX do
-        if (x + y) % 2 == 0 then
-            love.graphics.setColor(0.3,0.3,0.3)
-        else
-            love.graphics.setColor(0.8,0.8,0.8)
-        end
-        love.graphics.rectangle("fill", x*w, y*h, w, h)
-        end
-    end
-end
-
 function Game:draw()
     self.cam:draw(
         function(l,t,w,h)
-            self:drawBackdrop(l,t,w,h)
-            for v in pairs(self.stems) do
-                self.stems[v]:draw(self.cam, self.user)
-            end
+            self.world:draw(l,t,w,h)
         end
     )
     if self.user.controllable then
@@ -305,12 +205,6 @@ function Game:removePlayer(aPlayerId)
     self.victory:assess({type='leave', subject = thePlayer})
     self:remove(aPlayerId)
     self.players[aPlayerId] = nil
-end
-
-function Game:newCharacterControllable(aPlayerId)
-    local newCharacterControllable = CharacterControllable:new({physicsWorld = self.physicsWorld, x = self.spawnPoint.x, y = self.spawnPoint.y}, aPlayerId)
-    self.stems[newCharacterControllable.id] = newCharacterControllable
-    return newCharacterControllable
 end
 
 function beginContact(a, b, coll)

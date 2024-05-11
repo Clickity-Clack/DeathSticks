@@ -19,6 +19,7 @@ function love.load()
     firstScreen = MainMenu:new(screen)
     screen.s[firstScreen.id] = firstScreen
     screen.current = screen.s[firstScreen.id]
+    math.randomseed(os.time())
     --screen.current = overlay:new(screen)
 end
 

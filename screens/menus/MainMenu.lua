@@ -16,7 +16,7 @@ function MainMenu:initialize(upScreen)
 
     local options = {
         PlainOption:new('local game',function(self, aMainMenu)
-                newGame = LocalScreen:new(upScreen)
+                newGame = LocalScreen:new(upScreen, {mapName = 'TestMap', botNum = 1})
                 aMainMenu.upScreen.s[newGame.id] = newGame
                 aMainMenu.upScreen.current = newGame
                 aMainMenu.upScreen.s[aMainMenu.id] = nil
@@ -28,7 +28,7 @@ function MainMenu:initialize(upScreen)
                 aMainMenu.upScreen.s[aMainMenu.id] = nil
             end),
         PlainOption:new('host game',function(self, aMainMenu)
-                newGame = HostScreen:new(upScreen)
+                newGame = HostScreen:new(upScreen, {mapName = 'TestMap', botNum = 1})
                 aMainMenu.upScreen.s[newGame.id] = newGame
                 aMainMenu.upScreen.current = newGame
                 aMainMenu.upScreen.s[aMainMenu.id] = nil

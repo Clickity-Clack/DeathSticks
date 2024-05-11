@@ -2,10 +2,10 @@ local GameScreen = class('GameScreen')
 local Game = require 'Game'
 local overlay = require 'screens/menus/OverlayScreen'
 
-function GameScreen:initialize(upScreen)
+function GameScreen:initialize(upScreen, gameSettings)
     self.id = uuid()
     self.upScreen = upScreen
-    self.game = Game:new()
+    self.game = Game:new(gameSettings)
 end
 
 function GameScreen:resize(x, y)
