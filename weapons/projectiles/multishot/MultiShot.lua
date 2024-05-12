@@ -6,10 +6,11 @@ function MultiShot:initialize(iPosition, aPlayerId)
     assert(self.shotCount)
     self.shots = {}
     self.time = 5
-    self.blastRadius = 2
+    self.blastRadius = 0.25
     originalRotation = iPosition.rotation
     for i = 1, self.shotCount do
-        iPosition.r = originalRotation + (math.random() - 0.5)
+        local randomadd = ((math.random()*2 - 1) * self.blastRadius)
+        iPosition.rotation = originalRotation + randomadd
         self.shots[i] = self.shot:new(iPosition, aPlayerId)
     end
     Serializeable.initializeMixin(self)
