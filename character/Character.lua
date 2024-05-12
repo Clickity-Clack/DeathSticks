@@ -19,8 +19,8 @@ function Character:initialize(iPosition, aPlayerId)
     self.size = 2
     self.direction = 1
     self.moving = false
-    self.isFiring = true
-    self.isBlasting = true
+    self.isFiring = false
+    self.isBlasting = false
     self.jumptimer = 0
     self.anim = {}
     self.movementTypes = {
@@ -31,6 +31,7 @@ function Character:initialize(iPosition, aPlayerId)
                 x, y = self.body:getLinearVelocity()
                 if y == 0 then
                     self.jumping = true
+                    self.movementTypes[self.currentMovementType].animation.paused = true
                     self.body:setLinearVelocity( x, y - 1600 )
                 end
             end
@@ -151,6 +152,8 @@ function Character:update(dt, events)
     end
     if self.moving then
         self:move(dt)
+    else
+        self.movementTypes[self.currentMovementType].animation.currentTime = 0
     end
     if self.isBlasting then
         self.jetpack:blast(dt, self.body)
@@ -210,6 +213,9 @@ function Character:move(dt)
         self.body:setLinearVelocity( x + movementSpeed, y )
     elseif x > 0 - movementSpeed * 2 then
         self.body:setLinearVelocity( x - movementSpeed, y )
+    end
+    if self.movementTypes[self.currentMovementType].animation.paused and y == 0 then
+        self.movementTypes[self.currentMovementType].animation.paused = false
     end
 end
 

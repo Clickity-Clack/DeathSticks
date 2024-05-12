@@ -9,6 +9,7 @@ function Animation:initialize(image, width, height, size, duration, ox, oy)
     self.size = size
     self.ox = ox
     self.oy = oy
+    self.paused = false
 
     for y = 0, image:getHeight() - height, height - 1 do
         for x = 0, image:getWidth() - width, width do
@@ -21,6 +22,7 @@ function Animation:initialize(image, width, height, size, duration, ox, oy)
 end
 
 function Animation:update(dt)
+    if self.paused then return end
     self.currentTime = self.currentTime + dt
     if self.currentTime >= self.duration then
         self.currentTime = self.currentTime - self.duration

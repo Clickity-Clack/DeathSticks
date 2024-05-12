@@ -2,6 +2,7 @@ uuid = require 'lib/uuid'
 uuid.seed()
 class = require("lib/middleclass")
 serpent = require 'lib/serpent'
+love.graphics.setDefaultFilter("nearest","nearest")
 helper = require 'helper'
 MainMenu = require 'screens/menus/MainMenu'
 
