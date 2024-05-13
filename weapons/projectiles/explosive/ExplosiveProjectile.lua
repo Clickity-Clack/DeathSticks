@@ -9,7 +9,13 @@ function ExplosiveProjectile:initialize(iPosition, aPlayerId)
 end
 
 function ExplosiveProjectile:initCollisions()
-    self.collisions.Character = self.die
+    self.collisions.Platform = self.die
+    self.collisions.DestroyablePlatform = self.die
+    self.collisions.Character = function(self, character)
+        if(character.playerId ~= self.playerId) then
+            self:kill()
+        end
+    end
 end
 
 return ExplosiveProjectile

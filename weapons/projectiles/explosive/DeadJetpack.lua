@@ -6,11 +6,7 @@ function DeadJetpack:initialize(iPosition, aPlayerId)
     self.image = love.graphics.newImage("res/jetpack.png")
     self.shape = love.physics.newRectangleShape(self.image:getHeight()/2, self.image:getWidth()/2)
     ExplosiveProjectile.initialize(self, iPosition, aPlayerId)
-end
-
-function DeadJetpack:initCollisions()
-    self.collisions.Platform = self.die
-    self.collisions.DestroyablePlatform = self.die
+    DeadJetpack.initCollisions(self)
 end
 
 return DeadJetpack
