@@ -9,7 +9,6 @@ function DummyWeaponObj:initialize()
     self.ox = 12
     self.oy = 12
     self.scale = 12
-    self.barrelLen = 30
     self.ammo = 12
     self.capacity = 12
     self.rof = 12

@@ -9,13 +9,13 @@ function Weapon:initialize(aPlayerId)
     assert(type(self.scale) == 'number')
     assert(type(self.ox) == 'number')
     assert(type(self.oy) == 'number')
-    assert(type(self.barrelLen) == 'number')
     assert(type(self.ammo) == 'number')
     assert(type(self.capacity) == 'number')
     assert(type(self.rof) == 'number')
     assert(self.projectile)
     assert(self.sound)
     self.playerId = aPlayerId
+    self.barrelLen = self.barrelLen or 25
     Serializeable.initializeMixin(self)
     self.firing = false
     self.delay = 0
@@ -53,8 +53,7 @@ end
 
 function Weapon:getProjectileIPosition(world)
     local anx, ay, anr = self.x, self.y, self.r
-    anx = anx + self.barrelLen * math.cos(anr)
-    ay = ay + self.barrelLen * math.sin(anr)
+    anx, ay = doTrig(self.x, self.y, self.r, self.barrelLen)
     return { physicsWorld = world, x = anx, y = ay, rotation = anr }
 end
 

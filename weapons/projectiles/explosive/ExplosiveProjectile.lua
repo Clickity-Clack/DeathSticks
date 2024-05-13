@@ -9,8 +9,6 @@ function ExplosiveProjectile:initialize(iPosition, aPlayerId)
 end
 
 function ExplosiveProjectile:initCollisions()
-    self.collisions.Platform = self.die
-    self.collisions.DestroyablePlatform = self.die
     self.collisions.Character = self.die
 end
 

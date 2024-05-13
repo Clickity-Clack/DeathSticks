@@ -4,6 +4,7 @@ local NineMil = class('NineMil', Bullet)
 function NineMil:initialize( iPosition, aPlayerId )
     self.speed = 2000
     self.image = love.graphics.newImage('res/bullet.png')
+    self.imageOffset = {x = 4, y = 8}
     self.shape = love.physics.newRectangleShape(1, 1)
     self.damage = 10
     Bullet.initialize(self, iPosition, aPlayerId)

@@ -1,6 +1,6 @@
 {
     "Weapon":{
-        "drawProjectileOrigin":true,
+        "drawProjectileOrigin":false,
         "drawExplosionRadius":false
     },
     "Character":{

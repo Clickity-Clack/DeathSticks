@@ -10,12 +10,12 @@ function RocketLauncher:initialize(aPlayerId)
     self.oy = 10
     self.r = 0
     self.scale = 2
-    self.barrelLen = 40
     self.ammo = 4
     self.capacity = 4
     self.rof = 1
     self.sound = love.audio.newSource('sounds/sheew.wav', 'static')
     Weapon.initialize(self, aPlayerId)
+    self.barrelLen = 40
 end
 
 RocketLauncher.image = love.graphics.newImage('res/Bazooka.png')

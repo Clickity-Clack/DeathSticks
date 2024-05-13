@@ -8,4 +8,9 @@ function DeadJetpack:initialize(iPosition, aPlayerId)
     ExplosiveProjectile.initialize(self, iPosition, aPlayerId)
 end
 
+function DeadJetpack:initCollisions()
+    self.collisions.Platform = self.die
+    self.collisions.DestroyablePlatform = self.die
+end
+
 return DeadJetpack

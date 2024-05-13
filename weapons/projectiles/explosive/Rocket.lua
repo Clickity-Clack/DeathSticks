@@ -21,6 +21,8 @@ function Rocket:update(dt, events)
 end
 
 function Rocket:initCollisions()
+    self.collisions.Platform = self.die
+    self.collisions.DestroyablePlatform = self.die
     self.collisions.Character = function(self, character)
         if(character.playerId ~= self.playerId) then
             self:kill()

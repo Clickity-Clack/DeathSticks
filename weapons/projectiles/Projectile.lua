@@ -16,6 +16,7 @@ function Projectile:initialize(iPosition, aPlayerId)
     self.fixture = love.physics.newFixture(self.body, self.shape, 1)
     self.fixture:setUserData(self)
     self.fixture:setGroupIndex(-2)
+    self.imageOffset = self.imageOffset or {x=8,y=8}
     self.dead = false
     self.playerId = aPlayerId
     Projectile.initCollisions(self)
@@ -54,9 +55,17 @@ end
 
 function Projectile:draw()
     love.graphics.setColor(1,1,1)
-    imageOffset = self.imageOffset or {x=0,y=0}
-    scale = self.scale or 2
-    love.graphics.draw(self.image, self.body:getX() - (imageOffset.x * scale), self.body:getY() - (imageOffset.y * scale), self.body:getAngle(), scale)
+    local scale = self.scale or 2
+    local anx, ay = doTrig(self.body:getX(), self.body:getY(), self.body:getAngle())
+    love.graphics.draw(self.image, anx, ay, self.body:getAngle(), scale, scale, self.imageOffset.x, self.imageOffset.y)
+end
+
+function doTrig(x,y,r,len)
+    len = len or 0
+    local anx, ay = x, y
+    anx = anx + len * math.cos(r)
+    ay = ay + len * math.sin(r)
+    return anx, ay
 end
 
 function Projectile:kill()

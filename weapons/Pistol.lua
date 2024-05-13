@@ -11,7 +11,6 @@ function Pistol:initialize(aPlayerId)
     self.oy = 8
     self.r = 0
     self.scale = 2
-    self.barrelLen = 30
     self.ammo = 10
     self.capacity = 10
     self.rof = 0.25

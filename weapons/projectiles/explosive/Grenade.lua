@@ -4,8 +4,7 @@ local Grenade = class('Grenade', ExplosiveProjectile)
 function Grenade:initialize(iPosition, aPlayerId)
     self.speed = 650
     self.image = love.graphics.newImage("res/grenade.png")
-    self.imageOffset = {x=8,y=8}
-    self.shape = love.physics.newRectangleShape(5,2.5)
+    self.shape = love.physics.newRectangleShape(2.5, 1.25)
     self.time = 1.5
     self.scale = 6
     ExplosiveProjectile.initialize(self, iPosition, aPlayerId)
