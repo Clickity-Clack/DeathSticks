@@ -5,6 +5,7 @@ serpent = require 'lib/serpent'
 love.graphics.setDefaultFilter("nearest","nearest")
 helper = require 'helper'
 MainMenu = require 'screens/menus/MainMenu'
+json = require 'lib/json'
 
 function love.load()
     love.window.setTitle("DEATHSTICKS!!!")
@@ -17,6 +18,8 @@ function love.load()
     font = love.graphics.newFont(14)
     screen = {}
     screen.s = {}
+    diag = json.decode(helper.readAll('settings/diag.json'))
+    
     firstScreen = MainMenu:new(screen)
     screen.s[firstScreen.id] = firstScreen
     screen.current = screen.s[firstScreen.id]

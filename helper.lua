@@ -1,19 +1,19 @@
-local methods = {}
+local functions = {}
 
-methods.tableLength = function(T)
+functions.tableLength = function(T)
   local count = 0
   for _ in pairs(T) do count = count + 1 end
   return count
 end
 
-methods.printProperty = function(aTable, prop)
+functions.printProperty = function(aTable, prop)
   assert(prop, "You didn't pass a property into printProperty")
   for i in pairs(aTable)do
     print(aTable[i][prop])
   end
 end
 
-methods.removeFromTableByType = function(aTable, type)
+functions.removeFromTableByType = function(aTable, type)
   local tempStack = {}
   local initialCount = #aTable
   for i = 1, initialCount, 1 do
@@ -21,7 +21,7 @@ methods.removeFromTableByType = function(aTable, type)
       aTable[initialCount - (i - 1)] = nil
       if tempStack[i].type == type then
           tempStack[i] = nil
-          methods.removeFromTableByType(aTable, type)
+          functions.removeFromTableByType(aTable, type)
           break
       end
   end
@@ -31,4 +31,12 @@ methods.removeFromTableByType = function(aTable, type)
   end
 end
 
-return methods
+functions.readAll = function(file)
+  local f = assert(io.open(file, "rb"))
+  local content = f:read("*all")
+  f:close()
+  return content
+end
+
+
+return functions
