@@ -36,6 +36,7 @@ function Explosion:initCollisions()
 end
 
 function Explosion:calculateDamage(otherBody)
+    --TODO: this is totally essoteric and not it's not clear at all to the player (or even me lol) how it deals damage
     local sx, sy = self:getCenter()
     local cx, cy = otherBody:getX(), otherBody:getY()
     local distance = math.sqrt((sx-cx)*(sx-cx)+(sy-cy)*(sy-cy))
@@ -46,7 +47,13 @@ end
 function Explosion:draw(cam, user)
     love.graphics.setColor(1,1,1)
     love.graphics.draw(self.image, self.body:getX(), self.body:getY(), self.r, self.scale, self.scale, self.image:getWidth()/2, self.image:getHeight()/2)
-    love.graphics.circle('line', self.body:getX(), self.body:getY(), self.radius)
+    explosionDrawDiag(self)
+end
+
+function explosionDrawDiag(self)
+    if diag.Weapon.drawExplosionRadius then
+        love.graphics.circle('line', self.body:getX(), self.body:getY(), self.radius)
+    end
 end
 
 function Explosion:kill()

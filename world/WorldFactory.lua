@@ -72,9 +72,9 @@ function testPopulate(stems, physicsWorld, spawnPoints)
     stems[x.id] = x
     x = Bottom:new({physicsWorld = physicsWorld, x = cWorld.w/2, y = 600/2 + offCenter.y + 2500}, cWorld.w)
     stems[x.id] = x
-    spawnPoints[1] = { x = 800/2 + offCenter.x, y = 600/2 + offCenter.y + 25}
-    spawnPoints[2] = { x = 800/2 + offCenter.x + 150, y = 600/2 + offCenter.y + 25}
-    spawnPoints[3] = { x = 800/2 + offCenter.x + 150, y = 600/2 + offCenter.y + 25}
+    --spawnPoints[1] = { x = 800/2 + offCenter.x, y = 600/2 + offCenter.y + 25}
+    spawnPoints[1] = { x = 800/2 + offCenter.x + 450, y = 600/2 + offCenter.y + 25}
+    spawnPoints[2] = { x = 800/2 + offCenter.x + 350, y = 600/2 + offCenter.y + 25}
 end
 
 return WorldFactory

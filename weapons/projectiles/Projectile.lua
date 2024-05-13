@@ -64,6 +64,15 @@ function Projectile:kill()
     self.modified = true
 end
 
+function Projectile:die(thing)
+    self:kill()
+end
+
+function Projectile:hurt(toHurt)
+    toHurt:ouch(self)
+    self:kill()
+end
+
 function Projectile:destroy()
     self.body:destroy()
 end

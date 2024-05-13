@@ -20,6 +20,7 @@ function HasHealth:ouch(hurtyThing)
 end
 
 function HasHealth:draw(x,y)
+    --TODO: Figure out a way to make the health bars visible when people are on top of eachother. Silly little collisions?
     self.health:draw(x,y)
 end
 

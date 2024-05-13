@@ -9,7 +9,7 @@ function Rocket:initialize(iPosition, aPlayerId)
     self.scale = 2
     ExplosiveProjectile.initialize(self, iPosition, aPlayerId)
     self.body:setGravityScale(0.0001)
-    self:initCollisions()
+    Rocket.initCollisions(self)
 end
 
 function Rocket:update(dt, events)
@@ -21,10 +21,6 @@ function Rocket:update(dt, events)
 end
 
 function Rocket:initCollisions()
-    die = function(self, thing)
-        self:kill()
-    end
-    self.collisions.Platform = die
     self.collisions.Character = function(self, character)
         if(character.playerId ~= self.playerId) then
             self:kill()

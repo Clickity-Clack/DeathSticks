@@ -1,3 +1,9 @@
 {
-    "drawProjectileOrigin":true
+    "Weapon":{
+        "drawProjectileOrigin":true,
+        "drawExplosionRadius":false
+    },
+    "Character":{
+        "DrawHitBox":false
+    }
 }

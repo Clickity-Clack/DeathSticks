@@ -30,6 +30,15 @@ function Weapon:draw()
     end
     love.graphics.setColor(1,1,1)
     love.graphics.draw(self.image, self.x, self.y, self.r, self.scale, yscale, self.ox, self.oy)
+    weaponDrawDiag(self)
+end
+
+function weaponDrawDiag(self)
+    if diag.Weapon.drawProjectileOrigin then
+        love.graphics.setColor(1,0,0)
+        local x, y = doTrig(self.x, self.y, self.r, self.barrelLen)
+        love.graphics.circle('fill',x,y,3)
+    end
 end
 
 function Weapon:fire(world)
@@ -47,6 +56,13 @@ function Weapon:getProjectileIPosition(world)
     anx = anx + self.barrelLen * math.cos(anr)
     ay = ay + self.barrelLen * math.sin(anr)
     return { physicsWorld = world, x = anx, y = ay, rotation = anr }
+end
+
+function doTrig(x,y,r,len)
+    local anx, ay = x, y
+    anx = anx + len * math.cos(r)
+    ay = ay + len * math.sin(r)
+    return anx, ay
 end
 
 function Weapon:update(dt, x, y)

@@ -8,18 +8,10 @@ function Bullet:initialize(iPosition, aPlayerId)
 end
 
 function Bullet:initCollisions()
-    hurt = function(self, toHurt)
-        toHurt:ouch(self)
-        self:kill()
-    end
-
-    self.collisions.Character = hurt
-    self.collisions.DestroyablePlatform = hurt
-    self.collisions.TeamBase = hurt
-
-    self.collisions.Platform = function(self, aPlatform)
-        self:kill()
-    end
+    self.collisions.Character = self.hurt
+    self.collisions.DestroyablePlatform = self.hurt
+    self.collisions.TeamBase = self.hurt
+    self.collisions.Platform = self.die
 end
 
 return Bullet

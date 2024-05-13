@@ -166,7 +166,7 @@ end
 function Character:draw(cam)
     love.graphics.setColorMask()
     love.graphics.setColor(1,1,1,1)
-    love.graphics.rectangle('line', self.body:getX() - (self.size * 8), self.body:getY() - (self.size * 8), self.size * 16, self.size * 16)
+    characterDiagDraw(self)
     self.movementTypes[self.currentMovementType].animation:draw(self.body:getX(), self.body:getY(), 0, self.direction)
     HasHealth.draw(self,self:getX(), self:getY() - 35)
     HasArmor.draw(self,self:getX(), self:getY() - 25)
@@ -174,7 +174,11 @@ function Character:draw(cam)
     self.weapons:draw()
     self.jetpack:draw(self:getX(), self:getY())
 end
-
+function characterDiagDraw(self)
+    if diag.Character.DrawHitBox then
+        love.graphics.rectangle('line', self.body:getX() - (self.size * 8), self.body:getY() - (self.size * 8), self.size * 16, self.size * 16)
+    end
+end
 function Character:drawHud()
     local meterCount = 0
     meterCount = meterCount + HasHealth.drawHud(self, meterCount)
