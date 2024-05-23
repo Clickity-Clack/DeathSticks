@@ -22,6 +22,14 @@ function Projectile:initialize(iPosition, aPlayerId)
     Projectile.initCollisions(self)
 end
 
+function Projectile:updateSpeed(speed, angle)
+    self.speed = speed
+    if angle then
+        self.body:setAngle(angle)
+    end
+    self.body:setLinearVelocity(self.speed * math.cos(self.body:getAngle()), self.speed * math.sin(self.body:getAngle()))
+end
+
 function Projectile:update(dt, events)
     DynamicCollideable.update(self)
     if self.dead then
