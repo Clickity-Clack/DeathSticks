@@ -18,6 +18,7 @@ local TitanVictory = require 'handlers/victory/TitanVictory'
 local Bot = require 'player/Bot'
 local World = require 'world/World'
 local WorldFactory = require 'world/WorldFactory'
+local FreeLookControllable = require 'character/FreeLookControllable'
 
 local Game = class('Game')
 
@@ -46,12 +47,16 @@ function Game:initialize(gameSettings)
 
     self.victory = Victory:new({'red','blue'})
     self.win = false
-    self.user = NullPlayer:new()
+    self.userPlayer = NullPlayer:new()
     self.once = false
     
     --loadMap(self, mapName)
     WorldFactory:PopulateWorld(self.world, gameSettings.mapName)
     spawnPlayers(self, gameSettings.botNum)
+    if self.once then
+        io.output('stateExample.txt')
+        io.write(json.encode(self:getState()))
+    end
 end
 
 function spawnPlayers(self, botNum)
@@ -60,8 +65,12 @@ function spawnPlayers(self, botNum)
         x.player:switchControllable(self.world:spawnControllable(x.player.id))
         self.ai[x.id] = x
     end
-    self.user = self:newPlayer()
-    self.user:switchControllable(self.world:spawnControllable(self.user.id))
+    self.userPlayer = self:newPlayer()
+    if diag.ViewPort.FreeLook then
+        self.userPlayer:switchControllable(self.world:spawnControllable(self.userPlayer.id, FreeLookControllable))
+        return
+    end
+    self.userPlayer:switchControllable(self.world:spawnControllable(self.userPlayer.id))
 end
 
 function Game:resize(x,y)
@@ -69,7 +78,7 @@ function Game:resize(x,y)
 end
 
 function Game:update(dt, input)
-    self.user.commands = input
+    self.userPlayer.commands = input
     
     eventHandler( dt, self )
 
@@ -94,7 +103,7 @@ function Game:getScore()
 end
 
 function Game:updateCamera()
-    if not self.user.controllable.isNull then self.cam:setPosition( self.user:getCenter() ) end
+    if not self.userPlayer.controllable.isNull then self.cam:setPosition( self.userPlayer:getCenter() ) end
 end
 
 function Game:getState()
@@ -173,8 +182,8 @@ function Game:draw()
             self.world:draw(l,t,w,h)
         end
     )
-    if self.user.controllable then
-        self.user.controllable:drawHud()
+    if self.userPlayer.controllable then
+        self.userPlayer.controllable:drawHud()
     end
     self.victory:draw()
 end

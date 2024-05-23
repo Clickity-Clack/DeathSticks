@@ -39,127 +39,132 @@ local newBody = love.physics.newBody
 
 local serializeables = {}
 
-function reviveObject(state, game)
+function reviveObject(state, physicsWorld)
     if serializeables[state.type] then
-        local zombie = serializeables[state.type](state, game)
-        zombie:reId(state)
+        local iPosition = makeIPosition(state.position, physicsWorld)
+        local zombie = serializeables[state.type](state, iPosition)
+        -- zombie:reId(state)
         return zombie
     end
 end
 
-function makeIPosition(state, game)
-    return {physicsWorld = game.physicsWorld, x = state.position.x, y = state.position.y}
+function makeIPosition(position, physicsWorld)
+    if position then
+        return {physicsWorld = physicsWorld, x = position.x, y = position.y}
+    else
+        return {physicsWorld = physicsWorld}
+    end
 end
 
-serializeables.Platform = function(state, game)
-    return Platform:new(makeIPosition(state, game), state.width, state.height)
+serializeables.Platform = function(state, iPosition)
+    local pf = Platform:new(iPosition, state.dimensions)
+    return pf
 end
 
-serializeables.DestroyablePlatform = function(state, game)
-    return DestroyablePlatform:new(makeIPosition(state, game), state.width, state.height)
+serializeables.DestroyablePlatform = function(state, iPosition)
+    return DestroyablePlatform:new(iPosition, state.dimensions)
 end
 
-serializeables.Water = function(state, game)
-    return Water:new(makeIPosition(state, game), state.width, state.height)
+serializeables.Water = function(state, iPosition)
+    return Water:new(iPosition, state.dimensions)
 end
 
-serializeables.TeamBase = function(state, game)
-    return TeamBase:new(makeIPosition(state, game), state.width, state.height, state.team)
+serializeables.TeamBase = function(state, iPosition)
+    return TeamBase:new(iPosition, state.dimensions, state.team)
 end
 
-serializeables.DeadlyPlatform = function(state, game)
-    return DeadlyPlatform:new(makeIPosition(state, game), state.width, state.height)
+serializeables.DeadlyPlatform = function(state, iPosition)
+    return DeadlyPlatform:new(iPosition, state.dimensions)
 end
 
-serializeables.Bottom = function (state, game)
-    return Bottom:new(makeIPosition(state, game), state.width, state.height)
+serializeables.Bottom = function (state, iPosition)
+    return Bottom:new(iPosition, state.width)
 end
 
-serializeables.CharacterControllable = function(state, game)
-    return CharacterControllable:new(makeIPosition(state.character, game), state.playerId)
+serializeables.CharacterControllable = function(state, iPosition)
+    return CharacterControllable:new(makeIPosition(state.character, iPosition.physicsWorld), state.playerId)
 end
 
-serializeables.NullControllable = function (state, game)
+serializeables.NullControllable = function (state, iPosition)
     return NullControllable:new()
 end
 
-serializeables.Explosion = function(state, game)
-    return Explosion:new(makeIPosition(state, game, 'static'), state.playerId)
+serializeables.Explosion = function(state, iPosition)
+    return Explosion:new(iPosition, state.playerId)
 end
 
-unpackBullet = function(type, state, game)
-    return type:new(makeProjectileIPosition(state, game), state.playerId)
+unpackBullet = function(type, state, iPosition)
+    return type:new(makeProjectileIPosition(state, iPosition), state.playerId)
 end
 
-serializeables.FingerBullet = function (state, game)
-    return unpackBullet(FingerBullet, state, game)
+serializeables.FingerBullet = function (state, iPosition)
+    return unpackBullet(FingerBullet, state, iPosition)
 end
 
-serializeables.ThirtyOdd = function (state, game)
-    return unpackBullet(ThirtyOdd, state, game)
+serializeables.ThirtyOdd = function (state, iPosition)
+    return unpackBullet(ThirtyOdd, state, iPosition)
 end
 
-serializeables.NineMil = function (state, game)
-    return unpackBullet(NineMil, state, game)
+serializeables.NineMil = function (state, iPosition)
+    return unpackBullet(NineMil, state, iPosition)
 end
 
-serializeables.Pellet = function (state, game)
-    return unpackBullet(Pellet, state, game)
+serializeables.Pellet = function (state, iPosition)
+    return unpackBullet(Pellet, state, iPosition)
 end
 
-serializeables.Rocket = function (state, game)
-    return unpackBullet(Rocket, state, game)
+serializeables.Rocket = function (state, iPosition)
+    return unpackBullet(Rocket, state, iPosition)
 end
 
-serializeables.Grenade = function (state, game)
-    return unpackBullet(Grenade, state, game)
+serializeables.Grenade = function (state, iPosition)
+    return unpackBullet(Grenade, state, iPosition)
 end
 
-serializeables.DeadJetpack = function (state, game)
-    return unpackBullet(DeadJetpack, state, game)
+serializeables.DeadJetpack = function (state, iPosition)
+    return unpackBullet(DeadJetpack, state, iPosition)
 end
 
-serializeables.Twelve = function (state, game)
-    return Twelve:new(makeProjectileIPosition(state, game), state.playerId)
+serializeables.Twelve = function (state, iPosition)
+    return Twelve:new(makeProjectileIPosition(state, iPosition), state.playerId)
 end
 
-function makeProjectileIPosition(state, game)
-    local iPos = makeIPosition(state, game)
-    iPos.rotation = state.position.angle
-    return iPos
+function makeProjectileIPosition(state, iPosition)
+    iPosition.rotation = state.position.angle
+    return iPosition
 end
 
-serializeables.Pointer = function (state, game)
+serializeables.Pointer = function (state, iPosition)
     return Pointer:new()
 end
 
-serializeables.Sniper = function (state, game)
+serializeables.Sniper = function (state, iPosition)
     return Sniper:new()
 end
 
-serializeables.Pistol = function (state, game)
+serializeables.Pistol = function (state, iPosition)
     return Pistol:new()
 end
 
-serializeables.RocketLauncher = function (state, game)
+serializeables.RocketLauncher = function (state, iPosition)
     return RocketLauncher:new()
 end
 
-serializeables.GrenadeLauncher = function (state, game)
+serializeables.GrenadeLauncher = function (state, iPosition)
     return GrenadeLauncher:new()
 end
 
-serializeables.Shotgun = function (state, game)
+serializeables.Shotgun = function (state, iPosition)
     return Shotgun:new()
 end
 
-serializeables.Character = function (state, game)
+serializeables.Character = function (state, iPosition)
     if not state.health then print(serpent.block(state)) end
-    return Character:new(makeIPosition(state, game))
+    return Character:new(iPosition)
 end
 
-serializeables.HealthPower = function (state, game)
-    return HealthPower:new(makeIPosition(state, game))
+serializeables.HealthPower = function (state, iPosition)
+    return HealthPower:new(iPosition)
 end
 
 local weapons = {}
@@ -170,39 +175,39 @@ weapons.GrenadeLauncher = GrenadeLauncher
 weapons.RocketLauncher = RocketLauncher
 weapons.Shotgun = Shotgun
 
-serializeables.WeaponPower = function (state, game)
-    return WeaponPower:new(makeIPosition(state, game), weapons[state.weaponName])
+serializeables.WeaponPower = function (state, iPosition)
+    return WeaponPower:new(iPosition, weapons[state.weaponName])
 end
 
-serializeables.ArmorPower = function (state, game)
-    return ArmorPower:new(makeIPosition(state, game))
+serializeables.ArmorPower = function (state, iPosition)
+    return ArmorPower:new(iPosition)
 end
 
-serializeables.JetpackPower = function (state, game)
-    return JetpackPower:new(makeIPosition(state, game))
+serializeables.JetpackPower = function (state, iPosition)
+    return JetpackPower:new(iPosition)
 end
 
-serializeables.Health = function (state, game)
+serializeables.Health = function (state, iPosition)
     return Health:new(state.hp, state.capacity)
 end
 
-serializeables.Armor = function (state, game)
+serializeables.Armor = function (state, iPosition)
     return Armor:new(state.hp, state.capacity)
 end
 
-serializeables.NullArmor = function (state, game)
+serializeables.NullArmor = function (state, iPosition)
     return NullArmor:new()
 end
 
-serializeables.Jetpack = function (state, game)
+serializeables.Jetpack = function (state, iPosition)
     return Jetpack:new()
 end
 
-serializeables.NullJetpack = function (state, game)
+serializeables.NullJetpack = function (state, iPosition)
     return NullJetpack:new()
 end
 
-serializeables.WeaponCollection = function (state, game)
+serializeables.WeaponCollection = function (state, iPosition)
     return WeaponCollection:new()
 end
 

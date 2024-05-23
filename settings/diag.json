@@ -5,5 +5,11 @@
     },
     "Character":{
         "DrawHitBox":false
+    },
+    "ViewPort":{
+        "FreeLook":false
+    },
+    "World":{
+        "printObjectTypes":false
     }
 }

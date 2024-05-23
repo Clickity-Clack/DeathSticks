@@ -55,9 +55,9 @@ function CharacterControllable:drawHud()
 end
 
 function CharacterControllable:acceptCommands(commands)
-    if commands.direction == 'left' then
+    if commands.horizontalDirection == 'left' then
         self.character:moveLeft()
-    elseif commands.direction == 'right' then
+    elseif commands.horizontalDirection == 'right' then
         self.character:moveRight()
     else
         self.character:stopMoving()

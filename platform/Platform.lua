@@ -53,8 +53,7 @@ function Platform:getState()
     if self.modified then
         local state = Serializeable.getState(self)
         Collideable.getState(self, state)
-        state.height = self.height
-        state.width = self.width
+        state.dimensions = {height = self.height, width = self.width}
         return state
     end
 end

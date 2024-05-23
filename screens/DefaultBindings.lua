@@ -64,15 +64,28 @@ end
 function Bindings:getDirection(commands)
     if isDown('a') then
         if isDown('d') then
-            commands.direction = 'stopped'
+            commands.horizontalDirection = 'stopped'
         else
-            commands.direction = 'left'
+            commands.horizontalDirection = 'left'
         end
     elseif isDown('d') then
-        commands.direction = 'right'
+        commands.horizontalDirection = 'right'
     else
-        commands.direction = 'stopped'
+        commands.horizontalDirection = 'stopped'
     end
+
+    if isDown('w') then
+        if isDown('s') then
+            commands.verticalDirection = 'stopped'
+        else
+            commands.verticalDirection = 'up'
+        end
+    elseif isDown('s') then
+        commands.verticalDirection = 'down'
+    else
+        commands.verticalDirection = 'stopped'
+    end
+
 end
 
 return Bindings

@@ -31,7 +31,7 @@ end
 function Bot:setCommands()
     local commands = { direction = 'stopped', jump = false, r = 0, a = false, b = false, c = false, weaponSwitch = 'no' }
     if self.walking then
-        commands.direction = self.direction
+        commands.horizontalDirection = self.direction
     end
     if self.target then
         commands.a = true

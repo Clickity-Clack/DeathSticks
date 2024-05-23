@@ -1,0 +1,234 @@
+{
+    "settings":{
+        "worldSize":{
+            "height":5000,
+            "width":3000
+        },
+        "worldCenter":{
+            "x":2500,
+            "y":1500
+        }
+    },
+    "spawnPoints":[
+        { "x": 2950, "y": 1800 },
+        { "x": 2850, "y": 1800 }
+    ],
+    "objects": [
+        {
+            "type": "DestroyablePlatform",
+            "diagid":1,
+            "dimensions": {
+                "height": 50,
+                "width": 800
+            },
+            "health": {
+                "capacity": 1000,
+                "hp": 1000,
+                "type": "Health",
+                "diagid":2
+            },
+            "position": {
+                "x": 2500,
+                "y": 1500
+            }
+        },
+        {
+            "type": "Platform",
+            "diagid":3,
+            "dimensions": {
+                "height": 500,
+                "width": 50
+            },
+            "position": {
+                "x": 2500,
+                "y": 2077
+            }
+        },
+        {
+            "type": "TeamBase",
+            "dimensions": {
+                "width": 100,
+                "height": 100
+            },
+            "diagid":4,
+            "health": {
+                "capacity": 1000,
+                "hp": 1000,
+                "type": "Health",
+                "diagid":5
+            },
+            "team": "blue",
+            "position": {
+                "x": 3200,
+                "y": 1500
+            }
+        },
+        {
+            "type": "DeadlyPlatform",
+            "diagid":6,
+            "dimensions": {
+                "height": 50,
+                "width": 800
+            },
+            "position": {
+                "x": 2500,
+                "y": 2432
+            }
+        },
+        {
+            "weaponName": "RocketLauncher",
+            "type": "WeaponPower",
+            "diagid":7,
+            "visible": true,
+            "position": {
+                "x": 2680,
+                "y": 2077
+            }
+        },
+        {
+            "type": "Water",
+            "diagid":8,
+            "dimensions": {
+                "height": 800,
+                "width": 800
+            },
+            "position": {
+                "x": 2000,
+                "y": 2200
+            }
+        },
+        {
+            "visible": true,
+            "position": {
+                "x": 2500,
+                "y": 1800
+            },
+            "type": "HealthPower",
+            "diagid":9
+        },
+        {
+            "type": "Platform",
+            "diagid":10,
+            "dimensions": {
+                "height": 30,
+                "width": 500
+            },
+            "position": {
+                "x": 2500,
+                "y": 2401
+            }
+        },
+        {
+            "type": "Platform",
+            "diagid":11,
+            "dimensions": {
+                "height": 10,
+                "width": 50
+            },
+            "position": {
+                "x": 2500,
+                "y": 1600
+            }
+        },
+        {
+            "weaponName": "Shotgun",
+            "type": "WeaponPower",
+            "diagid":12,
+            "visible": true,
+            "position": {
+                "x": 2720,
+                "y": 2000
+            }
+        },
+        {
+            "type": "Bottom",
+            "diagid":13,
+            "width": 3000,
+            "position": {
+                "x": 2500,
+                "y": 3877
+            }
+        },
+        {
+            "type": "TeamBase",
+            "diagid":14,
+            "dimensions": {
+                "height": 100,
+                "width": 100
+            },
+            "health": {
+                "capacity": 1000,
+                "hp": 1000,
+                "type": "Health",
+                "diagid":15
+            },
+            "team": "red",
+            "position": {
+                "x": 1800,
+                "y": 1500
+            }
+        },
+        {
+            "type": "Platform",
+            "diagid":16,
+            "dimensions": {
+                "height": 50,
+                "width": 800
+            },
+            "position": {
+                "x": 2000,
+                "y": 2127
+            }
+        },
+        {
+            "weaponName": "Sniper",
+            "type": "WeaponPower",
+            "diagid":17,
+            "visible": true,
+            "position": {
+                "x": 2500,
+                "y": 1583
+            }
+        },
+        {
+            "visible": true,
+            "position": {
+                "x": 3000,
+                "y": 2077
+            },
+            "type": "JetpackPower",
+            "diagid":18
+        },
+        {
+            "weaponName": "GrenadeLauncher",
+            "type": "WeaponPower",
+            "diagid":19,
+            "visible": true,
+            "position": {
+                "x": 2760,
+                "y": 2000
+            }
+        },
+        {
+            "type": "Platform",
+            "diagid":20,
+            "dimensions":{
+                "height": 50,
+                "width": 800
+            },
+            "position": {
+                "x": 3000,
+                "y": 2127
+            }
+        },
+        {
+            "visible": true,
+            "position": {
+                "x": 2000,
+                "y": 2077
+            },
+            "type": "ArmorPower",
+            "diagid":21
+        }
+    ]
+}

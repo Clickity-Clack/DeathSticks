@@ -74,8 +74,9 @@ function World:unpackRemoved(stateRemoved)
     end
 end
 
-function World:spawnControllable(playerId)
-    local newControllable = self.controllable:new({physicsWorld = self.physicsWorld, x = self.spawnPoints[math.random(#self.spawnPoints)].x, y = self.spawnPoints[1].y}, playerId)
+function World:spawnControllable(playerId, controllable)
+    local controllable = controllable or self.controllable
+    local newControllable = controllable:new({physicsWorld = self.physicsWorld, x = self.spawnPoints[math.random(#self.spawnPoints)].x, y = self.spawnPoints[1].y}, playerId)
     self.stems[newControllable.id] = newControllable
     return newControllable
 end
