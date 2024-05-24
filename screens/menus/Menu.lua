@@ -11,8 +11,9 @@ function Menu:initialize(upScreen, options)
     self.optionList = VisualOptionList(options, position, dimensions)
 end
 
-function Menu:update()
 
+function Menu:update(dt)
+    self.optionList:update(dt)
 end
 
 function Menu:resize(newBounds)

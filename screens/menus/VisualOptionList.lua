@@ -32,6 +32,10 @@ function VisualOptionList:currentIsEditing()
     return self.optionList:currentIsEditing()
 end
 
+function VisualOptionList:update(dt)
+    self.optionList:update(dt)
+end
+
 function VisualOptionList:draw()
     if self.optionList == nil or self.optionList.options == nil then
         love.graphics.print('no options', self.dimensions.width/2, self.dimensions.height/2)

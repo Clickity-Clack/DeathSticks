@@ -5,6 +5,14 @@ function OptionList:initialize(options)
     self:initOptions(options)
 end
 
+function OptionList:update(dt)
+    for i, option in ipairs(self.options) do
+        if option.update then
+            option:update(dt)
+        end
+    end
+end
+
 function OptionList:initOptions()
     if self.options[1] ~= nil then
         self.options[1]:selected(true)
