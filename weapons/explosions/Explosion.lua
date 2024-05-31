@@ -7,7 +7,7 @@ function Explosion:initialize(iPosition, aPlayerId)
     self.radius = 250
     self.potentialDamage = 175
     self.shape = love.physics.newCircleShape(self.radius)
-    self.duration = 0.5
+    self.lifetime = 0.5
     self.image = love.graphics.newImage("res/flame.png")
     self.scale = 6
     self.r = 0
@@ -20,9 +20,9 @@ end
 
 function Explosion:update(dt, events)
     self.r = self.r + dt*10000
-    self.duration = self.duration - dt
+    self.lifetime = self.lifetime - dt
     self.modified = true
-    if (self.duration <= 0) then
+    if (self.lifetime <= 0) then
         table.insert(events, {type = 'dead', subject = self})
     end
 end
@@ -65,7 +65,7 @@ function Explosion:getState()
         local state = Serializeable.getState(self)
         Collideable.getState(self, state)
         state.r = self.r
-        state.duration = self.duration
+        state.lifetime = self.lifetime
         state.playerId = self.playerId
         return state
     end
@@ -76,7 +76,7 @@ function Explosion:unpackState(state, game)
         Serializeable.unpackState(self)
         Collideable.unpackState(self, state)
         self.r = state.r
-        self.duration = state.duration
+        self.lifetime = state.lifetime
         self.playerId = state.playerId
     end
 end

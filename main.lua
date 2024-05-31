@@ -48,5 +48,11 @@ function love.textinput(t)
 end
 
 function love.draw()
+    if diag.Screen.DrawQuads then
+        local w, h = love.graphics.getWidth(), love.graphics.getHeight()
+        love.graphics.setColor(1,1,1)
+        love.graphics.line(w/2,0,w/2,h)
+        love.graphics.line(0,h/2,w,h/2)
+    end
     screen.current:draw()
 end

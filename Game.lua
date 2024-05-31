@@ -54,9 +54,16 @@ function Game:initialize(gameSettings)
     WorldFactory:PopulateWorld(self.world, gameSettings.mapName)
     spawnPlayers(self, gameSettings.botNum)
     if self.once then
-        io.output('stateExample.txt')
-        io.write(json.encode(self:getState()))
+        self:writeState()
     end
+end
+
+function Game:writeState()
+    local filename = 'output/state_' .. os.date('%Y-%m-%d %H.%M.%S') .. '.txt'
+    local file = io.open(filename, 'w')
+    file:write(json.encode(self:getState()))
+    file:close()
+
 end
 
 function spawnPlayers(self, botNum)
@@ -186,6 +193,12 @@ function Game:draw()
         self.userPlayer.controllable:drawHud()
     end
     self.victory:draw()
+
+    self:drawDiag()
+end
+
+function Game:drawDiag()
+    self.world:drawDiag()
 end
 
 function Game:newPlayer(aControllable)

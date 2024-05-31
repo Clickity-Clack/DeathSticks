@@ -10,16 +10,11 @@ function TextEditOption:initialize(title, boop)
     self.isBlinking = 0
     self.blinkLength = 0.5
     self.blinkTimer = 0
-    self.once = true
 end
 
 function TextEditOption:update(dt)
     self.blinkTimer = self.blinkTimer + dt
     if self.blinkTimer >= self.blinkLength then
-        if self.once then
-            print('time up')
-            self.once = false
-        end
         self.blink = not self.blink
         self.blinkTimer = 0
     end

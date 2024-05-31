@@ -16,9 +16,11 @@ function GameScreen:mousepressed(x, y, number)
     self.user:mousepressed(x, y, number)
 end
 
-function GameScreen:keypressed(key, scancode, isrepeat )
+function GameScreen:keypressed(key, scancode, isrepeat)
     if key == 'escape' then
         self.upScreen.current = overlay:new(self.upScreen)
+    elseif key == 't' and love.keyboard.isDown('lctrl') and diag.Screen.AllowStateWrite then
+        self.game:writeState()
     end
     self.user:keypressed(key, scancode, isrepeat)
 end

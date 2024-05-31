@@ -18,6 +18,8 @@ end
 
 function InlineOptionList:setPosition(position)
     self.position = position
+    --self:resize(self.dimensions, self.position)
+    -- TODO: fix resize
 end
 
 function InlineOptionList:selectNext()

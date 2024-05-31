@@ -1,3 +1,5 @@
+local ObjectDisplay = require 'world/diag/ObjectDisplay'
+
 local World = class('World')
 
 function World:initialize()
@@ -10,6 +12,7 @@ function World:initialize()
     self.stems = {}
     self.removed = {}
     self.spawnPoints = {}
+    self.objectDisplay = ObjectDisplay:new()
 end
 
 function World:update(dt, events)
@@ -24,6 +27,12 @@ function World:draw(l,t,w,h)
     self.backDrop:draw(l,t,w,h)
     for v in pairs(self.stems) do
         self.stems[v]:draw(self.cam, self.user)
+    end
+end
+
+function World:drawDiag()
+    if diag.World.DrawObjects then
+        self.objectDisplay:drawObjects(self.stems)
     end
 end
 

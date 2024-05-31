@@ -57,7 +57,9 @@ end
 
 events.respawn.Player = function (event, game)
     love.audio.play(spawnSound)
+    local oldControllableId = event.subject.controllable.id
     event.subject:switchControllable(game.world:spawnControllable(event.subject.id))
+    game.world.stems[oldControllableId] = nil
 end
 
 events.dead.FingerBullet = stemDead

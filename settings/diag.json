@@ -6,10 +6,18 @@
     "Character":{
         "DrawHitBox":false
     },
+    "Menu":{
+        "DrawTextDimensions":true
+    },
+    "Screen":{
+        "DrawQuads":false,
+        "AllowStateWrite":true
+    },
     "ViewPort":{
         "FreeLook":false
     },
     "World":{
-        "printObjectTypes":false
+        "printObjectTypes":false,
+        "DrawObjects":false
     }
 }

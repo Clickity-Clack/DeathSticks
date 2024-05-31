@@ -19,6 +19,7 @@ function Projectile:initialize(iPosition, aPlayerId)
     self.imageOffset = self.imageOffset or {x=8,y=8}
     self.dead = false
     self.playerId = aPlayerId
+    self.lifetime = 2
     Projectile.initCollisions(self)
 end
 
@@ -32,6 +33,10 @@ end
 
 function Projectile:update(dt, events)
     DynamicCollideable.update(self)
+    self.lifetime = self.lifetime - dt
+    if (self.lifetime <= 0) then
+        self.dead = true
+    end
     if self.dead then
         table.insert(events, {type = 'dead', subject = self})
         self.dead = false

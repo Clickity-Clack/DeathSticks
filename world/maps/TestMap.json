@@ -15,6 +15,85 @@
     ],
     "objects": [
         {
+            "type": "Platform",
+            "diagid":3,
+            "dimensions": {
+                "height": 500,
+                "width": 50
+            },
+            "position": {
+                "x": 2500,
+                "y": 2077
+            }
+        },
+        {
+            "type": "Platform",
+            "diagid":20,
+            "dimensions":{
+                "height": 50,
+                "width": 800
+            },
+            "position": {
+                "x": 3000,
+                "y": 2127
+            }
+        },
+        {
+            "type": "Platform",
+            "diagid":10,
+            "dimensions": {
+                "height": 30,
+                "width": 500
+            },
+            "position": {
+                "x": 2500,
+                "y": 2401
+            }
+        },
+        {
+            "type": "Platform",
+            "diagid":11,
+            "dimensions": {
+                "height": 10,
+                "width": 50
+            },
+            "position": {
+                "x": 2500,
+                "y": 1600
+            }
+        },
+        {
+            "type": "Platform",
+            "diagid":16,
+            "dimensions": {
+                "height": 50,
+                "width": 800
+            },
+            "position": {
+                "x": 2000,
+                "y": 2127
+            }
+        },
+        {
+            "type": "TeamBase",
+            "diagid":14,
+            "dimensions": {
+                "height": 100,
+                "width": 100
+            },
+            "health": {
+                "capacity": 1000,
+                "hp": 1000,
+                "type": "Health",
+                "diagid":15
+            },
+            "team": "red",
+            "position": {
+                "x": 1800,
+                "y": 1500
+            }
+        },
+        {
             "type": "DestroyablePlatform",
             "diagid":1,
             "dimensions": {
@@ -30,18 +109,6 @@
             "position": {
                 "x": 2500,
                 "y": 1500
-            }
-        },
-        {
-            "type": "Platform",
-            "diagid":3,
-            "dimensions": {
-                "height": 500,
-                "width": 50
-            },
-            "position": {
-                "x": 2500,
-                "y": 2077
             }
         },
         {
@@ -76,16 +143,6 @@
             }
         },
         {
-            "weaponName": "RocketLauncher",
-            "type": "WeaponPower",
-            "diagid":7,
-            "visible": true,
-            "position": {
-                "x": 2680,
-                "y": 2077
-            }
-        },
-        {
             "type": "Water",
             "diagid":8,
             "dimensions": {
@@ -98,49 +155,6 @@
             }
         },
         {
-            "visible": true,
-            "position": {
-                "x": 2500,
-                "y": 1800
-            },
-            "type": "HealthPower",
-            "diagid":9
-        },
-        {
-            "type": "Platform",
-            "diagid":10,
-            "dimensions": {
-                "height": 30,
-                "width": 500
-            },
-            "position": {
-                "x": 2500,
-                "y": 2401
-            }
-        },
-        {
-            "type": "Platform",
-            "diagid":11,
-            "dimensions": {
-                "height": 10,
-                "width": 50
-            },
-            "position": {
-                "x": 2500,
-                "y": 1600
-            }
-        },
-        {
-            "weaponName": "Shotgun",
-            "type": "WeaponPower",
-            "diagid":12,
-            "visible": true,
-            "position": {
-                "x": 2720,
-                "y": 2000
-            }
-        },
-        {
             "type": "Bottom",
             "diagid":13,
             "width": 3000,
@@ -150,39 +164,28 @@
             }
         },
         {
-            "type": "TeamBase",
-            "diagid":14,
-            "dimensions": {
-                "height": 100,
-                "width": 100
-            },
-            "health": {
-                "capacity": 1000,
-                "hp": 1000,
-                "type": "Health",
-                "diagid":15
-            },
-            "team": "red",
-            "position": {
-                "x": 1800,
-                "y": 1500
-            }
-        },
-        {
-            "type": "Platform",
-            "diagid":16,
-            "dimensions": {
-                "height": 50,
-                "width": 800
-            },
-            "position": {
-                "x": 2000,
-                "y": 2127
-            }
-        },
-        {
-            "weaponName": "Sniper",
             "type": "WeaponPower",
+            "weaponName": "RocketLauncher",
+            "diagid":7,
+            "visible": true,
+            "position": {
+                "x": 2680,
+                "y": 2077
+            }
+        },
+        {
+            "type": "WeaponPower",
+            "weaponName": "Shotgun",
+            "diagid":12,
+            "visible": true,
+            "position": {
+                "x": 2720,
+                "y": 2000
+            }
+        },
+        {
+            "type": "WeaponPower",
+            "weaponName": "Sniper",
             "diagid":17,
             "visible": true,
             "position": {
@@ -191,17 +194,8 @@
             }
         },
         {
-            "visible": true,
-            "position": {
-                "x": 3000,
-                "y": 2077
-            },
-            "type": "JetpackPower",
-            "diagid":18
-        },
-        {
-            "weaponName": "GrenadeLauncher",
             "type": "WeaponPower",
+            "weaponName": "GrenadeLauncher",
             "diagid":19,
             "visible": true,
             "position": {
@@ -210,24 +204,30 @@
             }
         },
         {
-            "type": "Platform",
-            "diagid":20,
-            "dimensions":{
-                "height": 50,
-                "width": 800
-            },
+            "type": "JetpackPower",
+            "visible": true,
             "position": {
                 "x": 3000,
-                "y": 2127
-            }
+                "y": 2077
+            },
+            "diagid":18
         },
         {
+            "type": "HealthPower",
+            "visible": true,
+            "position": {
+                "x": 2500,
+                "y": 1800
+            },
+            "diagid":9
+        },
+        {
+            "type": "ArmorPower",
             "visible": true,
             "position": {
                 "x": 2000,
                 "y": 2077
             },
-            "type": "ArmorPower",
             "diagid":21
         }
     ]
