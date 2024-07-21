@@ -8,6 +8,7 @@ function WeaponCollection:initialize(aPlayerId, aWeapon)
     Serializeable.initializeMixin(self)
     self.playerId = aPlayerId
     self.weapons = {}
+    self.weaponCount = 0
     if aWeapon then 
         self:addWeapon(aWeapon)
         self.current = aWeapon or nil
@@ -55,6 +56,7 @@ end
 function WeaponCollection:addWeapon(aWeapon)
     if not self.weapons[aWeapon.class.name] then
         self.weapons[aWeapon.class.name] = aWeapon
+        self.weaponCount = self.weaponCount + 1
         self.modified = true
     end
 end
@@ -62,6 +64,7 @@ end
 function WeaponCollection:removeWeapon(aWeapon)
     if self.weapons[aWeapon.class.name] then
         self.weapons[addWeapon.class.name] = nil
+        self.weaponCount = self.weaponCount - 1
         self.modified = true
     end
 end
@@ -72,7 +75,9 @@ function WeaponCollection:nextWeapon()
 end
 
 function WeaponCollection:previousWeapon()
-
+    for i = 1, self.weaponCount - 1 do
+        self:nextWeapon()
+    end
 end
 
 function WeaponCollection:contains(aWeapon)

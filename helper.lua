@@ -38,5 +38,9 @@ functions.readAll = function(file)
   return content
 end
 
+functions.copy_table = function(u, t)
+  for k, v in pairs(t) do u[k] = v end
+  --return setmetatable(u, getmetatable(t))
+end
 
 return functions

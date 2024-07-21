@@ -69,6 +69,8 @@ function CharacterControllable:acceptCommands(commands)
 
     if commands.weaponSwitch == 'next' then
         self.character.weapons:nextWeapon()
+    elseif commands.weaponSwitch == 'previous' then
+        self.character.weapons:previousWeapon()
     end
 
     self.character.weapons.current:setR(commands.r)
