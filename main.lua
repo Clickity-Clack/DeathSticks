@@ -18,7 +18,7 @@ function love.load()
     font = love.graphics.newFont(14)
     screen = {}
     screen.s = {}
-    diag = json.decode(helper.readAll('settings/diag.json'))
+    diag = json.decode(love.filesystem.read('settings/diag.json'))
     
     firstScreen = MainMenu:new(screen)
     screen.s[firstScreen.id] = firstScreen

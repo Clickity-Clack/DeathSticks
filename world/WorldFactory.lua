@@ -11,9 +11,8 @@ function WorldFactory:PopulateWorld(world, mapName)
 end
 
 function loadMap(mapName, stems, physicsWorld, spawnPoints)
-    local mapFile = io.open('world/maps/' .. mapName .. '.json', "r")
-    local mapText = mapFile:read("all")
-    mapFile:close()
+    local mapLocation = 'world/maps/' .. mapName .. '.json'
+    local mapText = love.filesystem.read('world/maps/' .. mapName .. '.json')
     local map = json.decode(mapText)
     if not map or not map.objects then
         --TODO: Find a way to exit gracefully if a map fails to load
