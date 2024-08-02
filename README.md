@@ -1,2 +1,7 @@
-# DeathSticks
-A remake of Stick-Soldiers 2 with Multiplayer Networking and mouse aiming. I may or may not keep working on this
+# DEATHSTICKS!
+
+The game where you and your friends* kill eachothers' stick figure** avatars
+
+*Multiplayer still in the works
+
+**stick figures still in the works

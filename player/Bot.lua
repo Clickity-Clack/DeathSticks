@@ -1,17 +1,23 @@
 local Bot = class('Bot')
 
-function Bot:initialize(aPlayer)
+function Bot:initialize(aPlayer, skittishness)
     self.id = uuid()
     self.player = aPlayer
     self.direction = 'left'
     self.walking = true
+    self.skittishness = skittishness or 1
 end
 
 function Bot:update(dt, objects)
-    if math.random() > 0.9 then
+    if math.random() > 0.99 then
         self:switchDirection()
     end
-    self:setWalking( math.random() > 0.9 )
+    if math.random() > 0.99 then
+        self:setWalking( not self.walking )
+    end
+    if math.random() > 0.99 then
+        self.jump = true
+    end
 
     self:setCommands()
 end
